@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { ReaderWall } from "@/components/ReaderWall";
 import { BooksSection } from "@/components/BooksSection";
@@ -30,7 +29,6 @@ function Index() {
     <>
       <h1 className="sr-only">Librosmart — David Mauricio Guerrero Vélez</h1>
       <Hero />
-      <Header />
       <main>
         <BooksSection />
         <ReaderWall />

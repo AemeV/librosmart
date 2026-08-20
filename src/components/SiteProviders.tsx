@@ -3,6 +3,7 @@ import { LanguageProvider } from "@/context/LanguageContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { AuthorSheetProvider } from "@/context/AuthorSheetContext";
 import { AuthorSheet } from "@/components/AuthorSheet";
+import { LogoMigrationProvider } from "@/context/LogoMigrationContext";
 
 /**
  * Contexto compartido por todas las rutas del sitio (tema, idioma, sheet del autor).
@@ -13,8 +14,10 @@ export function SiteProviders({ children }: { children: ReactNode }) {
     <ThemeProvider>
       <LanguageProvider>
         <AuthorSheetProvider>
-          {children}
-          <AuthorSheet />
+          <LogoMigrationProvider>
+            {children}
+            <AuthorSheet />
+          </LogoMigrationProvider>
         </AuthorSheetProvider>
       </LanguageProvider>
     </ThemeProvider>
