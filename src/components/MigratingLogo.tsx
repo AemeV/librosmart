@@ -1,5 +1,13 @@
-import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "motion/react";
-import { useEffect, useState } from "react";
+import {
+  motion,
+  useMotionValue,
+  useMotionValueEvent,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "motion/react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useLogoMigration } from "@/context/LogoMigrationContext";
 import { LogoSmart } from "./LogoSmart";
 
@@ -28,9 +36,41 @@ export function MigratingLogo() {
   const reduced = useReducedMotion();
   const { scrollY } = useScroll();
   const [geom, setGeom] = useState<Geometry | null>(null);
+  const geomRef = useRef<Geometry | null>(null);
+  const settled = useRef(false);
+
+  // Objetivos crudos: se recalculan tanto al hacer scroll como al medir.
+  const targetX = useMotionValue(0);
+  const targetY = useMotionValue(0);
+  const targetW = useMotionValue(0);
+  const progress = useMotionValue(0);
+
+  const apply = useCallback(
+    (s: number, jump = false) => {
+      const g = geomRef.current;
+      if (!g) return;
+      const p = clamp01(s / g.range);
+      const nx = lerp(g.heroX, g.dockX, p);
+      const ny = lerp(g.heroTopDoc - s, g.dockY, p);
+      const nw = lerp(g.heroW, g.dockW, p);
+      progress.set(p);
+      if (jump) {
+        targetX.jump(nx);
+        targetY.jump(ny);
+        targetW.jump(nw);
+        return;
+      }
+      targetX.set(nx);
+      targetY.set(ny);
+      targetW.set(nw);
+    },
+    [progress, targetW, targetX, targetY],
+  );
 
   useEffect(() => {
     if (!heroSlot || !headerSlot || reduced) {
+      geomRef.current = null;
+      settled.current = false;
       setGeom(null);
       return;
     }
@@ -38,7 +78,7 @@ export function MigratingLogo() {
       const hero = heroSlot.getBoundingClientRect();
       const dock = headerSlot.getBoundingClientRect();
       if (hero.width < 1 || dock.width < 1) return;
-      setGeom({
+      const next: Geometry = {
         heroX: hero.left,
         heroTopDoc: hero.top + window.scrollY,
         heroW: hero.width,
@@ -46,7 +86,12 @@ export function MigratingLogo() {
         dockY: dock.top,
         dockW: dock.width,
         range: Math.max(240, window.innerHeight * 0.55),
-      });
+      };
+      geomRef.current = next;
+      setGeom(next);
+      // La primera medición coloca el logo sin animación de entrada.
+      apply(window.scrollY, !settled.current);
+      settled.current = true;
     };
     measure();
     const ro = new ResizeObserver(measure);
@@ -57,22 +102,13 @@ export function MigratingLogo() {
       ro.disconnect();
       window.removeEventListener("resize", measure);
     };
-  }, [heroSlot, headerSlot, reduced]);
+  }, [heroSlot, headerSlot, reduced, apply]);
 
-  const progress = useTransform(scrollY, (s) => (geom ? clamp01(s / geom.range) : 0));
-  const rawX = useTransform(scrollY, (s) =>
-    geom ? lerp(geom.heroX, geom.dockX, clamp01(s / geom.range)) : 0,
-  );
-  const rawY = useTransform(scrollY, (s) =>
-    geom ? lerp(geom.heroTopDoc - s, geom.dockY, clamp01(s / geom.range)) : 0,
-  );
-  const rawW = useTransform(scrollY, (s) =>
-    geom ? lerp(geom.heroW, geom.dockW, clamp01(s / geom.range)) : 0,
-  );
+  useMotionValueEvent(scrollY, "change", (s) => apply(s));
 
-  const x = useSpring(rawX, MIGRATE_SPRING);
-  const y = useSpring(rawY, MIGRATE_SPRING);
-  const width = useSpring(rawW, MIGRATE_SPRING);
+  const x = useSpring(targetX, MIGRATE_SPRING);
+  const y = useSpring(targetY, MIGRATE_SPRING);
+  const width = useSpring(targetW, MIGRATE_SPRING);
 
   // Sobre el cielo el logo es claro; en el header toma el color del tema.
   const skyOpacity = useTransform(progress, [0, 0.85], [1, 0]);
@@ -86,12 +122,7 @@ export function MigratingLogo() {
       className="pointer-events-none fixed top-0 left-0 z-55"
       style={{ x, y, width }}
     >
-      <motion.div
-        className="relative"
-        initial={{ opacity: 0, scale: 0.94 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ type: "spring", stiffness: 120, damping: 20 }}
-      >
+      <motion.div className="relative">
         <motion.div style={{ opacity: skyOpacity, color: "#f7f8fb" }}>
           <LogoSmart className="h-auto w-full" />
         </motion.div>
