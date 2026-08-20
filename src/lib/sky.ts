@@ -204,7 +204,8 @@ export function computeSky(city: City, date: Date, starLimit = 200): SkyState {
   for (const star of brightestStars(starLimit)) {
     const pos = starToHorizontal(star.ra, star.dec, lst, city.lat);
     if (pos.alt > 0) {
-      stars.push({ alt: pos.alt, az: pos.az, mag: star.mag, name: star.name ?? star.bayer });
+      const label = star.name ?? star.bayer;
+      stars.push({ alt: pos.alt, az: pos.az, mag: star.mag, ...(label ? { name: label } : {}) });
     }
   }
 
