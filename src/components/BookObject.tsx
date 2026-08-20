@@ -143,7 +143,8 @@ export function BookObject({
   const triggerRef = useRef<HTMLButtonElement>(null);
   const panelId = useId();
 
-  const width = featured ? 300 : 232;
+  // Mobile: ~70% del ancho de pantalla; desktop: escala según el destacado.
+  const width = isMobile ? 260 : featured ? 300 : 232;
   const height = Math.round(width * 1.5);
   const thickness = Math.max(18, edition.pages * 0.055);
 
