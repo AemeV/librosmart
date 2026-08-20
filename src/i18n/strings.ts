@@ -35,6 +35,9 @@ export const strings = {
   skyCityLabel: { es: "Ciudad del cielo", en: "Sky city" },
   skyVisible: { es: "visible", en: "visible" },
 
+  heroNew: { es: "Nuevo", en: "New" },
+  heroCta: { es: "Explorar libros", en: "Explore books" },
+
   heroScroll: { es: "Desliza", en: "Scroll" },
 
   readersTitle: { es: "Muro de lectores", en: "Readers wall" },

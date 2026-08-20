@@ -12,7 +12,7 @@ import {
   planetNames,
   type City,
   type SkyState,
-} from "@/lib/sky";
+} from "./sky";
 import { SkyLayer, type PlanetHit } from "./SkyLayer";
 import { SkyBodyCard } from "./SkyBodyCard";
 

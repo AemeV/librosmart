@@ -5,8 +5,8 @@ import { X } from "lucide-react";
 import { useLang } from "@/context/LanguageContext";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { springFast, springSheet, tap } from "@/lib/motion-config";
-import { bodyById } from "@/data/bodies";
-import { bodyDistanceMkm, compass } from "@/lib/sky";
+import { bodyById } from "./bodies";
+import { bodyDistanceMkm, compass } from "./sky";
 import type { PlanetHit } from "./SkyLayer";
 
 /**

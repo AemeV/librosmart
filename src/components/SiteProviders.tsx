@@ -5,6 +5,7 @@ import { AuthorSheetProvider } from "@/context/AuthorSheetContext";
 import { AuthorSheet } from "@/components/AuthorSheet";
 import { LogoMigrationProvider } from "@/context/LogoMigrationContext";
 import { LogoMetalProvider } from "@/context/LogoMetalContext";
+import { SkyGradient } from "@/components/SkyGradient";
 
 /**
  * Contexto compartido por todas las rutas del sitio (tema, idioma, sheet del autor).
@@ -17,6 +18,7 @@ export function SiteProviders({ children }: { children: ReactNode }) {
         <AuthorSheetProvider>
           <LogoMetalProvider>
             <LogoMigrationProvider>
+              <SkyGradient />
               {children}
               <AuthorSheet />
             </LogoMigrationProvider>

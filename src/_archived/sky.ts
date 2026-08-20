@@ -12,7 +12,7 @@ import {
   SiderealTime,
   GeoVector,
 } from "astronomy-engine";
-import starCatalog from "@/data/stars.json";
+import starCatalog from "./stars.json";
 
 export type City = {
   id: "bogota" | "madrid" | "tokyo";
