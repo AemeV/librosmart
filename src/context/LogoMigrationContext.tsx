@@ -21,6 +21,7 @@ const LogoMigrationContext = createContext<LogoMigrationValue | null>(null);
 export function LogoMigrationProvider({ children }: { children: ReactNode }) {
   const [heroSlot, setHeroSlot] = useState<HTMLElement | null>(null);
   const [headerSlot, setHeaderSlot] = useState<HTMLElement | null>(null);
+  const reduced = useReducedMotion();
 
   const value = useMemo<LogoMigrationValue>(
     () => ({
@@ -28,10 +29,11 @@ export function LogoMigrationProvider({ children }: { children: ReactNode }) {
       headerSlot,
       setHeroSlot,
       setHeaderSlot,
-      migrating: Boolean(heroSlot && headerSlot),
+      migrating: Boolean(heroSlot && headerSlot && !reduced),
     }),
-    [heroSlot, headerSlot],
+    [heroSlot, headerSlot, reduced],
   );
+
 
   return <LogoMigrationContext.Provider value={value}>{children}</LogoMigrationContext.Provider>;
 }

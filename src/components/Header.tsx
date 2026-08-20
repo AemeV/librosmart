@@ -1,9 +1,10 @@
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import { Instagram, Youtube, Facebook, Music2, Sun, Moon, Monitor, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useLang } from "@/context/LanguageContext";
 import { useAuthorSheet } from "@/context/AuthorSheetContext";
+import { useLogoMigration } from "@/context/LogoMigrationContext";
 import { useTheme } from "@/context/ThemeContext";
 import { springFast, tap } from "@/lib/motion-config";
 import type { StringKey } from "@/i18n/strings";
@@ -90,107 +91,147 @@ function ThemeToggle() {
 }
 
 /**
- * Subheader: vive DEBAJO del hero y se pega arriba al hacer scroll.
- * Se esconde al bajar y reaparece al subir.
+ * Dos barras imantadas al borde superior de la ventana desde el primer frame.
+ * La barra superior nunca se oculta; el subheader con el menú se esconde al
+ * bajar y reaparece al subir. El hero queda por debajo: el cielo se ve a
+ * través del cristal.
  */
 export function Header() {
   const { t } = useLang();
   const { openSheet } = useAuthorSheet();
+  const { setHeaderSlot, migrating } = useLogoMigration();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isLanding = pathname === "/";
   /** En rutas internas los anclajes de la landing deben volver a "/". */
   const hash = (id: string) => (isLanding ? `#${id}` : `/#${id}`);
   const { scrollY } = useScroll();
-  const [visible, setVisible] = useState(true);
+  const [navVisible, setNavVisible] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [lastY, setLastY] = useState(0);
+  const lastY = useRef(0);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   useMotionValueEvent(scrollY, "change", (y) => {
-    if (Math.abs(y - lastY) > 8) {
-      setVisible(y < lastY || y < 120);
-      setLastY(y);
+    if (Math.abs(y - lastY.current) > 8) {
+      setNavVisible(y < lastY.current || y < 120);
+      lastY.current = y;
     }
   });
 
+  // --header-height: altura real de las dos barras, para el scroll-margin de las anclas.
+  useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+    const apply = () => {
+      document.documentElement.style.setProperty(
+        "--header-height",
+        `${Math.round(el.getBoundingClientRect().height)}px`,
+      );
+    };
+    apply();
+    const ro = new ResizeObserver(apply);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
   return (
-    <div className="sticky top-0 z-50">
-      <motion.div
-        animate={{ y: visible ? 0 : "-105%" }}
-        transition={springFast}
-        className="glass border-b border-line"
-      >
-        <div className="mx-auto grid max-w-[1100px] grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-5 py-3 sm:px-6">
-          <Link to="/" className="flex min-w-0 items-center gap-3">
-            <LogoSmart className="h-5 w-auto shrink-0 text-text" />
-            <span className="label hidden sm:block">{t("brandTagline")}</span>
-          </Link>
+    <>
+      <div ref={wrapperRef} className="fixed inset-x-0 top-0 z-50">
+        {/* Barra superior: siempre visible */}
+        <div className="glass border-b border-line">
+          <div className="mx-auto flex max-w-[1100px] items-center justify-between gap-3 px-5 py-3 sm:px-6">
+            <Link to="/" className="flex min-w-0 items-center gap-3" aria-label={t("brand")}>
+              <span
+                ref={setHeaderSlot}
+                className="block h-5 shrink-0"
+                style={{ width: 88 }}
+                aria-hidden={migrating ? true : undefined}
+              >
+                <LogoSmart
+                  className={`h-auto w-full text-text transition-opacity ${
+                    migrating ? "opacity-0" : "opacity-100"
+                  }`}
+                />
+              </span>
+              <span className="label hidden sm:block">{t("brandTagline")}</span>
+            </Link>
 
-          <div className="flex items-center justify-end gap-2">
-            <nav aria-label={t("menu")} className="hidden lg:block">
-              <ul className="flex items-center gap-5">
-                {navItems.map((item) =>
-                  item.id === "autor" ? (
-                    <li key={item.id}>
-                      <button
-                        type="button"
-                        onClick={openSheet}
-                        className="label transition-colors hover:text-text"
-                      >
-                        {t(item.key)}
-                      </button>
-                    </li>
-                  ) : item.id === "proyectos" ? (
-                    <li key={item.id}>
-                      <Link
-                        to="/proyectos"
-                        activeProps={{ className: "text-text" }}
-                        className="label transition-colors hover:text-text"
-                      >
-                        {t(item.key)}
-                      </Link>
-                    </li>
-                  ) : (
-                    <li key={item.id}>
-                      <a href={hash(item.id)} className="label transition-colors hover:text-text">
-                        {t(item.key)}
-                      </a>
-                    </li>
-                  ),
-                )}
-              </ul>
-            </nav>
+            <div className="flex items-center justify-end gap-2">
+              <nav aria-label={t("follow")} className="hidden items-center gap-0.5 md:flex">
+                {socials.map(({ name, href, Icon }) => (
+                  <motion.a
+                    key={name}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    whileTap={tap}
+                    aria-label={name}
+                    className="flex h-11 w-11 items-center justify-center rounded-full text-text-muted transition-colors hover:text-text"
+                  >
+                    <Icon className="h-4 w-4" aria-hidden="true" />
+                  </motion.a>
+                ))}
+              </nav>
 
-            <nav aria-label={t("follow")} className="hidden items-center gap-0.5 md:flex">
-              {socials.map(({ name, href, Icon }) => (
-                <motion.a
-                  key={name}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileTap={tap}
-                  aria-label={name}
-                  className="flex h-11 w-11 items-center justify-center rounded-full text-text-muted transition-colors hover:text-text"
-                >
-                  <Icon className="h-4 w-4" aria-hidden="true" />
-                </motion.a>
-              ))}
-            </nav>
+              <LanguageToggle />
+              <ThemeToggle />
 
-            <LanguageToggle />
-            <ThemeToggle />
-
-            <motion.button
-              type="button"
-              whileTap={tap}
-              onClick={() => setMenuOpen(true)}
-              aria-label={t("menu")}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-line lg:hidden"
-            >
-              <Menu className="h-4 w-4" aria-hidden="true" />
-            </motion.button>
+              <motion.button
+                type="button"
+                whileTap={tap}
+                onClick={() => setMenuOpen(true)}
+                aria-label={t("menu")}
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-line lg:hidden"
+              >
+                <Menu className="h-4 w-4" aria-hidden="true" />
+              </motion.button>
+            </div>
           </div>
         </div>
-      </motion.div>
+
+        {/* Subheader: el menú se oculta al bajar y vuelve al subir */}
+        <motion.div
+          animate={{ y: navVisible ? 0 : "-105%", opacity: navVisible ? 1 : 0 }}
+          transition={springFast}
+          className="glass hidden border-b border-line lg:block"
+        >
+          <nav
+            aria-label={t("menu")}
+            className="mx-auto flex max-w-[1100px] items-center justify-center px-5 py-2.5 sm:px-6"
+          >
+            <ul className="flex items-center gap-6">
+              {navItems.map((item) =>
+                item.id === "autor" ? (
+                  <li key={item.id}>
+                    <button
+                      type="button"
+                      onClick={openSheet}
+                      className="label transition-colors hover:text-text"
+                    >
+                      {t(item.key)}
+                    </button>
+                  </li>
+                ) : item.id === "proyectos" ? (
+                  <li key={item.id}>
+                    <Link
+                      to="/proyectos"
+                      activeProps={{ className: "text-text" }}
+                      className="label transition-colors hover:text-text"
+                    >
+                      {t(item.key)}
+                    </Link>
+                  </li>
+                ) : (
+                  <li key={item.id}>
+                    <a href={hash(item.id)} className="label transition-colors hover:text-text">
+                      {t(item.key)}
+                    </a>
+                  </li>
+                ),
+              )}
+            </ul>
+          </nav>
+        </motion.div>
+      </div>
 
       <AnimatePresence>
         {menuOpen && (
@@ -271,6 +312,6 @@ export function Header() {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </>
   );
 }
