@@ -86,7 +86,7 @@ export function SkyBodyCard({ hit, onClose }: { hit: PlanetHit; onClose: () => v
       <Link
         to="/libros/$slug"
         params={{ slug: info.relatedBookSlug }}
-        className="mt-6 inline-flex min-h-11 items-center justify-center rounded-full bg-[#4E2BCC] px-5 text-sm font-medium text-[#EFEFEF]"
+        className="label mt-6 inline-flex min-h-11 items-center justify-center rounded-full bg-[#4E2BCC] px-5 !text-[#EFEFEF]"
       >
         {t("skyReadMore")}
       </Link>
