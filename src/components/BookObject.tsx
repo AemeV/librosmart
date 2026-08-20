@@ -80,7 +80,7 @@ function CoverFace({
         aria-label={alt}
         className="flex h-full w-full flex-col items-center justify-center gap-3 bg-surface-alt px-6 text-center [backface-visibility:hidden]"
       >
-        <span className="display text-2xl leading-tight">{book.title}</span>
+        <span className="display-m">{book.title}</span>
         <span className="label">Portada pendiente</span>
       </div>
     );
@@ -90,10 +90,11 @@ function CoverFace({
       src={edition.coverUrl}
       alt={alt}
       loading="lazy"
-      className="h-full w-full object-cover [backface-visibility:hidden]"
+      className="h-full w-full object-contain [backface-visibility:hidden]"
       draggable={false}
     />
   );
+
 }
 
 function ChapterList({ book, revealed }: { book: Book; revealed: boolean }) {
