@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
-import { Header } from "@/components/Header";
 import { Footer } from "@/components/ContactSection";
 import { SectionHeading } from "@/components/SectionHeading";
 import { useLang } from "@/context/LanguageContext";
@@ -36,7 +35,6 @@ function ProjectsPage() {
 
   return (
     <>
-      <Header />
       <main className="px-5 pt-16 pb-24 sm:px-6 sm:pt-24">
         <div className="mx-auto max-w-[1100px]">
           <motion.div

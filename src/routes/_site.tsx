@@ -1,5 +1,7 @@
 import { Outlet, createFileRoute } from "@tanstack/react-router";
 import { SiteProviders } from "@/components/SiteProviders";
+import { Header } from "@/components/Header";
+import { MigratingLogo } from "@/components/MigratingLogo";
 
 /**
  * Layout del sitio público. Todas las rutas nuevas se crean como
@@ -13,6 +15,8 @@ export const Route = createFileRoute("/_site")({
 function SiteLayout() {
   return (
     <SiteProviders>
+      <Header />
+      <MigratingLogo />
       <Outlet />
     </SiteProviders>
   );
