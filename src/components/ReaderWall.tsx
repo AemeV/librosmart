@@ -37,7 +37,6 @@ function PhotoTile({ photo, onOpen }: { photo: ReaderPhoto; onOpen: () => void }
 export function ReaderWall() {
   const { t, tr } = useLang();
   const reduced = useReducedMotion();
-  const [paused, setPaused] = useState(false);
   const [active, setActive] = useState<ReaderPhoto | null>(null);
   const loop = [...readerPhotos, ...readerPhotos];
 
