@@ -64,43 +64,34 @@ export function BookEntry({ book }: { book: Book }) {
       <motion.h3
         id={`book-${book.slug}`}
         variants={childVariants}
-        className={`display mt-4 leading-[1.02] ${
-          book.featured
-            ? "text-[clamp(2.75rem,8vw,4.75rem)]"
-            : "text-[clamp(2rem,5.5vw,3.25rem)]"
-        }`}
+        className={`mt-4 ${book.featured ? "display-xl" : "display-m"}`}
       >
         {book.title}
       </motion.h3>
 
       <motion.div variants={childVariants} className="mx-auto max-w-[52ch]">
-        <CrossfadeText
-          k={`sub-${book.slug}-${lang}`}
-          as="p"
-          className="mt-3 text-lg text-text-muted"
-        >
+        <CrossfadeText k={`sub-${book.slug}-${lang}`} as="p" className="body-s mt-3">
           {tr(book.subtitle)}
         </CrossfadeText>
       </motion.div>
 
       {/* Texto corrido: izquierda, 60ch, bloque centrado. */}
       <motion.div variants={childVariants} className="prose-measure mt-8">
-        <CrossfadeText
-          k={`desc-${book.slug}-${lang}`}
-          as="p"
-          className="text-base leading-relaxed"
-        >
+        <CrossfadeText k={`desc-${book.slug}-${lang}`} as="p" className="body">
           {tr(book.description)}
         </CrossfadeText>
       </motion.div>
 
       <motion.div variants={childVariants} className="mt-10 w-full">
         <h4 className="label">{t("keyPoints")}</h4>
-        <ul className="mx-auto mt-4 max-w-[52ch] space-y-2 text-left">
+        <ul className="mx-auto mt-4 max-w-[52ch] space-y-4 text-left">
           {book.keyPoints.map((point) => (
-            <li key={point.es} className="flex gap-2.5 text-sm leading-relaxed">
-              <Check className="mt-0.5 h-4 w-4 shrink-0 text-text-muted" aria-hidden="true" />
-              <span>{tr(point)}</span>
+            <li key={point.title.es} className="flex gap-2.5">
+              <Check className="mt-1 h-4 w-4 shrink-0 text-text-muted" aria-hidden="true" />
+              <div>
+                <p className="body">{tr(point.title)}</p>
+                <p className="body-s mt-0.5">{tr(point.text)}</p>
+              </div>
             </li>
           ))}
         </ul>
@@ -111,7 +102,8 @@ export function BookEntry({ book }: { book: Book }) {
         className="mt-12 w-full max-w-2xl rounded-[20px] border border-line bg-surface p-6 sm:p-8"
       >
         <div className="flex flex-col items-center gap-4">
-          <h4 className="tight text-xl font-semibold">{t("buyTitle")}</h4>
+          <h4 className="label">{t("buyTitle")}</h4>
+
 
           {hasEnglish && (
             <div
