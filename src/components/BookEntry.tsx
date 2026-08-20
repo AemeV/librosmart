@@ -150,7 +150,7 @@ export function BookEntry({ book }: { book: Book }) {
           a la derecha dónde comprarlo. Purple Heart sólido. */}
       <motion.div
         variants={childVariants}
-        className="relative left-1/2 mt-14 w-screen -translate-x-1/2 bg-[#4E2BCC] py-10 text-[#EFEFEF] sm:py-14"
+        className="mt-14 w-screen max-w-none ml-[calc(50%-50vw)] mr-[calc(50%-50vw)] bg-[#4E2BCC] py-10 text-[#EFEFEF] sm:py-14"
       >
         <div className="mx-auto grid max-w-[1100px] gap-8 px-5 sm:px-6 lg:grid-cols-[1.35fr_1fr] lg:gap-10">
           {/* Qué vas a encontrar */}
