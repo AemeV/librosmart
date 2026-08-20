@@ -3,6 +3,7 @@ import {
   motion,
   useMotionValueEvent,
   useReducedMotion,
+  useScroll,
   useSpring,
   useTransform,
 } from "motion/react";
@@ -14,10 +15,15 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 /**
  * <BookObject /> — un libro físico, no una tarjeta.
- * Cuatro caras (tapa, lomo, bloque de hojas, contratapa) en 3D real, con grosor
- * derivado del número de páginas de la edición activa. Se abre como una puerta
- * sobre el canto de las hojas. Reutilizable desde la landing y desde la página
- * individual de cada libro.
+ *
+ * DESKTOP (≥768px): objeto 3D interactivo. Se abre como una puerta sobre el
+ * canto de las hojas revelando contratapa e índice.
+ *
+ * MÓVIL (<768px): objeto PASIVO. No es botón, no se abre, no tiene handlers de
+ * touch/pointer/drag — el scroll vertical pasa limpio por encima. Solo reacciona
+ * a la luz: balanceo mínimo de rotación y una banda especular ligados al scroll,
+ * todo con motion values (cero re-renders por frame). El índice vive en un
+ * acordeón debajo del libro (ver <BookContents /> en BookEntry).
  */
 
 const OPEN_SPRING = { type: "spring" as const, stiffness: 60, damping: 18 };
@@ -62,18 +68,9 @@ function Paper({
   );
 }
 
-function CoverFace({
-  edition,
-  book,
-  alt,
-}: {
-  edition: Edition;
-  book: Book;
-  alt: string;
-}) {
+function CoverFace({ edition, book, alt }: { edition: Edition; book: Book; alt: string }) {
   const isPlaceholder = edition.coverUrl.startsWith("/covers/");
   if (isPlaceholder) {
-    // TODO (David): al subir la portada real a /public/covers/ esto muestra la imagen.
     return (
       <div
         role="img"
@@ -94,10 +91,69 @@ function CoverFace({
       draggable={false}
     />
   );
-
 }
 
-function ChapterList({ book, revealed }: { book: Book; revealed: boolean }) {
+/** Caras estructurales compartidas: contratapa, lomo y bloque de hojas. */
+function BookFaces({
+  book,
+  width,
+  height,
+  thickness,
+}: {
+  book: Book;
+  width: number;
+  height: number;
+  thickness: number;
+}) {
+  return (
+    <>
+      {/* Contratapa */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 rounded-[10px] bg-midnight [backface-visibility:hidden] dark:bg-seashell"
+        style={{ transform: `translateZ(-${thickness / 2}px) rotateY(180deg)` }}
+      />
+
+      {/* Lomo: título en vertical */}
+      <div
+        aria-hidden="true"
+        className="absolute top-0 left-0 flex items-center justify-center overflow-hidden rounded-[3px] bg-midnight text-seashell [backface-visibility:hidden] dark:bg-seashell dark:text-midnight"
+        style={{
+          width: thickness,
+          height,
+          transform: `translateX(-${thickness / 2}px) rotateY(-90deg)`,
+          boxShadow: "inset 0 0 12px rgba(0,0,0,0.35)",
+        }}
+      >
+        <span className="spine-text whitespace-nowrap" style={{ writingMode: "vertical-rl" }}>
+          {book.title}
+        </span>
+      </div>
+
+      {/* Bloque de hojas */}
+      <PageEdge
+        className="absolute top-0 right-0 rounded-[2px]"
+        style={{
+          width: thickness,
+          height: height - 6,
+          top: 3,
+          transform: `translateX(${thickness / 2}px) rotateY(90deg)`,
+        }}
+      />
+      <PageEdge
+        className="absolute right-0 rounded-[2px]"
+        style={{
+          height: thickness,
+          width: width - 8,
+          top: -thickness / 2 + 3,
+          transform: `rotateX(90deg) translateZ(0px)`,
+        }}
+      />
+    </>
+  );
+}
+
+export function ChapterList({ book, revealed }: { book: Book; revealed: boolean }) {
   const { tr, t } = useLang();
   return (
     <div>
@@ -114,13 +170,81 @@ function ChapterList({ book, revealed }: { book: Book; revealed: boolean }) {
             <span className="label pt-0.5">{String(chapter.number).padStart(2, "0")}</span>
             <span>
               <span className="body">{tr(chapter.title)}</span>
-              {chapter.summary ? (
-                <span className="body-s block">{tr(chapter.summary)}</span>
-              ) : null}
+              {chapter.summary ? <span className="body-s block">{tr(chapter.summary)}</span> : null}
             </span>
           </motion.li>
         ))}
       </ol>
+    </div>
+  );
+}
+
+/** Móvil: libro pasivo que solo reacciona a la luz al hacer scroll. */
+function PassiveBook({
+  book,
+  edition,
+  width,
+  height,
+  thickness,
+  alt,
+  reduced,
+}: {
+  book: Book;
+  edition: Edition;
+  width: number;
+  height: number;
+  thickness: number;
+  alt: string;
+  reduced: boolean;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+
+  const rotateY = useTransform(scrollYProgress, [0, 1], reduced ? [-12, -12] : [-18, -6]);
+  const shineX = useTransform(scrollYProgress, [0, 1], reduced ? ["0%", "0%"] : ["-130%", "130%"]);
+  const shadowX = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [10, -10]);
+  const shadowScale = useTransform(scrollYProgress, [0, 0.5, 1], reduced ? [1, 1, 1] : [1.06, 1, 1.06]);
+
+  return (
+    <div
+      ref={ref}
+      aria-hidden="true"
+      className="relative block"
+      style={{ perspective: 2000, width, height }}
+    >
+      <motion.div
+        className="pointer-events-none absolute right-2 -bottom-4 left-[-6%] h-6 rounded-[50%]"
+        style={{
+          x: shadowX,
+          scaleX: shadowScale,
+          background: "rgba(0,0,0,0.75)",
+          filter: "blur(16px)",
+          opacity: 0.24,
+        }}
+      />
+      <motion.div
+        className="relative"
+        style={{ width, height, transformStyle: "preserve-3d", rotateY, rotateX: 4 }}
+      >
+        <BookFaces book={book} width={width} height={height} thickness={thickness} />
+
+        {/* Tapa + banda especular */}
+        <div
+          className="absolute inset-0 overflow-hidden rounded-[4px_10px_10px_4px]"
+          style={{ transform: `translateZ(${thickness / 2}px)` }}
+        >
+          <CoverFace book={book} edition={edition} alt={alt} />
+          <motion.div
+            className="pointer-events-none absolute inset-y-[-40%] left-0 w-[45%]"
+            style={{
+              x: shineX,
+              rotate: 18,
+              backgroundImage:
+                "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0) 100%)",
+            }}
+          />
+        </div>
+      </motion.div>
     </div>
   );
 }
@@ -144,35 +268,30 @@ export function BookObject({
   const triggerRef = useRef<HTMLButtonElement>(null);
   const panelId = useId();
 
-  // Mobile: ~70% del ancho de pantalla; desktop: escala según el destacado.
   const width = isMobile ? 260 : featured ? 300 : 232;
   const height = Math.round(width * 1.5);
   const thickness = Math.max(18, edition.specs.pages * 0.055);
 
   const angle = useSpring(0, OPEN_SPRING);
   const coverRotate = useTransform(angle, (v) => v);
-  // Al pasar los 90° la tapa está de canto: ahí se apaga para no mostrar su reverso.
   const coverOpacity = useTransform(angle, [-82, -100], [1, 0]);
   const seamOpacity = useTransform(angle, [0, -90, -165], [0, 0.45, 0.12]);
 
   useMotionValueEvent(angle, "change", (v) => setPast90(v < -90));
 
   useEffect(() => {
-    if (reduced) {
-      setPast90(open);
-      return;
-    }
+    if (isMobile) return;
     angle.set(open ? -165 : 0);
-  }, [open, angle, reduced]);
+  }, [open, angle, isMobile]);
 
   const close = useCallback(() => {
     setOpen(false);
     triggerRef.current?.focus();
   }, []);
 
-  // Escape + focus trap dentro del índice abierto.
+  // Escape + focus trap dentro del índice abierto (solo desktop).
   useEffect(() => {
-    if (!open) return;
+    if (!open || isMobile) return;
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         event.preventDefault();
@@ -204,10 +323,25 @@ export function BookObject({
       document.removeEventListener("keydown", onKey);
       cancelAnimationFrame(raf);
     };
-  }, [open, close]);
+  }, [open, close, isMobile]);
 
   const alt = `${t("coverAlt")} ${book.title} — ${tr(book.subtitle)}`;
   const label = open ? `${t("closeBook")} ${book.title}` : `${t("openBook")} ${book.title}`;
+
+  // MÓVIL: objeto pasivo, sin gestos ni handlers. El scroll manda.
+  if (isMobile) {
+    return (
+      <PassiveBook
+        book={book}
+        edition={edition}
+        width={width}
+        height={height}
+        thickness={thickness}
+        alt={alt}
+        reduced={reduced}
+      />
+    );
+  }
 
   const spread = (
     <>
@@ -261,51 +395,7 @@ export function BookObject({
     >
       {open && spread}
 
-      {/* Contratapa */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 rounded-[10px] bg-midnight [backface-visibility:hidden] dark:bg-seashell"
-        style={{ transform: `translateZ(-${thickness / 2}px) rotateY(180deg)` }}
-      />
-
-      {/* Lomo: título en vertical */}
-      <div
-        aria-hidden="true"
-        className="absolute top-0 left-0 flex items-center justify-center overflow-hidden rounded-[3px] bg-midnight text-seashell [backface-visibility:hidden] dark:bg-seashell dark:text-midnight"
-        style={{
-          width: thickness,
-          height,
-          transform: `translateX(-${thickness / 2}px) rotateY(-90deg)`,
-          boxShadow: "inset 0 0 12px rgba(0,0,0,0.35)",
-        }}
-      >
-        <span
-          className="label whitespace-nowrap"
-          style={{ writingMode: "vertical-rl", fontSize: 8 }}
-        >
-          {book.title}
-        </span>
-      </div>
-
-      {/* Bloque de hojas: eje físico de la apertura */}
-      <PageEdge
-        className="absolute top-0 right-0 rounded-[2px]"
-        style={{
-          width: thickness,
-          height: height - 6,
-          top: 3,
-          transform: `translateX(${thickness / 2}px) rotateY(90deg)`,
-        }}
-      />
-      <PageEdge
-        className="absolute right-0 rounded-[2px]"
-        style={{
-          height: thickness,
-          width: width - 8,
-          top: -thickness / 2 + 3,
-          transform: `rotateX(90deg) translateZ(0px)`,
-        }}
-      />
+      <BookFaces book={book} width={width} height={height} thickness={thickness} />
 
       {/* Tapa frontal: puerta sobre el canto de las hojas */}
       <motion.div
@@ -321,50 +411,6 @@ export function BookObject({
       >
         <CoverFace book={book} edition={edition} alt={alt} />
       </motion.div>
-    </motion.div>
-  );
-
-  const mobileSheet = (
-    <motion.div
-      ref={overlayRef}
-      role="dialog"
-      aria-modal="true"
-      aria-label={book.title}
-      id={panelId}
-      className="fixed inset-0 z-70 flex flex-col"
-      initial={{ y: reduced ? 0 : "100%", opacity: reduced ? 0 : 1 }}
-      animate={{ y: 0, opacity: 1 }}
-      exit={{ y: reduced ? 0 : "100%", opacity: reduced ? 0 : 1 }}
-      transition={{ type: "spring", stiffness: 260, damping: 30 }}
-      drag={reduced ? false : "y"}
-      dragConstraints={{ top: 0, bottom: 0 }}
-      dragElastic={{ top: 0, bottom: 0.5 }}
-      onDragEnd={(_, info) => {
-        if (info.offset.y > 120 || info.velocity.y > 600) close();
-      }}
-    >
-      <Paper className="flex h-full flex-col">
-        {/* El canto de las hojas nunca desaparece: sostiene la metáfora. */}
-        <PageEdge className="absolute inset-y-0 left-0 w-3" />
-        <div className="flex items-center justify-between gap-3 border-b border-line py-4 pr-4 pl-6">
-          <span className="display-m min-w-0 truncate">{book.title}</span>
-          <button
-            type="button"
-            onClick={close}
-            aria-label={t("close")}
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-line"
-          >
-            <X className="h-4 w-4" aria-hidden="true" />
-          </button>
-        </div>
-        <div className="flex-1 space-y-8 overflow-y-auto px-6 py-6 pl-7 text-left">
-          <ChapterList book={book} revealed />
-          <div>
-            <p className="label">{t("backCoverTitle")}</p>
-            <p className="body mt-3">{tr(edition.backCover)}</p>
-          </div>
-        </div>
-      </Paper>
     </motion.div>
   );
 
@@ -402,30 +448,15 @@ export function BookObject({
           transition={HOVER_SPRING}
           style={{ background: "rgba(0,0,0,0.75)" }}
         />
-        {!(open && (isMobile || reduced)) && book3d}
+        {book3d}
       </motion.button>
-
-      <AnimatePresence>
-        {open && (isMobile || reduced) && (
-          <>
-            <motion.div
-              aria-hidden="true"
-              className="fixed inset-0 z-60 bg-black/40"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={close}
-            />
-            {mobileSheet}
-          </>
-        )}
-      </AnimatePresence>
 
       {/* Desktop abierto: clic fuera cierra, y el botón de cierre siempre visible. */}
       <AnimatePresence>
-        {open && !isMobile && !reduced && (
+        {open && (
           <motion.div
             ref={overlayRef}
+            id={panelId}
             className="fixed inset-0 z-40"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
