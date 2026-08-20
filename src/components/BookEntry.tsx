@@ -173,7 +173,7 @@ export function BookEntry({ book }: { book: Book }) {
           </div>
 
           {/* Dónde comprarlo */}
-          <div className="rounded-[14px] border border-[#EFEFEF]/20 bg-[#EFEFEF]/8 p-6 text-left">
+          <div className="rounded-[14px] border border-[#EFEFEF]/20 bg-[#EFEFEF]/8 p-6 text-left lg:self-start">
             <h4 className="label text-[#EFEFEF]/70">{t("buyTitle")}</h4>
 
             {hasEnglish && (
