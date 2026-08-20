@@ -75,7 +75,7 @@ function CoverFace({ edition, book, alt }: { edition: Edition; book: Book; alt: 
       <div
         role="img"
         aria-label={alt}
-        className="flex h-full w-full flex-col items-center justify-center gap-3 bg-midnight px-6 text-center text-seashell [backface-visibility:hidden] dark:bg-seashell dark:text-midnight"
+        className="flex h-full w-full flex-col items-center justify-center gap-3 bg-transparent px-6 text-center [backface-visibility:hidden]"
       >
         <span className="display-m">{book.title}</span>
         <span className="label">Portada pendiente</span>
