@@ -1,0 +1,233 @@
+import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
+import { Instagram, Youtube, Facebook, Music2, Sun, Moon, Monitor, Menu, X } from "lucide-react";
+import { useState } from "react";
+import { useLang } from "@/context/LanguageContext";
+import { useTheme } from "@/context/ThemeContext";
+import { springFast, tap } from "@/lib/motion-config";
+import type { StringKey } from "@/i18n/strings";
+
+const navItems: { id: string; key: StringKey }[] = [
+  { id: "libros", key: "navBooks" },
+  { id: "autor", key: "navAuthor" },
+  { id: "resenas", key: "navReviews" },
+  { id: "proyectos", key: "navProjects" },
+  { id: "contacto", key: "navContact" },
+];
+
+const socials = [
+  { name: "Instagram", href: "https://instagram.com/", Icon: Instagram },
+  { name: "YouTube", href: "https://youtube.com/", Icon: Youtube },
+  { name: "TikTok", href: "https://tiktok.com/", Icon: Music2 },
+  { name: "Facebook", href: "https://facebook.com/", Icon: Facebook },
+];
+
+function LanguageToggle() {
+  const { lang, setLang, t } = useLang();
+  return (
+    <div
+      role="group"
+      aria-label={t("langLabel")}
+      className="glass flex items-center rounded-full p-0.5"
+    >
+      {(["es", "en"] as const).map((option) => (
+        <motion.button
+          key={option}
+          type="button"
+          onClick={() => setLang(option)}
+          whileTap={tap}
+          aria-pressed={lang === option}
+          className="relative flex h-9 min-w-11 items-center justify-center rounded-full px-3"
+        >
+          {lang === option && (
+            <motion.span
+              layoutId="lang-indicator"
+              transition={springFast}
+              className="absolute inset-0 rounded-full bg-text/10"
+            />
+          )}
+          <span
+            className={`relative z-1 font-mono text-[11px] uppercase tracking-[0.08em] ${
+              lang === option ? "text-text" : "text-text-muted"
+            }`}
+          >
+            {option}
+          </span>
+        </motion.button>
+      ))}
+    </div>
+  );
+}
+
+function ThemeToggle() {
+  const { mode, cycle } = useTheme();
+  const { t } = useLang();
+  const label =
+    mode === "light" ? t("themeLight") : mode === "dark" ? t("themeDark") : t("themeSystem");
+  const Icon = mode === "light" ? Sun : mode === "dark" ? Moon : Monitor;
+
+  return (
+    <motion.button
+      type="button"
+      onClick={cycle}
+      whileTap={tap}
+      aria-label={label}
+      title={label}
+      className="glass flex h-11 w-11 items-center justify-center rounded-full"
+    >
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.span
+          key={mode}
+          initial={{ rotate: -90, scale: 0.6, opacity: 0 }}
+          animate={{ rotate: 0, scale: 1, opacity: 1 }}
+          exit={{ rotate: 90, scale: 0.6, opacity: 0 }}
+          transition={springFast}
+          className="flex items-center justify-center"
+        >
+          <Icon className="h-4 w-4" aria-hidden="true" />
+        </motion.span>
+      </AnimatePresence>
+    </motion.button>
+  );
+}
+
+export function Header() {
+  const { t } = useLang();
+  const { scrollY } = useScroll();
+  const [elevated, setElevated] = useState(false);
+  const [subVisible, setSubVisible] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [lastY, setLastY] = useState(0);
+
+  useMotionValueEvent(scrollY, "change", (y) => {
+    setElevated(y > 80);
+    if (Math.abs(y - lastY) > 8) {
+      setSubVisible(y < lastY || y < 120);
+      setLastY(y);
+    }
+  });
+
+  return (
+    <header className="fixed inset-x-0 top-0 z-50">
+      <div
+        className={`transition-colors duration-300 ${
+          elevated ? "glass border-b border-line" : "border-b border-transparent"
+        }`}
+      >
+        <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3 sm:px-6">
+          <a href="#top" className="min-w-0 flex-1">
+            <span className="tight block truncate text-lg font-semibold">{t("brand")}</span>
+            <span className="meta hidden sm:block">{t("brandTagline")}</span>
+          </a>
+
+          <nav aria-label={t("follow")} className="hidden items-center gap-1 md:flex">
+            {socials.map(({ name, href, Icon }) => (
+              <motion.a
+                key={name}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileTap={tap}
+                aria-label={name}
+                className="flex h-11 w-11 items-center justify-center rounded-full text-text-muted transition-colors hover:text-text"
+              >
+                <Icon className="h-4 w-4" aria-hidden="true" />
+              </motion.a>
+            ))}
+          </nav>
+
+          <LanguageToggle />
+          <ThemeToggle />
+
+          <motion.button
+            type="button"
+            whileTap={tap}
+            onClick={() => setMenuOpen(true)}
+            aria-label={t("menu")}
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-line md:hidden"
+          >
+            <Menu className="h-4 w-4" aria-hidden="true" />
+          </motion.button>
+        </div>
+
+        <motion.nav
+          aria-label={t("menu")}
+          animate={{ y: subVisible ? 0 : -12, opacity: subVisible ? 1 : 0 }}
+          transition={springFast}
+          className={`hidden md:block ${subVisible ? "" : "pointer-events-none"}`}
+        >
+          <ul className="mx-auto flex max-w-6xl items-center gap-6 px-6 pb-3">
+            {navItems.map((item) => (
+              <li key={item.id}>
+                <a
+                  href={`#${item.id}`}
+                  className="meta transition-colors hover:text-text"
+                >
+                  {t(item.key)}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </motion.nav>
+      </div>
+
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            className="glass fixed inset-0 z-60 flex flex-col px-6 py-5 md:hidden"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 16 }}
+            transition={springFast}
+          >
+            <div className="flex items-center justify-between">
+              <span className="tight text-lg font-semibold">{t("brand")}</span>
+              <motion.button
+                type="button"
+                whileTap={tap}
+                onClick={() => setMenuOpen(false)}
+                aria-label={t("close")}
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-line"
+              >
+                <X className="h-4 w-4" aria-hidden="true" />
+              </motion.button>
+            </div>
+
+            <ul className="mt-10 flex flex-col gap-2">
+              {navItems.map((item, index) => (
+                <motion.li
+                  key={item.id}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ ...springFast, delay: 0.04 * index }}
+                >
+                  <a
+                    href={`#${item.id}`}
+                    onClick={() => setMenuOpen(false)}
+                    className="tight block py-3 text-3xl font-medium"
+                  >
+                    {t(item.key)}
+                  </a>
+                </motion.li>
+              ))}
+            </ul>
+
+            <div className="mt-auto flex items-center gap-2">
+              {socials.map(({ name, href, Icon }) => (
+                <a
+                  key={name}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={name}
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-line text-text-muted"
+                >
+                  <Icon className="h-4 w-4" aria-hidden="true" />
+                </a>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </header>
+  );
+}
