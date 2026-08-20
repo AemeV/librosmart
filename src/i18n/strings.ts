@@ -173,6 +173,19 @@ export const strings = {
   },
   authorCtaButton: { es: "Escribir para conferencias", en: "Get in touch for talks" },
 
+  // Cielo interactivo
+  skyDragHint: { es: "Arrastra para girar el horizonte", en: "Drag to turn the horizon" },
+  skyCompass: { es: "Dirección", en: "Heading" },
+  skyAltitude: { es: "Altitud", en: "Altitude" },
+  skyAzimuth: { es: "Azimut", en: "Azimuth" },
+  skyDistance: { es: "Distancia a la Tierra", en: "Distance from Earth" },
+  skyLivePosition: { es: "Posición ahora", en: "Position now" },
+  skyReadMore: { es: "Leer más", en: "Read more" },
+  skyOpenBody: { es: "Ver información de", en: "See information about" },
+
+  bookNotFound: { es: "Libro no encontrado", en: "Book not found" },
+  backToBooks: { es: "Volver a los libros", en: "Back to books" },
+
 } satisfies Record<string, Localized>;
 
 export type StringKey = keyof typeof strings;

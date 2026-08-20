@@ -5,7 +5,6 @@ import {
   useReducedMotion,
   useScroll,
   useSpring,
-  useTransform,
 } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useLogoMigration } from "@/context/LogoMigrationContext";
@@ -106,10 +105,6 @@ export function MigratingLogo() {
 
   useMotionValueEvent(scrollY, "change", (s) => apply(s));
 
-  // Sobre el cielo el logo es claro; en el header toma el color del tema.
-  const skyOpacity = useTransform(progress, [0, 0.85], [1, 0]);
-  const themeOpacity = useTransform(progress, [0.35, 1], [0, 1]);
-
   if (!migrating || reduced || !geom) return null;
 
   return (
@@ -118,14 +113,7 @@ export function MigratingLogo() {
       className="pointer-events-none fixed top-0 left-0 z-55"
       style={{ x, y, width }}
     >
-      <motion.div className="relative">
-        <motion.div style={{ opacity: skyOpacity, color: "#f7f8fb" }}>
-          <LogoSmart className="h-auto w-full" />
-        </motion.div>
-        <motion.div className="absolute inset-0" style={{ opacity: themeOpacity }}>
-          <LogoSmart className="h-auto w-full text-text" />
-        </motion.div>
-      </motion.div>
+      <LogoSmart className="h-auto w-full" />
     </motion.div>
   );
 }

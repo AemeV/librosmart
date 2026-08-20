@@ -78,7 +78,7 @@ function CoverFace({
       <div
         role="img"
         aria-label={alt}
-        className="flex h-full w-full flex-col items-center justify-center gap-3 bg-surface-alt px-6 text-center [backface-visibility:hidden]"
+        className="flex h-full w-full flex-col items-center justify-center gap-3 bg-midnight px-6 text-center text-seashell [backface-visibility:hidden] dark:bg-seashell dark:text-midnight"
       >
         <span className="display-m">{book.title}</span>
         <span className="label">Portada pendiente</span>
@@ -90,7 +90,7 @@ function CoverFace({
       src={edition.coverUrl}
       alt={alt}
       loading="lazy"
-      className="h-full w-full object-contain [backface-visibility:hidden]"
+      className="h-full w-full bg-transparent object-contain [backface-visibility:hidden]"
       draggable={false}
     />
   );
@@ -264,14 +264,14 @@ export function BookObject({
       {/* Contratapa */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 rounded-[10px] bg-surface-alt"
+        className="absolute inset-0 rounded-[10px] bg-midnight [backface-visibility:hidden] dark:bg-seashell"
         style={{ transform: `translateZ(-${thickness / 2}px) rotateY(180deg)` }}
       />
 
       {/* Lomo: título en vertical */}
       <div
         aria-hidden="true"
-        className="absolute top-0 left-0 flex items-center justify-center overflow-hidden rounded-[3px] bg-surface-alt"
+        className="absolute top-0 left-0 flex items-center justify-center overflow-hidden rounded-[3px] bg-midnight text-seashell [backface-visibility:hidden] dark:bg-seashell dark:text-midnight"
         style={{
           width: thickness,
           height,

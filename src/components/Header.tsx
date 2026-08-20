@@ -142,12 +142,12 @@ export function Header() {
             <Link to="/" className="flex min-w-0 items-center gap-3" aria-label={t("brand")}>
               <span
                 ref={setHeaderSlot}
-                className="block h-5 shrink-0"
-                style={{ width: 88 }}
+                className="block h-9 shrink-0"
+                style={{ width: 158 }}
                 aria-hidden={migrating ? true : undefined}
               >
                 <LogoSmart
-                  className={`h-auto w-full text-text transition-opacity ${
+                  className={`h-auto w-full transition-opacity ${
                     migrating ? "opacity-0" : "opacity-100"
                   }`}
                 />
@@ -243,7 +243,7 @@ export function Header() {
             transition={springFast}
           >
             <div className="flex items-center justify-between">
-              <LogoSmart className="h-5 w-auto text-text" />
+              <LogoSmart className="h-9 w-auto" />
               <motion.button
                 type="button"
                 whileTap={tap}
