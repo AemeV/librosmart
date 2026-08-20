@@ -1,69 +1,50 @@
 import { motion, useReducedMotion } from "motion/react";
 import { ChevronDown } from "lucide-react";
 import { RealSky } from "./RealSky";
+import { LogoSmart } from "./LogoSmart";
 import { useLang } from "@/context/LanguageContext";
-import { CrossfadeText } from "./CrossfadeText";
-import { easeEnter } from "@/lib/motion-config";
+import { spring } from "@/lib/motion-config";
 
+/**
+ * Hero: solo el cielo real y el logo. Ningún texto compite con ellos.
+ */
 export function Hero() {
-  const { t, lang } = useLang();
+  const { t } = useLang();
   const reduced = useReducedMotion();
 
   return (
     <section
       id="top"
-      className="sky-scope relative flex min-h-[92svh] items-center overflow-hidden pt-32 pb-24"
+      aria-label={t("brand")}
+      className="sky-scope relative flex min-h-[92svh] items-center justify-center overflow-hidden"
     >
       <RealSky />
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-5 sm:px-6">
-        <motion.p
-          className="meta"
-          initial={{ opacity: 0, y: reduced ? 0 : 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={easeEnter}
-        >
-          {t("heroKicker")}
-        </motion.p>
+      <motion.div
+        className="relative z-10 flex w-full flex-col items-center px-5"
+        initial={{ opacity: 0, scale: reduced ? 1 : 0.96 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={spring}
+      >
+        <LogoSmart className="w-[75vw] max-w-[900px] text-text sm:w-[48vw]" />
+      </motion.div>
 
-        <motion.h1
-          className="display mt-5 max-w-3xl text-[clamp(2.75rem,10vw,5.5rem)] leading-[0.98]"
-          initial={{ opacity: 0, y: reduced ? 0 : 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ ...easeEnter, delay: 0.08 }}
+      <motion.a
+        href="#libros"
+        aria-label={t("heroScroll")}
+        className="label absolute bottom-20 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-2 text-text"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5, duration: 0.6 }}
+      >
+        {t("heroScroll")}
+        <motion.span
+          animate={reduced ? {} : { y: [0, 5, 0] }}
+          transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
         >
-          <CrossfadeText k={`hero-${lang}`} as="span">
-            {t("heroTitle")}
-          </CrossfadeText>
-        </motion.h1>
-
-        <motion.div
-          className="mt-7 max-w-xl"
-          initial={{ opacity: 0, y: reduced ? 0 : 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ ...easeEnter, delay: 0.16 }}
-        >
-          <CrossfadeText k={`hero-sub-${lang}`} as="p" className="text-lg text-text-muted">
-            {t("heroSubtitle")}
-          </CrossfadeText>
-        </motion.div>
-
-        <motion.a
-          href="#libros"
-          className="meta mt-14 inline-flex items-center gap-2 text-text-muted"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ ...easeEnter, delay: 0.3 }}
-        >
-          {t("heroScroll")}
-          <motion.span
-            animate={reduced ? {} : { y: [0, 5, 0] }}
-            transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
-          >
-            <ChevronDown className="h-3.5 w-3.5" aria-hidden="true" />
-          </motion.span>
-        </motion.a>
-      </div>
+          <ChevronDown className="h-3.5 w-3.5" aria-hidden="true" />
+        </motion.span>
+      </motion.a>
     </section>
   );
 }
