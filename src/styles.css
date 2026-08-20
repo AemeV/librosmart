@@ -247,6 +247,14 @@
   letter-spacing: -0.02em;
 }
 
+/* Título de la pastilla de anuncio del hero. */
+@utility pill-title {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.3;
+}
+
 /* Título del lomo del libro 3D: única micro-tipografía del sistema. */
 @utility spine-text {
   font-family: var(--font-sans);
