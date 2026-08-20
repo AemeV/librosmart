@@ -1,6 +1,6 @@
 import { motion, useReducedMotion } from "motion/react";
 import { ChevronDown } from "lucide-react";
-import { SkyBackground } from "./SkyBackground";
+import { RealSky } from "./RealSky";
 import { useLang } from "@/context/LanguageContext";
 import { CrossfadeText } from "./CrossfadeText";
 import { easeEnter } from "@/lib/motion-config";
@@ -12,10 +12,11 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative flex min-h-[92svh] items-center overflow-hidden pt-32 pb-20"
+      className="sky-scope relative flex min-h-[92svh] items-center overflow-hidden pt-32 pb-24"
     >
-      <SkyBackground />
-      <div className="relative mx-auto w-full max-w-6xl px-5 sm:px-6">
+      <RealSky />
+
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-5 sm:px-6">
         <motion.p
           className="meta"
           initial={{ opacity: 0, y: reduced ? 0 : 12 }}

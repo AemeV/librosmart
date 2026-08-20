@@ -5,6 +5,7 @@ import { useLang } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
 import { springFast, tap } from "@/lib/motion-config";
 import type { StringKey } from "@/i18n/strings";
+import { LogoSmart } from "./LogoSmart";
 
 const navItems: { id: string; key: StringKey }[] = [
   { id: "libros", key: "navBooks" },
@@ -114,9 +115,12 @@ export function Header() {
         }`}
       >
         <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3 sm:px-6">
-          <a href="#top" className="min-w-0 flex-1">
-            <span className="tight block truncate text-lg font-semibold">{t("brand")}</span>
-            <span className="meta hidden sm:block">{t("brandTagline")}</span>
+          <a href="#top" className="flex min-w-0 flex-1 items-center gap-3">
+            <LogoSmart className="h-6 w-auto shrink-0 text-text" />
+            <span className="min-w-0">
+              <span className="tight block truncate text-lg font-semibold">{t("brand")}</span>
+              <span className="meta hidden sm:block">{t("brandTagline")}</span>
+            </span>
           </a>
 
           <nav aria-label={t("follow")} className="hidden items-center gap-1 md:flex">
@@ -180,7 +184,10 @@ export function Header() {
             transition={springFast}
           >
             <div className="flex items-center justify-between">
-              <span className="tight text-lg font-semibold">{t("brand")}</span>
+              <span className="flex items-center gap-3">
+                <LogoSmart className="h-6 w-auto text-text" />
+                <span className="tight text-lg font-semibold">{t("brand")}</span>
+              </span>
               <motion.button
                 type="button"
                 whileTap={tap}
