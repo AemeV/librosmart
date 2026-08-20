@@ -75,10 +75,10 @@ function ProjectsPage() {
                   </motion.div>
 
                   <p className="label mt-8">{tr(project.kicker)}</p>
-                  <h2 className="display-m mt-3 text-center">
+                  <h2 className="display-m mt-4 text-center">
                     {tr(project.title)}
                   </h2>
-                  <p className="body mt-5 max-w-[62ch] text-left text-text-muted">
+                  <p className="body mt-6 max-w-[62ch] text-left text-text-muted">
                     {tr(project.description)}
                   </p>
 
@@ -87,7 +87,7 @@ function ProjectsPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                     whileTap={tap}
-                    className="glass label mt-7 inline-flex items-center gap-2 rounded-full px-5 py-3 transition-colors hover:text-text"
+                    className="glass label mt-8 inline-flex items-center gap-2 rounded-full px-5 py-3 transition-colors hover:text-text"
                   >
                     {t("projectsVisit")}
                     <ArrowUpRight className="h-4 w-4" aria-hidden="true" />

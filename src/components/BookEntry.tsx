@@ -211,7 +211,7 @@ export function BookEntry({ book }: { book: Book }) {
                 {edition.physical.length > 0 && (
                   <div>
                     <p className="label text-center text-[#EFEFEF]/70">{t("physical")}</p>
-                    <div className="mt-3 flex flex-wrap justify-center gap-2.5">
+                    <div className="mt-4 flex flex-wrap justify-center gap-2.5">
                       {edition.physical.map((retailer) => (
                         <RetailerButton
                           key={retailer.name}
@@ -226,7 +226,7 @@ export function BookEntry({ book }: { book: Book }) {
                 {edition.digital.length > 0 && (
                   <div>
                     <p className="label text-center text-[#EFEFEF]/70">{t("digital")}</p>
-                    <div className="mt-3 flex flex-wrap justify-center gap-2.5">
+                    <div className="mt-4 flex flex-wrap justify-center gap-2.5">
                       {edition.digital.map((retailer) => (
                         <RetailerButton
                           key={retailer.name}
