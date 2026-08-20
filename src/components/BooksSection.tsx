@@ -1,9 +1,7 @@
-import { motion, useReducedMotion } from "motion/react";
 import { books } from "@/data/books";
 import { useLang } from "@/context/LanguageContext";
 import { useAuthorSheet } from "@/context/AuthorSheetContext";
 import { BookEntry } from "./BookEntry";
-import { inViewProps, sectionVariants } from "@/lib/motion-config";
 
 // Orden: el destacado primero, luego por año descendente.
 const ordered = [...books].sort((a, b) => {
@@ -13,7 +11,6 @@ const ordered = [...books].sort((a, b) => {
 
 export function BooksSection() {
   const { t } = useLang();
-  const reduced = useReducedMotion();
   const { openSheet } = useAuthorSheet();
 
   return (
