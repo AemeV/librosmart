@@ -154,7 +154,7 @@ export function AuthorSheet() {
                         className="rounded-[14px] border border-line bg-surface-alt p-6 text-center"
                       >
                         <Icon className="mx-auto h-5 w-5 text-text-muted" aria-hidden="true" />
-                        <p className="numeral mt-3 text-[28px] leading-none">{value}</p>
+                        <p className="numeral mt-4">{value}</p>
                         <p className="label mt-2">{t(label)}</p>
                         <p className="body-s mt-3">{t(detail)}</p>
                       </div>
