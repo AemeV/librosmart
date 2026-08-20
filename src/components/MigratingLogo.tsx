@@ -1,4 +1,4 @@
-import { motion, useMotionValueEvent, useReducedMotion, useScroll, useSpring, useTransform } from "motion/react";
+import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "motion/react";
 import { useEffect, useState } from "react";
 import { useLogoMigration } from "@/context/LogoMigrationContext";
 import { LogoSmart } from "./LogoSmart";
@@ -28,7 +28,6 @@ export function MigratingLogo() {
   const reduced = useReducedMotion();
   const { scrollY } = useScroll();
   const [geom, setGeom] = useState<Geometry | null>(null);
-  const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
     if (!heroSlot || !headerSlot || reduced) {
@@ -38,6 +37,7 @@ export function MigratingLogo() {
     const measure = () => {
       const hero = heroSlot.getBoundingClientRect();
       const dock = headerSlot.getBoundingClientRect();
+      if (hero.width < 1 || dock.width < 1) return;
       setGeom({
         heroX: hero.left,
         heroTopDoc: hero.top + window.scrollY,
@@ -59,38 +59,24 @@ export function MigratingLogo() {
     };
   }, [heroSlot, headerSlot, reduced]);
 
-  const rawX = useTransform(scrollY, (s) => {
-    if (!geom) return 0;
-    return lerp(geom.heroX, geom.dockX, clamp01(s / geom.range));
-  });
-  const rawY = useTransform(scrollY, (s) => {
-    if (!geom) return 0;
-    const p = clamp01(s / geom.range);
-    return lerp(geom.heroTopDoc - s, geom.dockY, p);
-  });
-  const rawW = useTransform(scrollY, (s) => {
-    if (!geom) return 0;
-    return lerp(geom.heroW, geom.dockW, clamp01(s / geom.range));
-  });
+  const progress = useTransform(scrollY, (s) => (geom ? clamp01(s / geom.range) : 0));
+  const rawX = useTransform(scrollY, (s) =>
+    geom ? lerp(geom.heroX, geom.dockX, clamp01(s / geom.range)) : 0,
+  );
+  const rawY = useTransform(scrollY, (s) =>
+    geom ? lerp(geom.heroTopDoc - s, geom.dockY, clamp01(s / geom.range)) : 0,
+  );
+  const rawW = useTransform(scrollY, (s) =>
+    geom ? lerp(geom.heroW, geom.dockW, clamp01(s / geom.range)) : 0,
+  );
 
   const x = useSpring(rawX, MIGRATE_SPRING);
   const y = useSpring(rawY, MIGRATE_SPRING);
   const width = useSpring(rawW, MIGRATE_SPRING);
 
-  // Cuando el menú móvil a pantalla completa se abre, el logo fijo se aparta.
-  useEffect(() => {
-    const onOverlay = (event: Event) => setHidden((event as CustomEvent<boolean>).detail === true);
-    window.addEventListener("logo-overlay", onOverlay as EventListener);
-    return () => window.removeEventListener("logo-overlay", onOverlay as EventListener);
-  }, []);
-
-  const [ready, setReady] = useState(false);
-  useMotionValueEvent(width, "change", (v) => {
-    if (v > 0 && !ready) setReady(true);
-  });
-  useEffect(() => {
-    if (geom) setReady(true);
-  }, [geom]);
+  // Sobre el cielo el logo es claro; en el header toma el color del tema.
+  const skyOpacity = useTransform(progress, [0, 0.85], [1, 0]);
+  const themeOpacity = useTransform(progress, [0.35, 1], [0, 1]);
 
   if (!migrating || reduced || !geom) return null;
 
@@ -98,12 +84,21 @@ export function MigratingLogo() {
     <motion.div
       aria-hidden="true"
       className="pointer-events-none fixed top-0 left-0 z-55"
-      style={{ x, y, width, opacity: hidden ? 0 : ready ? 1 : 0 }}
-      initial={{ opacity: 0, scale: 0.96 }}
-      animate={{ opacity: hidden ? 0 : 1, scale: 1 }}
-      transition={{ type: "spring", ...MIGRATE_SPRING }}
+      style={{ x, y, width }}
     >
-      <LogoSmart className="h-auto w-full text-text" />
+      <motion.div
+        className="relative"
+        initial={{ opacity: 0, scale: 0.94 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ type: "spring", stiffness: 120, damping: 20 }}
+      >
+        <motion.div style={{ opacity: skyOpacity, color: "#f7f8fb" }}>
+          <LogoSmart className="h-auto w-full" />
+        </motion.div>
+        <motion.div className="absolute inset-0" style={{ opacity: themeOpacity }}>
+          <LogoSmart className="h-auto w-full text-text" />
+        </motion.div>
+      </motion.div>
     </motion.div>
   );
 }
