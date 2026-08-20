@@ -8,6 +8,8 @@ import { BooksSection } from "@/components/BooksSection";
 import { ReviewsSection } from "@/components/ReviewsSection";
 import { AuthorSection } from "@/components/AuthorSection";
 import { ContactSection, Footer } from "@/components/ContactSection";
+import { AuthorSheet } from "@/components/AuthorSheet";
+import { AuthorSheetProvider } from "@/context/AuthorSheetContext";
 
 const title = "Librosmart — Libros de David Mauricio Guerrero Vélez";
 const description =
@@ -31,6 +33,7 @@ function Index() {
   return (
     <ThemeProvider>
       <LanguageProvider>
+        <AuthorSheetProvider>
         <h1 className="sr-only">Librosmart — David Mauricio Guerrero Vélez</h1>
         <Hero />
         <Header />
@@ -42,6 +45,8 @@ function Index() {
           <ContactSection />
         </main>
         <Footer />
+        <AuthorSheet />
+        </AuthorSheetProvider>
       </LanguageProvider>
     </ThemeProvider>
   );
