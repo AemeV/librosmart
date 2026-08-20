@@ -36,7 +36,7 @@ export function ContactSection() {
   };
 
   const field =
-    "mt-2 w-full rounded-[14px] border border-line bg-surface px-4 py-3 text-base outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
+    "mt-2 w-full rounded-[14px] border border-line bg-surface px-4 py-3 text-base outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text";
 
   return (
     <motion.section
@@ -92,7 +92,7 @@ export function ContactSection() {
             className="rounded-[20px] border border-line bg-surface p-5 sm:p-7"
           >
             <div>
-              <label htmlFor="name" className="meta">
+              <label htmlFor="name" className="label">
                 {t("formName")}
               </label>
               <input
@@ -107,7 +107,7 @@ export function ContactSection() {
             </div>
 
             <div className="mt-5">
-              <label htmlFor="email" className="meta">
+              <label htmlFor="email" className="label">
                 {t("formEmail")}
               </label>
               <input
@@ -123,7 +123,7 @@ export function ContactSection() {
             </div>
 
             <div className="mt-5">
-              <label htmlFor="message" className="meta">
+              <label htmlFor="message" className="label">
                 {t("formMessage")}
               </label>
               <textarea
@@ -144,7 +144,7 @@ export function ContactSection() {
               type="submit"
               whileTap={tap}
               transition={springFast}
-              className="mt-6 flex min-h-11 w-full items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-text"
+              className="mt-6 flex min-h-11 w-full items-center justify-center rounded-full bg-text px-6 py-3 text-sm font-semibold text-bg"
             >
               {t("formSend")}
             </motion.button>
@@ -180,7 +180,7 @@ export function Footer() {
           <LogoSmart className="h-5 w-auto text-text" />
           <span className="tight text-base font-semibold">{t("brand")}</span>
         </span>
-        <span className="meta">
+        <span className="label">
           © {new Date().getFullYear()} Librosmart · {t("rights")}
         </span>
       </div>

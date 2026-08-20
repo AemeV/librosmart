@@ -54,7 +54,7 @@ export function AuthorSection() {
             <p className="text-lg leading-relaxed">{t("authorBio1")}</p>
             <p className="text-base leading-relaxed text-text-muted">{t("authorBio2")}</p>
           </motion.div>
-          <motion.p variants={childVariants} className="meta mt-8">
+          <motion.p variants={childVariants} className="label mt-8">
             David Mauricio Guerrero Vélez · Bogotá, Colombia
           </motion.p>
         </div>

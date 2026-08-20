@@ -127,7 +127,7 @@ export function RealSky() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.94 }}
               transition={springFast}
-              className="glass pointer-events-none absolute z-20 -translate-x-1/2 -translate-y-[150%] rounded-full px-3 py-1.5 font-mono text-[11px] tracking-[0.08em] whitespace-nowrap"
+              className="glass pointer-events-none absolute z-20 -translate-x-1/2 -translate-y-[150%] rounded-full px-3 py-1.5 label whitespace-nowrap"
               style={{ left: hover.x, top: hover.y }}
             >
               {(planetNames[hover.id]?.[lang] ?? hover.name).toUpperCase()} ·{" "}
@@ -161,7 +161,7 @@ export function RealSky() {
                 />
               )}
               <span
-                className={`relative z-1 font-mono text-[11px] tracking-[0.08em] uppercase ${
+                className={`relative z-1 label ${
                   option.id === city.id ? "opacity-100" : "opacity-65"
                 }`}
               >
@@ -170,14 +170,14 @@ export function RealSky() {
             </motion.button>
           ))}
         </div>
-        <p className="mt-2 text-right font-mono text-[11px] tracking-[0.08em] opacity-70">
+        <p className="mt-2 text-right label opacity-70">
           {clock ? localTime(city, clock, true) : "--:--:--"}
         </p>
       </div>
 
       {/* Capa informativa */}
       <div className="pointer-events-none absolute bottom-4 left-4 z-20 max-w-[calc(100%-2rem)] sm:bottom-6 sm:left-6">
-        <p className="glass rounded-full px-4 py-2 font-mono text-[10px] leading-relaxed tracking-[0.08em] uppercase sm:text-[11px]">
+        <p className="glass rounded-full px-4 py-2 label leading-relaxed">
           {city.name} · {formatCoords(city, lang)}{clock ? ` · ${localTime(city, clock)}` : ""}
           {moonLabel ? ` · ${moonLabel}` : ""}
           {planetLabel ? ` · ${planetLabel}` : ""}

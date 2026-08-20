@@ -27,7 +27,7 @@ function PhotoTile({ photo, onOpen }: { photo: ReaderPhoto; onOpen: () => void }
       ) : (
         <span className="flex h-full w-full flex-col items-center justify-center gap-2 text-text-muted">
           <BookOpen className="h-5 w-5" aria-hidden="true" />
-          <span className="meta px-3 text-center">{tr(photo.caption)}</span>
+          <span className="label px-3 text-center">{tr(photo.caption)}</span>
         </span>
       )}
     </motion.button>
@@ -102,7 +102,7 @@ export function ReaderWall() {
                   <BookOpen className="h-8 w-8 text-text-muted" aria-hidden="true" />
                 </div>
               )}
-              <figcaption className="meta px-5 py-4">{tr(active.caption)}</figcaption>
+              <figcaption className="label px-5 py-4">{tr(active.caption)}</figcaption>
             </motion.figure>
           </motion.div>
         )}

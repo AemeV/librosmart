@@ -48,7 +48,7 @@ export function ReviewsSection() {
                 </div>
               ) : null}
               <blockquote className="mt-4 text-lg leading-snug">“{tr(review.text)}”</blockquote>
-              <figcaption className="meta mt-5">
+              <figcaption className="label mt-5">
                 {review.author} · {review.source}
               </figcaption>
             </motion.figure>
