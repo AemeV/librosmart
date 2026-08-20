@@ -41,8 +41,8 @@ function ProjectsPage() {
         <div className="mx-auto max-w-[1100px]">
           <motion.div
             initial="hidden"
-            animate="visible"
-            variants={containerVariants}
+            animate="show"
+            variants={stagger}
             className="flex flex-col items-center"
           >
             <h1 className="sr-only">{t("projectsTitle")}</h1>
