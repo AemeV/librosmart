@@ -1,6 +1,7 @@
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import { Instagram, Youtube, Facebook, Music2, Sun, Moon, Monitor, Menu, X } from "lucide-react";
 import { useState } from "react";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { useLang } from "@/context/LanguageContext";
 import { useAuthorSheet } from "@/context/AuthorSheetContext";
 import { useTheme } from "@/context/ThemeContext";
@@ -95,6 +96,10 @@ function ThemeToggle() {
 export function Header() {
   const { t } = useLang();
   const { openSheet } = useAuthorSheet();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isLanding = pathname === "/";
+  /** En rutas internas los anclajes de la landing deben volver a "/". */
+  const hash = (id: string) => (isLanding ? `#${id}` : `/#${id}`);
   const { scrollY } = useScroll();
   const [visible, setVisible] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -115,10 +120,10 @@ export function Header() {
         className="glass border-b border-line"
       >
         <div className="mx-auto grid max-w-[1100px] grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-5 py-3 sm:px-6">
-          <a href="#top" className="flex min-w-0 items-center gap-3">
+          <Link to="/" className="flex min-w-0 items-center gap-3">
             <LogoSmart className="h-5 w-auto shrink-0 text-text" />
             <span className="label hidden sm:block">{t("brandTagline")}</span>
-          </a>
+          </Link>
 
           <div className="flex items-center justify-end gap-2">
             <nav aria-label={t("menu")} className="hidden lg:block">
@@ -134,9 +139,19 @@ export function Header() {
                         {t(item.key)}
                       </button>
                     </li>
+                  ) : item.id === "proyectos" ? (
+                    <li key={item.id}>
+                      <Link
+                        to="/proyectos"
+                        activeProps={{ className: "text-text" }}
+                        className="label transition-colors hover:text-text"
+                      >
+                        {t(item.key)}
+                      </Link>
+                    </li>
                   ) : (
                     <li key={item.id}>
-                      <a href={`#${item.id}`} className="label transition-colors hover:text-text">
+                      <a href={hash(item.id)} className="label transition-colors hover:text-text">
                         {t(item.key)}
                       </a>
                     </li>
@@ -218,9 +233,17 @@ export function Header() {
                     >
                       {t(item.key)}
                     </button>
+                  ) : item.id === "proyectos" ? (
+                    <Link
+                      to="/proyectos"
+                      onClick={() => setMenuOpen(false)}
+                      className="tight block py-3 text-3xl font-medium"
+                    >
+                      {t(item.key)}
+                    </Link>
                   ) : (
                     <a
-                      href={`#${item.id}`}
+                      href={hash(item.id)}
                       onClick={() => setMenuOpen(false)}
                       className="tight block py-3 text-3xl font-medium"
                     >

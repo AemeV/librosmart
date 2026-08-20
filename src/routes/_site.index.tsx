@@ -1,6 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { LanguageProvider } from "@/context/LanguageContext";
-import { ThemeProvider } from "@/context/ThemeContext";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { ReaderWall } from "@/components/ReaderWall";
@@ -8,14 +6,12 @@ import { BooksSection } from "@/components/BooksSection";
 import { ReviewsSection } from "@/components/ReviewsSection";
 import { AuthorSection } from "@/components/AuthorSection";
 import { ContactSection, Footer } from "@/components/ContactSection";
-import { AuthorSheet } from "@/components/AuthorSheet";
-import { AuthorSheetProvider } from "@/context/AuthorSheetContext";
 
 const title = "Librosmart — Libros de David Mauricio Guerrero Vélez";
 const description =
   "Los libros de divulgación científica de David Mauricio Guerrero Vélez: biodiversidad, espacio y la colección Sm@rt. Encuentra tu edición y tu librería.";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/_site/")({
   head: () => ({
     meta: [
       { title },
@@ -31,23 +27,18 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <ThemeProvider>
-      <LanguageProvider>
-        <AuthorSheetProvider>
-        <h1 className="sr-only">Librosmart — David Mauricio Guerrero Vélez</h1>
-        <Hero />
-        <Header />
-        <main>
-          <BooksSection />
-          <ReaderWall />
-          <ReviewsSection />
-          <AuthorSection />
-          <ContactSection />
-        </main>
-        <Footer />
-        <AuthorSheet />
-        </AuthorSheetProvider>
-      </LanguageProvider>
-    </ThemeProvider>
+    <>
+      <h1 className="sr-only">Librosmart — David Mauricio Guerrero Vélez</h1>
+      <Hero />
+      <Header />
+      <main>
+        <BooksSection />
+        <ReaderWall />
+        <ReviewsSection />
+        <AuthorSection />
+        <ContactSection />
+      </main>
+      <Footer />
+    </>
   );
 }
