@@ -1,4 +1,6 @@
+import { useReducedMotion } from "motion/react";
 import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
+
 
 /**
  * Un solo logo en pantalla. El hero registra su hueco (grande, centrado) y el
