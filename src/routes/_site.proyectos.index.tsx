@@ -48,7 +48,9 @@ function ProjectsPage() {
               eyebrow={t("projectsEyebrow")}
               title={t("projectsTitle")}
               subtitle={t("projectsIntro")}
+              size="xl"
             />
+
 
             <div className="mt-16 flex w-full flex-col gap-20 sm:gap-28">
               {projects.map((project) => (
@@ -73,10 +75,10 @@ function ProjectsPage() {
                   </motion.div>
 
                   <p className="label mt-8">{tr(project.kicker)}</p>
-                  <h2 className="display mt-3 text-center text-[clamp(1.75rem,4vw,2.5rem)] leading-[1.05]">
+                  <h2 className="display-m mt-3 text-center">
                     {tr(project.title)}
                   </h2>
-                  <p className="mt-5 max-w-[62ch] text-left text-base text-text-muted sm:text-lg">
+                  <p className="body mt-5 max-w-[62ch] text-left text-text-muted">
                     {tr(project.description)}
                   </p>
 
@@ -85,7 +87,7 @@ function ProjectsPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                     whileTap={tap}
-                    className="glass mt-7 inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-medium transition-colors hover:text-text"
+                    className="glass label mt-7 inline-flex items-center gap-2 rounded-full px-5 py-3 transition-colors hover:text-text"
                   >
                     {t("projectsVisit")}
                     <ArrowUpRight className="h-4 w-4" aria-hidden="true" />

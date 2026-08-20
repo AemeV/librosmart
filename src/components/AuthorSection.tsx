@@ -51,8 +51,8 @@ export function AuthorSection() {
             <SectionHeading title={t("authorTitle")} />
           </div>
           <motion.div variants={childVariants} className="prose-measure mt-10 space-y-5">
-            <p className="text-lg leading-relaxed">{t("authorBio1")}</p>
-            <p className="text-base leading-relaxed text-text-muted">{t("authorBio2")}</p>
+            <p className="body-lead">{t("authorBio1")}</p>
+            <p className="body">{t("authorBio2")}</p>
           </motion.div>
           <motion.p variants={childVariants} className="label mt-10 text-center">
             David Mauricio Guerrero Vélez · Bogotá, Colombia
@@ -79,8 +79,8 @@ export function AuthorSection() {
                 className="rounded-[14px] border border-line bg-surface p-6 text-center"
               >
                 <Icon className="mx-auto h-5 w-5 text-text-muted" aria-hidden="true" />
-                <h3 className="tight mt-4 text-xl font-semibold">{tr(title)}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-text-muted">{tr(description)}</p>
+                <h3 className="body mt-4">{tr(title)}</h3>
+                <p className="body-s mt-2">{tr(description)}</p>
               </motion.article>
             ))}
           </div>

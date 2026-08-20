@@ -270,7 +270,7 @@ export function Header() {
                         setMenuOpen(false);
                         openSheet();
                       }}
-                      className="tight block py-3 text-3xl font-medium"
+                      className="display-m block py-3"
                     >
                       {t(item.key)}
                     </button>
@@ -278,7 +278,7 @@ export function Header() {
                     <Link
                       to="/proyectos"
                       onClick={() => setMenuOpen(false)}
-                      className="tight block py-3 text-3xl font-medium"
+                      className="display-m block py-3"
                     >
                       {t(item.key)}
                     </Link>
@@ -286,7 +286,7 @@ export function Header() {
                     <a
                       href={hash(item.id)}
                       onClick={() => setMenuOpen(false)}
-                      className="tight block py-3 text-3xl font-medium"
+                      className="display-m block py-3"
                     >
                       {t(item.key)}
                     </a>

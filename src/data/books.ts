@@ -7,17 +7,34 @@ export type Retailer = {
   region?: "CO" | "US" | "UK" | "DE" | "GLOBAL";
 };
 
+/**
+ * Ficha técnica: vive en la EDICIÓN, no en el libro. El ISBN, el editor y las
+ * páginas cambian entre la edición en español y la inglesa.
+ */
+export type BookSpecs = {
+  publisher: string;
+  releaseDate: string;
+  pages: number;
+  dimensions: string;
+  isbn: string;
+  illustrated: boolean;
+  ageRange?: Localized;
+};
+
 export type Edition = {
   language: "es" | "en";
   coverUrl: string;
-  /** Número de páginas: define el grosor real del objeto libro. TODO (David): ajustar. */
-  pages: number;
+  /** Ficha técnica de esta edición. `specs.pages` define el grosor del objeto libro. */
+  specs: BookSpecs;
   backCover: Localized;
   physical: Retailer[];
   digital: Retailer[];
 };
 
 export type Chapter = { number: number; title: Localized; summary?: Localized };
+
+/** Punto clave: título corto + desarrollo. Máximo 4 por libro. */
+export type KeyPoint = { title: Localized; text: Localized };
 
 export type Book = {
   slug: string;
@@ -26,7 +43,7 @@ export type Book = {
   year: number;
   featured: boolean;
   description: Localized;
-  keyPoints: Localized[];
+  keyPoints: KeyPoint[];
   chapters: Chapter[];
   editions: Edition[];
 };
@@ -35,6 +52,8 @@ export type Book = {
  * TODO (David): reemplazar cada `coverUrl` por el archivo real en /public/covers/
  * (por ejemplo "/covers/colonizacion-es.jpg") cuando las portadas estén subidas.
  * TODO (David): completar capítulos reales, contraportadas y las URLs de cada retailer.
+ * TODO (David): completar toda la ficha técnica (`specs`) de cada edición: editor,
+ * fecha exacta, páginas, dimensiones, ISBN, si va ilustrada y rango de edad.
  */
 export const books: Book[] = [
   {
@@ -52,20 +71,32 @@ export const books: Book[] = [
     },
     keyPoints: [
       {
-        es: "Las cinco extinciones anteriores y por qué esta es distinta",
-        en: "The five previous extinctions and why this one is different",
+        title: { es: "La Sexta Extinción", en: "The Sixth Extinction" },
+        text: {
+          es: "A diferencia de las cinco extinciones anteriores en la historia de la Tierra, la crisis actual es acelerada y causada exclusivamente por la actividad humana.",
+          en: "Unlike the five previous extinctions in Earth's history, the current crisis is accelerated and driven exclusively by human activity.",
+        },
       },
       {
-        es: "Océanos, bosques y suelos: los tres frentes del colapso",
-        en: "Oceans, forests and soils: the three fronts of collapse",
+        title: { es: "Tres frentes de colapso", en: "Three fronts of collapse" },
+        text: {
+          es: "Océanos vaciados, bosques fragmentados y suelos agotados: los tres sistemas donde la pérdida de especies avanza más rápido.",
+          en: "Emptied oceans, fragmented forests and exhausted soils: the three systems where species loss is advancing fastest.",
+        },
       },
       {
-        es: "Colombia como potencia de biodiversidad en riesgo",
-        en: "Colombia as a biodiversity powerhouse at risk",
+        title: { es: "Colombia en riesgo", en: "Colombia at risk" },
+        text: {
+          es: "Una de las potencias mundiales de biodiversidad, y también uno de los territorios donde más presión soportan los ecosistemas.",
+          en: "One of the world's biodiversity powerhouses, and also one of the territories where ecosystems are under the most pressure.",
+        },
       },
       {
-        es: "Qué está funcionando en conservación y restauración",
-        en: "What is actually working in conservation and restoration",
+        title: { es: "Lo que sí funciona", en: "What actually works" },
+        text: {
+          es: "Restauración, corredores biológicos y conservación comunitaria: las estrategias con resultados medidos, no con buenas intenciones.",
+          en: "Restoration, biological corridors and community conservation: the strategies with measured results, not good intentions.",
+        },
       },
     ],
     chapters: [
@@ -80,7 +111,15 @@ export const books: Book[] = [
       {
         language: "es",
         coverUrl: sextaExtincionCover.url,
-        pages: 320,
+        specs: {
+          publisher: "Librosmart", // TODO (David)
+          releaseDate: "2026-04", // TODO (David): fecha exacta de FILBo
+          pages: 320, // TODO (David)
+          dimensions: "16 × 23 cm", // TODO (David)
+          isbn: "978-000-0000-00-0", // TODO (David)
+          illustrated: true, // TODO (David)
+          ageRange: { es: "14 años en adelante", en: "Ages 14 and up" }, // TODO (David)
+        },
         backCover: {
           es: "TODO (David): texto de contraportada de la edición en español.",
           en: "TODO (David): back cover copy for the Spanish edition.",
@@ -105,10 +144,34 @@ export const books: Book[] = [
       en: "From the first rockets to permanent bases: the engineering, biology and politics of living off Earth, with no science fiction in between.",
     },
     keyPoints: [
-      { es: "Por qué la Luna vuelve a ser prioridad", en: "Why the Moon is a priority again" },
-      { es: "Marte: los obstáculos que nadie resuelve todavía", en: "Mars: the obstacles nobody has solved yet" },
-      { es: "El cuerpo humano en gravedad cero", en: "The human body in zero gravity" },
-      { es: "Quién manda en el espacio y con qué leyes", en: "Who rules space, and under which laws" },
+      {
+        title: { es: "La Luna, otra vez", en: "The Moon, again" },
+        text: {
+          es: "Por qué medio siglo después la Luna volvió a ser prioridad para agencias y empresas privadas.",
+          en: "Why, half a century later, the Moon became a priority again for agencies and private companies.",
+        },
+      },
+      {
+        title: { es: "Marte sin retórica", en: "Mars without the rhetoric" },
+        text: {
+          es: "Los obstáculos que nadie ha resuelto todavía: radiación, combustible de regreso y logística de suministros.",
+          en: "The obstacles nobody has solved yet: radiation, return fuel and supply logistics.",
+        },
+      },
+      {
+        title: { es: "El cuerpo en gravedad cero", en: "The body in zero gravity" },
+        text: {
+          es: "Huesos, músculos y visión: lo que le pasa a un organismo humano cuando deja de sentir peso.",
+          en: "Bones, muscles and vision: what happens to a human organism when it stops feeling weight.",
+        },
+      },
+      {
+        title: { es: "Quién manda allá arriba", en: "Who rules up there" },
+        text: {
+          es: "Los tratados que gobiernan el espacio, y los vacíos legales que la minería orbital ya está poniendo a prueba.",
+          en: "The treaties governing space, and the legal gaps that orbital mining is already testing.",
+        },
+      },
     ],
     chapters: [
       // TODO (David): índice definitivo
@@ -121,7 +184,14 @@ export const books: Book[] = [
       {
         language: "es",
         coverUrl: "/covers/colonizacion-es.jpg", // TODO (David)
-        pages: 248,
+        specs: {
+          publisher: "Librosmart", // TODO (David)
+          releaseDate: "2024", // TODO (David)
+          pages: 248, // TODO (David)
+          dimensions: "15 × 22 cm", // TODO (David)
+          isbn: "978-000-0000-01-7", // TODO (David)
+          illustrated: true, // TODO (David)
+        },
         backCover: {
           es: "TODO (David): contraportada, edición en español.",
           en: "TODO (David): back cover, Spanish edition.",
@@ -132,7 +202,14 @@ export const books: Book[] = [
       {
         language: "en",
         coverUrl: "/covers/colonizacion-en.jpg", // TODO (David)
-        pages: 248,
+        specs: {
+          publisher: "Librosmart", // TODO (David)
+          releaseDate: "2024", // TODO (David)
+          pages: 248, // TODO (David)
+          dimensions: "6 × 9 in", // TODO (David)
+          isbn: "978-000-0000-02-4", // TODO (David)
+          illustrated: true, // TODO (David)
+        },
         backCover: {
           es: "TODO (David): contraportada, edición en inglés.",
           en: "TODO (David): back cover, English edition.",
@@ -159,9 +236,27 @@ export const books: Book[] = [
       en: "The collection that sums up, in short chapters, the scientific advances that truly mattered: physics, medicine, climate, computing and space.",
     },
     keyPoints: [
-      { es: "Capítulos breves, uno por descubrimiento", en: "Short chapters, one per discovery" },
-      { es: "Fuentes primarias citadas", en: "Primary sources cited" },
-      { es: "Pensado para lectura no especializada", en: "Written for non-specialist readers" },
+      {
+        title: { es: "Un capítulo por descubrimiento", en: "One chapter per discovery" },
+        text: {
+          es: "Capítulos breves y autocontenidos: se puede entrar por cualquier página sin perder el hilo.",
+          en: "Short, self-contained chapters: you can start on any page without losing the thread.",
+        },
+      },
+      {
+        title: { es: "Fuentes a la vista", en: "Sources in plain sight" },
+        text: {
+          es: "Cada afirmación remite a la publicación primaria de la que sale, citada de forma verificable.",
+          en: "Every claim points back to the primary publication it comes from, cited so it can be checked.",
+        },
+      },
+      {
+        title: { es: "Lectura no especializada", en: "Non-specialist reading" },
+        text: {
+          es: "Escrito para quien no tiene formación científica previa, sin sacrificar precisión.",
+          en: "Written for readers with no prior scientific training, without sacrificing precision.",
+        },
+      },
     ],
     chapters: [
       // TODO (David): índice definitivo
@@ -171,7 +266,14 @@ export const books: Book[] = [
       {
         language: "es",
         coverUrl: "/covers/smart-3-es.jpg", // TODO (David)
-        pages: 196,
+        specs: {
+          publisher: "Librosmart", // TODO (David)
+          releaseDate: "2023", // TODO (David)
+          pages: 196, // TODO (David)
+          dimensions: "15 × 22 cm", // TODO (David)
+          isbn: "978-000-0000-03-1", // TODO (David)
+          illustrated: false, // TODO (David)
+        },
         backCover: {
           es: "TODO (David): contraportada, edición en español.",
           en: "TODO (David): back cover, Spanish edition.",
@@ -182,7 +284,14 @@ export const books: Book[] = [
       {
         language: "en",
         coverUrl: "/covers/smart-3-en.jpg", // TODO (David)
-        pages: 196,
+        specs: {
+          publisher: "Librosmart", // TODO (David)
+          releaseDate: "2023", // TODO (David)
+          pages: 196, // TODO (David)
+          dimensions: "6 × 9 in", // TODO (David)
+          isbn: "978-000-0000-04-8", // TODO (David)
+          illustrated: false, // TODO (David)
+        },
         backCover: {
           es: "TODO (David): contraportada, edición en inglés.",
           en: "TODO (David): back cover, English edition.",
@@ -206,9 +315,27 @@ export const books: Book[] = [
       en: "Second volume of the Sm@rt collection, available in Spanish, English and ebook, with international distribution.",
     },
     keyPoints: [
-      { es: "Edición internacional en inglés", en: "International English edition" },
-      { es: "Disponible en ebook", en: "Available as an ebook" },
-      { es: "Distribución en EE. UU., Reino Unido y Alemania", en: "Distribution in the US, UK and Germany" },
+      {
+        title: { es: "Edición internacional", en: "International edition" },
+        text: {
+          es: "Publicado también en inglés, con traducción revisada para lectores de fuera de Colombia.",
+          en: "Also published in English, with a revised translation for readers outside Colombia.",
+        },
+      },
+      {
+        title: { es: "Disponible en ebook", en: "Available as an ebook" },
+        text: {
+          es: "Versión digital para lectura en cualquier dispositivo, con el mismo contenido de la edición impresa.",
+          en: "A digital version for reading on any device, with the same content as the print edition.",
+        },
+      },
+      {
+        title: { es: "Distribución global", en: "Global distribution" },
+        text: {
+          es: "Disponible en Estados Unidos, Reino Unido y Alemania además de las librerías colombianas.",
+          en: "Available in the United States, United Kingdom and Germany besides Colombian bookstores.",
+        },
+      },
     ],
     chapters: [
       // TODO (David): índice definitivo
@@ -218,7 +345,14 @@ export const books: Book[] = [
       {
         language: "es",
         coverUrl: "/covers/smart-2-es.jpg", // TODO (David)
-        pages: 180,
+        specs: {
+          publisher: "Librosmart", // TODO (David)
+          releaseDate: "2021", // TODO (David)
+          pages: 180, // TODO (David)
+          dimensions: "15 × 22 cm", // TODO (David)
+          isbn: "978-000-0000-05-5", // TODO (David)
+          illustrated: false, // TODO (David)
+        },
         backCover: {
           es: "TODO (David): contraportada, edición en español.",
           en: "TODO (David): back cover, Spanish edition.",
@@ -229,7 +363,14 @@ export const books: Book[] = [
       {
         language: "en",
         coverUrl: "/covers/smart-2-en.jpg", // TODO (David)
-        pages: 180,
+        specs: {
+          publisher: "Librosmart", // TODO (David)
+          releaseDate: "2021", // TODO (David)
+          pages: 180, // TODO (David)
+          dimensions: "6 × 9 in", // TODO (David)
+          isbn: "978-000-0000-06-2", // TODO (David)
+          illustrated: false, // TODO (David)
+        },
         backCover: {
           es: "TODO (David): contraportada, edición en inglés.",
           en: "TODO (David): back cover, English edition.",
@@ -261,8 +402,20 @@ export const books: Book[] = [
       en: "The book that opened the Sm@rt collection: a selection of scientific discoveries told without jargon, sources in plain sight.",
     },
     keyPoints: [
-      { es: "El origen de la colección", en: "Where the collection started" },
-      { es: "Edición en español", en: "Spanish edition" },
+      {
+        title: { es: "El origen de la colección", en: "Where the collection started" },
+        text: {
+          es: "El primer volumen fijó el formato de toda la serie: capítulos breves, una idea por capítulo.",
+          en: "The first volume set the format for the whole series: short chapters, one idea each.",
+        },
+      },
+      {
+        title: { es: "Edición en español", en: "Spanish edition" },
+        text: {
+          es: "Publicado únicamente en español, con distribución en librerías colombianas.",
+          en: "Published in Spanish only, distributed through Colombian bookstores.",
+        },
+      },
     ],
     chapters: [
       // TODO (David): índice definitivo
@@ -272,7 +425,14 @@ export const books: Book[] = [
       {
         language: "es",
         coverUrl: "/covers/smart-1-es.jpg", // TODO (David)
-        pages: 164,
+        specs: {
+          publisher: "Librosmart", // TODO (David)
+          releaseDate: "2019", // TODO (David)
+          pages: 164, // TODO (David)
+          dimensions: "15 × 22 cm", // TODO (David)
+          isbn: "978-000-0000-07-9", // TODO (David)
+          illustrated: false, // TODO (David)
+        },
         backCover: {
           es: "TODO (David): contraportada, edición en español.",
           en: "TODO (David): back cover, Spanish edition.",
@@ -296,8 +456,20 @@ export const books: Book[] = [
       en: "A popular-science guide written during the pandemic: basic virology, transmission, vaccines and how to read evidence that shifts every week.",
     },
     keyPoints: [
-      { es: "Virología explicada desde cero", en: "Virology explained from scratch" },
-      { es: "Cómo se leyó la evidencia en tiempo real", en: "How evidence was read in real time" },
+      {
+        title: { es: "Virología desde cero", en: "Virology from scratch" },
+        text: {
+          es: "Qué es un virus, cómo infecta y por qué muta, explicado sin dar nada por sabido.",
+          en: "What a virus is, how it infects and why it mutates, explained without assuming prior knowledge.",
+        },
+      },
+      {
+        title: { es: "Evidencia en tiempo real", en: "Evidence in real time" },
+        text: {
+          es: "Cómo se lee un estudio preliminar y por qué las recomendaciones cambiaban de una semana a otra.",
+          en: "How to read a preliminary study and why recommendations changed from one week to the next.",
+        },
+      },
     ],
     chapters: [
       // TODO (David): índice definitivo
@@ -307,7 +479,14 @@ export const books: Book[] = [
       {
         language: "es",
         coverUrl: "/covers/guia-covid-es.jpg", // TODO (David)
-        pages: 96,
+        specs: {
+          publisher: "Librosmart", // TODO (David)
+          releaseDate: "2020", // TODO (David)
+          pages: 96, // TODO (David)
+          dimensions: "14 × 21 cm", // TODO (David)
+          isbn: "978-000-0000-08-6", // TODO (David)
+          illustrated: false, // TODO (David)
+        },
         backCover: {
           es: "TODO (David): contraportada, edición en español.",
           en: "TODO (David): back cover, Spanish edition.",

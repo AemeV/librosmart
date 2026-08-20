@@ -34,7 +34,7 @@ export function BooksSection() {
           <button
             type="button"
             onClick={openSheet}
-            className="tight text-base font-medium underline decoration-line underline-offset-4 transition-colors hover:text-text-muted"
+            className="body underline decoration-line underline-offset-4 transition-colors hover:text-text-muted"
           >
             {t("authorSheetOpen")}
           </button>

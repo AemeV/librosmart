@@ -80,7 +80,7 @@ function CoverFace({
         aria-label={alt}
         className="flex h-full w-full flex-col items-center justify-center gap-3 bg-surface-alt px-6 text-center [backface-visibility:hidden]"
       >
-        <span className="display text-2xl leading-tight">{book.title}</span>
+        <span className="display-m">{book.title}</span>
         <span className="label">Portada pendiente</span>
       </div>
     );
@@ -90,10 +90,11 @@ function CoverFace({
       src={edition.coverUrl}
       alt={alt}
       loading="lazy"
-      className="h-full w-full object-cover [backface-visibility:hidden]"
+      className="h-full w-full object-contain [backface-visibility:hidden]"
       draggable={false}
     />
   );
+
 }
 
 function ChapterList({ book, revealed }: { book: Book; revealed: boolean }) {
@@ -108,13 +109,13 @@ function ChapterList({ book, revealed }: { book: Book; revealed: boolean }) {
             initial={{ opacity: 0, y: 8 }}
             animate={revealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
             transition={{ duration: 0.4, delay: revealed ? i * 0.05 : 0 }}
-            className="flex gap-3 text-sm"
+            className="flex gap-3"
           >
             <span className="label pt-0.5">{String(chapter.number).padStart(2, "0")}</span>
             <span>
-              <span className="font-medium">{tr(chapter.title)}</span>
+              <span className="body">{tr(chapter.title)}</span>
               {chapter.summary ? (
-                <span className="block text-text-muted">{tr(chapter.summary)}</span>
+                <span className="body-s block">{tr(chapter.summary)}</span>
               ) : null}
             </span>
           </motion.li>
@@ -146,7 +147,7 @@ export function BookObject({
   // Mobile: ~70% del ancho de pantalla; desktop: escala según el destacado.
   const width = isMobile ? 260 : featured ? 300 : 232;
   const height = Math.round(width * 1.5);
-  const thickness = Math.max(18, edition.pages * 0.055);
+  const thickness = Math.max(18, edition.specs.pages * 0.055);
 
   const angle = useSpring(0, OPEN_SPRING);
   const coverRotate = useTransform(angle, (v) => v);
@@ -212,7 +213,7 @@ export function BookObject({
     <>
       {/* Contratapa interior (izquierda del pliego) */}
       <Paper
-        className="absolute top-0 overflow-hidden rounded-l-[10px] border border-line p-6 text-left shadow-[inset_-14px_0_24px_-18px_rgba(0,0,0,0.5)]"
+        className="absolute top-0 overflow-hidden rounded-l-[10px] p-6 text-left shadow-[inset_-14px_0_24px_-18px_rgba(0,0,0,0.5)]"
         style={{
           width,
           height,
@@ -221,12 +222,12 @@ export function BookObject({
         }}
       >
         <p className="label">{t("backCoverTitle")}</p>
-        <p className="mt-4 text-[13px] leading-relaxed">{tr(edition.backCover)}</p>
+        <p className="body-s mt-4">{tr(edition.backCover)}</p>
       </Paper>
 
       {/* Índice (derecha del pliego, sobre el bloque de hojas) */}
       <Paper
-        className="absolute inset-0 overflow-hidden rounded-r-[10px] border border-line p-6 text-left"
+        className="absolute inset-0 overflow-hidden rounded-r-[10px] p-6 text-left"
         style={{ transform: `translateZ(${thickness / 2 - 4}px)` }}
       >
         <ChapterList book={book} revealed={past90} />
@@ -263,7 +264,7 @@ export function BookObject({
       {/* Contratapa */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 rounded-[10px] border border-line bg-surface-alt"
+        className="absolute inset-0 rounded-[10px] bg-surface-alt"
         style={{ transform: `translateZ(-${thickness / 2}px) rotateY(180deg)` }}
       />
 
@@ -308,13 +309,12 @@ export function BookObject({
 
       {/* Tapa frontal: puerta sobre el canto de las hojas */}
       <motion.div
-        className="absolute inset-0 overflow-hidden rounded-[4px_10px_10px_4px] border border-line bg-surface-alt"
+        className="absolute inset-0 overflow-hidden rounded-[4px_10px_10px_4px]"
         style={{
           transformOrigin: "left center",
           transformStyle: "flat",
           rotateY: reduced ? 0 : coverRotate,
           translateZ: thickness / 2,
-          boxShadow: "6px 10px 30px -12px rgba(0,0,0,0.55)",
           backfaceVisibility: "hidden",
           opacity: reduced ? (open ? 0 : 1) : coverOpacity,
         }}
@@ -347,7 +347,7 @@ export function BookObject({
         {/* El canto de las hojas nunca desaparece: sostiene la metáfora. */}
         <PageEdge className="absolute inset-y-0 left-0 w-3" />
         <div className="flex items-center justify-between gap-3 border-b border-line py-4 pr-4 pl-6">
-          <span className="display min-w-0 truncate text-xl">{book.title}</span>
+          <span className="display-m min-w-0 truncate">{book.title}</span>
           <button
             type="button"
             onClick={close}
@@ -361,7 +361,7 @@ export function BookObject({
           <ChapterList book={book} revealed />
           <div>
             <p className="label">{t("backCoverTitle")}</p>
-            <p className="mt-3 text-sm leading-relaxed">{tr(edition.backCover)}</p>
+            <p className="body mt-3">{tr(edition.backCover)}</p>
           </div>
         </div>
       </Paper>

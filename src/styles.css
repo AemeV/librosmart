@@ -150,7 +150,67 @@
   color: var(--text);
 }
 
-/* Etiqueta técnica: reemplaza toda la monoespaciada del sitio. */
+/*
+ * ESCALA TIPOGRÁFICA CERRADA — seis estilos, ninguno más.
+ * Ningún componente declara font-size, font-weight ni font-family fuera de aquí.
+ * Instrument Serif vive sólo en .display-xl, .display-m y numerales decorativos.
+ */
+
+@utility display-xl {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  @media (width >= 40rem) {
+    font-size: 64px;
+  }
+}
+
+@utility display-m {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  @media (width >= 40rem) {
+    font-size: 40px;
+  }
+}
+
+@utility body-lead {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-style: italic;
+  font-size: 18px;
+  line-height: 1.5;
+  @media (width >= 40rem) {
+    font-size: 20px;
+  }
+}
+
+@utility body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.65;
+  @media (width >= 40rem) {
+    font-size: 17px;
+  }
+}
+
+@utility body-s {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-muted);
+  @media (width >= 40rem) {
+    font-size: 15px;
+  }
+}
+
+/* Etiqueta técnica: metadatos, nombres de sección, atribuciones. */
 @utility label {
   font-family: var(--font-sans);
   font-weight: 500;
@@ -161,26 +221,13 @@
   color: var(--text-muted);
 }
 
-/* Alias histórico de .label */
-@utility meta {
-  font-family: var(--font-sans);
-  font-weight: 500;
-  font-size: 10px;
-  line-height: 1.4;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--text-muted);
-}
-
-@utility display {
+/* Numeral decorativo grande: única excepción de serif fuera de los display. */
+@utility numeral {
   font-family: var(--font-serif);
   font-weight: 400;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
 }
 
-@utility tight {
-  letter-spacing: -0.03em;
-}
 
 /* Texto corrido: máximo ~60 caracteres, alineado a la izquierda,
    pero centrado como bloque dentro de la columna. */

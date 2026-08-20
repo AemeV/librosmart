@@ -127,18 +127,18 @@ export function AuthorSheet() {
                     loading="lazy"
                     className="mx-auto h-40 w-40 rounded-full object-cover grayscale sm:h-56 sm:w-56"
                   />
-                  <h2 className="display mt-6 text-4xl font-normal sm:text-5xl">
+                  <h2 className="display-m mt-6">
                     David Mauricio Guerrero Vélez
                   </h2>
                   <p className="label mt-3">{t("authorSheetRole")}</p>
                 </div>
 
                 <div className="prose-measure mt-10 space-y-5 text-left">
-                  <p className="text-lg leading-relaxed">{t("authorSheetBio1")}</p>
-                  <p className="text-base leading-relaxed text-text-muted">
+                  <p className="body-lead">{t("authorSheetBio1")}</p>
+                  <p className="body">
                     {t("authorSheetBio2")}
                   </p>
-                  <p className="text-base leading-relaxed text-text-muted">
+                  <p className="body">
                     {t("authorSheetBio3")}
                   </p>
                 </div>
@@ -154,9 +154,9 @@ export function AuthorSheet() {
                         className="rounded-[14px] border border-line bg-surface-alt p-6 text-center"
                       >
                         <Icon className="mx-auto h-5 w-5 text-text-muted" aria-hidden="true" />
-                        <p className="display mt-3 text-3xl">{value}</p>
+                        <p className="numeral mt-3 text-[28px] leading-none">{value}</p>
                         <p className="label mt-2">{t(label)}</p>
-                        <p className="mt-3 text-sm leading-relaxed text-text-muted">{t(detail)}</p>
+                        <p className="body-s mt-3">{t(detail)}</p>
                       </div>
                     ))}
                   </div>
@@ -174,26 +174,26 @@ export function AuthorSheet() {
                     className="glass mt-5 inline-flex items-center gap-3 rounded-full px-5 py-3"
                   >
                     <Instagram className="h-4 w-4" aria-hidden="true" />
-                    <span className="tight text-base font-medium">{INSTAGRAM_HANDLE}</span>
+                    <span className="body">{INSTAGRAM_HANDLE}</span>
                   </motion.a>
-                  <p className="mt-3 text-sm text-text-muted">{t("authorSocialDetail")}</p>
+                  <p className="body-s mt-3">{t("authorSocialDetail")}</p>
                 </section>
 
                 <section
                   aria-labelledby="autor-cta"
                   className="mt-14 rounded-[18px] border border-line bg-surface-alt px-6 py-10 text-center"
                 >
-                  <h3 id="autor-cta" className="display text-3xl">
+                  <h3 id="autor-cta" className="display-m">
                     {t("authorCtaTitle")}
                   </h3>
-                  <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-text-muted">
+                  <p className="body-s mx-auto mt-3 max-w-xl">
                     {t("authorCtaDetail")}
                   </p>
                   <motion.button
                     type="button"
                     onClick={goToContact}
                     whileTap={tap}
-                    className="mt-6 inline-flex h-12 items-center rounded-full bg-text px-6 text-sm font-medium text-surface"
+                    className="label mt-6 inline-flex h-12 items-center rounded-full bg-text px-6 text-surface"
                   >
                     {t("authorCtaButton")}
                   </motion.button>
