@@ -89,7 +89,7 @@ export function Sheet({
           >
             <div className="mx-auto mb-4 h-1.5 w-10 rounded-full bg-text-muted/40 sm:hidden" />
             <div className="mb-5 flex items-start justify-between gap-4">
-              <h3 className="tight text-2xl font-semibold">{title}</h3>
+              <h3 className="display-m">{title}</h3>
               <motion.button
                 type="button"
                 onClick={onClose}

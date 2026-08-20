@@ -36,7 +36,7 @@ export function ContactSection() {
   };
 
   const field =
-    "mt-2 w-full rounded-[14px] border border-line bg-surface px-4 py-3 text-base outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text";
+    "mt-2 w-full rounded-[14px] border border-line bg-surface px-4 py-3 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text";
 
   return (
     <motion.section
@@ -55,14 +55,14 @@ export function ContactSection() {
           <motion.div variants={childVariants} className="flex flex-col items-center gap-3 text-center">
             <a
               href="tel:+573174042430"
-              className="flex min-h-11 items-center gap-3 text-lg font-medium"
+              className="body flex min-h-11 items-center gap-3"
             >
               <Phone className="h-4 w-4 text-text-muted" aria-hidden="true" />
               +57 317 404 2430
             </a>
             <a
               href="mailto:coleccionsmart@gmail.com"
-              className="flex min-h-11 items-center gap-3 text-lg font-medium break-all"
+              className="body flex min-h-11 items-center gap-3 break-all"
             >
               <Mail className="h-4 w-4 shrink-0 text-text-muted" aria-hidden="true" />
               coleccionsmart@gmail.com
@@ -103,7 +103,7 @@ export function ContactSection() {
                 className={field}
                 aria-invalid={Boolean(errors.name)}
               />
-              {errors.name ? <p className="mt-2 text-sm text-text-muted">{errors.name}</p> : null}
+              {errors.name ? <p className="body-s mt-2">{errors.name}</p> : null}
             </div>
 
             <div className="mt-5">
@@ -119,7 +119,7 @@ export function ContactSection() {
                 className={field}
                 aria-invalid={Boolean(errors.email)}
               />
-              {errors.email ? <p className="mt-2 text-sm text-text-muted">{errors.email}</p> : null}
+              {errors.email ? <p className="body-s mt-2">{errors.email}</p> : null}
             </div>
 
             <div className="mt-5">
@@ -136,7 +136,7 @@ export function ContactSection() {
                 aria-invalid={Boolean(errors.message)}
               />
               {errors.message ? (
-                <p className="mt-2 text-sm text-text-muted">{errors.message}</p>
+                <p className="body-s mt-2">{errors.message}</p>
               ) : null}
             </div>
 
@@ -144,7 +144,7 @@ export function ContactSection() {
               type="submit"
               whileTap={tap}
               transition={springFast}
-              className="mt-6 flex min-h-11 w-full items-center justify-center rounded-full bg-text px-6 py-3 text-sm font-semibold text-bg"
+              className="label mt-6 flex min-h-11 w-full items-center justify-center rounded-full bg-text px-6 py-3 text-bg"
             >
               {t("formSend")}
             </motion.button>
@@ -157,7 +157,7 @@ export function ContactSection() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
                   transition={springFast}
-                  className="mt-4 flex items-start gap-2 text-sm text-text-muted"
+                  className="body-s mt-4 flex items-start gap-2"
                 >
                   <Check className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
                   {t("formSuccess")}
@@ -178,7 +178,7 @@ export function Footer() {
       <div className="mx-auto flex max-w-[1100px] flex-col items-center gap-3 px-5 text-center sm:px-6">
         <span className="flex items-center gap-3">
           <LogoSmart className="h-5 w-auto text-text" />
-          <span className="tight text-base font-semibold">{t("brand")}</span>
+          <span className="body">{t("brand")}</span>
         </span>
         <span className="label">
           © {new Date().getFullYear()} Librosmart · {t("rights")}

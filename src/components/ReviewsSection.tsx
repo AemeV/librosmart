@@ -47,7 +47,7 @@ export function ReviewsSection() {
                   ))}
                 </div>
               ) : null}
-              <blockquote className="mt-4 text-lg leading-snug">“{tr(review.text)}”</blockquote>
+              <blockquote className="body mt-4">“{tr(review.text)}”</blockquote>
               <figcaption className="label mt-5">
                 {review.author} · {review.source}
               </figcaption>
@@ -62,7 +62,7 @@ export function ReviewsSection() {
             rel="noopener noreferrer"
             whileTap={tap}
             transition={springFast}
-            className="glass inline-flex min-h-11 items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium"
+            className="glass label inline-flex min-h-11 items-center gap-2 rounded-full px-5 py-2.5 text-text"
           >
             {t("goodreadsCta")}
             <ArrowUpRight className="h-4 w-4" aria-hidden="true" />

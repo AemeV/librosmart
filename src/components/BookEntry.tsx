@@ -142,7 +142,7 @@ export function BookEntry({ book }: { book: Book }) {
 
         <CrossfadeText k={`buy-${book.slug}-${editionLang}-${lang}`} className="mt-7 space-y-6">
           {edition.physical.length === 0 && edition.digital.length === 0 ? (
-            <p className="text-sm text-text-muted">{t("soonRetailers")}</p>
+            <p className="body-s">{t("soonRetailers")}</p>
           ) : (
             <>
               {edition.physical.length > 0 && (
