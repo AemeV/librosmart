@@ -91,6 +91,13 @@ export const strings = {
     es: "Charlas, contenidos y colaboraciones alrededor de los libros.",
     en: "Talks, content and collaborations around the books.",
   },
+  projectsEyebrow: { es: "Librosmart", en: "Librosmart" },
+  projectsIntro: {
+    es: "Lo que ocurre alrededor de los libros: una cerveza artesanal, un podcast, expediciones de campo y talleres para colegios.",
+    en: "Everything that happens around the books: a craft beer, a podcast, field expeditions and school workshops.",
+  },
+  projectsVisit: { es: "Ver el proyecto", en: "Visit the project" },
+  backHome: { es: "Volver al inicio", en: "Back home" },
 
   contactTitle: { es: "Contacto", en: "Contact" },
   contactSubtitle: {

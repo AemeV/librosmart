@@ -6,7 +6,12 @@ import { Footer } from "@/components/ContactSection";
 import { SectionHeading } from "@/components/SectionHeading";
 import { useLang } from "@/context/LanguageContext";
 import { projects } from "@/data/projects";
-import { containerVariants, childVariants, springSoft, tap } from "@/lib/motion-config";
+import { childVariants, springSoft, tap } from "@/lib/motion-config";
+
+const stagger = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.08 } },
+};
 
 const title = "Otros proyectos — Librosmart";
 const description =
