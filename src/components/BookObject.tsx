@@ -149,6 +149,8 @@ export function BookObject({
 
   const angle = useSpring(0, OPEN_SPRING);
   const coverRotate = useTransform(angle, (v) => v);
+  // Al pasar los 90° la tapa está de canto: ahí se apaga para no mostrar su reverso.
+  const coverOpacity = useTransform(angle, [-82, -100], [1, 0]);
   const seamOpacity = useTransform(angle, [0, -90, -165], [0, 0.45, 0.12]);
 
   useMotionValueEvent(angle, "change", (v) => setPast90(v < -90));
@@ -313,7 +315,7 @@ export function BookObject({
           translateZ: thickness / 2,
           boxShadow: "6px 10px 30px -12px rgba(0,0,0,0.55)",
           backfaceVisibility: "hidden",
-          opacity: reduced && open ? 0 : 1,
+          opacity: reduced ? (open ? 0 : 1) : coverOpacity,
         }}
       >
         <CoverFace book={book} edition={edition} alt={alt} />
