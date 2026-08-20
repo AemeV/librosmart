@@ -10,6 +10,8 @@ export type Retailer = {
 export type Edition = {
   language: "es" | "en";
   coverUrl: string;
+  /** Número de páginas: define el grosor real del objeto libro. TODO (David): ajustar. */
+  pages: number;
   backCover: Localized;
   physical: Retailer[];
   digital: Retailer[];
@@ -78,6 +80,7 @@ export const books: Book[] = [
       {
         language: "es",
         coverUrl: sextaExtincionCover.url,
+        pages: 320,
         backCover: {
           es: "TODO (David): texto de contraportada de la edición en español.",
           en: "TODO (David): back cover copy for the Spanish edition.",
@@ -118,6 +121,7 @@ export const books: Book[] = [
       {
         language: "es",
         coverUrl: "/covers/colonizacion-es.jpg", // TODO (David)
+        pages: 248,
         backCover: {
           es: "TODO (David): contraportada, edición en español.",
           en: "TODO (David): back cover, Spanish edition.",
@@ -128,6 +132,7 @@ export const books: Book[] = [
       {
         language: "en",
         coverUrl: "/covers/colonizacion-en.jpg", // TODO (David)
+        pages: 248,
         backCover: {
           es: "TODO (David): contraportada, edición en inglés.",
           en: "TODO (David): back cover, English edition.",
@@ -166,6 +171,7 @@ export const books: Book[] = [
       {
         language: "es",
         coverUrl: "/covers/smart-3-es.jpg", // TODO (David)
+        pages: 196,
         backCover: {
           es: "TODO (David): contraportada, edición en español.",
           en: "TODO (David): back cover, Spanish edition.",
@@ -176,6 +182,7 @@ export const books: Book[] = [
       {
         language: "en",
         coverUrl: "/covers/smart-3-en.jpg", // TODO (David)
+        pages: 196,
         backCover: {
           es: "TODO (David): contraportada, edición en inglés.",
           en: "TODO (David): back cover, English edition.",
@@ -211,6 +218,7 @@ export const books: Book[] = [
       {
         language: "es",
         coverUrl: "/covers/smart-2-es.jpg", // TODO (David)
+        pages: 180,
         backCover: {
           es: "TODO (David): contraportada, edición en español.",
           en: "TODO (David): back cover, Spanish edition.",
@@ -221,6 +229,7 @@ export const books: Book[] = [
       {
         language: "en",
         coverUrl: "/covers/smart-2-en.jpg", // TODO (David)
+        pages: 180,
         backCover: {
           es: "TODO (David): contraportada, edición en inglés.",
           en: "TODO (David): back cover, English edition.",
@@ -263,6 +272,7 @@ export const books: Book[] = [
       {
         language: "es",
         coverUrl: "/covers/smart-1-es.jpg", // TODO (David)
+        pages: 164,
         backCover: {
           es: "TODO (David): contraportada, edición en español.",
           en: "TODO (David): back cover, Spanish edition.",
@@ -297,6 +307,7 @@ export const books: Book[] = [
       {
         language: "es",
         coverUrl: "/covers/guia-covid-es.jpg", // TODO (David)
+        pages: 96,
         backCover: {
           es: "TODO (David): contraportada, edición en español.",
           en: "TODO (David): back cover, Spanish edition.",
