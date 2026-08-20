@@ -127,7 +127,7 @@ export function AuthorSheet() {
                     loading="lazy"
                     className="mx-auto h-40 w-40 rounded-full object-cover grayscale sm:h-56 sm:w-56"
                   />
-                  <h2 className="serif mt-6 text-4xl font-normal sm:text-5xl">
+                  <h2 className="display mt-6 text-4xl font-normal sm:text-5xl">
                     David Mauricio Guerrero Vélez
                   </h2>
                   <p className="label mt-3">{t("authorSheetRole")}</p>
@@ -154,7 +154,7 @@ export function AuthorSheet() {
                         className="rounded-[14px] border border-line bg-surface-alt p-6 text-center"
                       >
                         <Icon className="mx-auto h-5 w-5 text-text-muted" aria-hidden="true" />
-                        <p className="serif mt-3 text-3xl">{value}</p>
+                        <p className="display mt-3 text-3xl">{value}</p>
                         <p className="label mt-2">{t(label)}</p>
                         <p className="mt-3 text-sm leading-relaxed text-text-muted">{t(detail)}</p>
                       </div>
@@ -183,7 +183,7 @@ export function AuthorSheet() {
                   aria-labelledby="autor-cta"
                   className="mt-14 rounded-[18px] border border-line bg-surface-alt px-6 py-10 text-center"
                 >
-                  <h3 id="autor-cta" className="serif text-3xl">
+                  <h3 id="autor-cta" className="display text-3xl">
                     {t("authorCtaTitle")}
                   </h3>
                   <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-text-muted">
