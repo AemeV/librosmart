@@ -1,0 +1,185 @@
+import { motion, useReducedMotion, AnimatePresence } from "motion/react";
+import { Mail, Phone, Instagram, Youtube, Facebook, Music2, Check } from "lucide-react";
+import { useState } from "react";
+import { useLang } from "@/context/LanguageContext";
+import { SectionHeading } from "./SectionHeading";
+import { childVariants, inViewProps, sectionVariants, springFast, tap } from "@/lib/motion-config";
+
+const socials = [
+  { name: "Instagram", href: "https://instagram.com/", Icon: Instagram },
+  { name: "YouTube", href: "https://youtube.com/", Icon: Youtube },
+  { name: "TikTok", href: "https://tiktok.com/", Icon: Music2 },
+  { name: "Facebook", href: "https://facebook.com/", Icon: Facebook },
+];
+
+type Errors = { name?: string; email?: string; message?: string };
+
+export function ContactSection() {
+  const { t } = useLang();
+  const reduced = useReducedMotion();
+  const [values, setValues] = useState({ name: "", email: "", message: "" });
+  const [errors, setErrors] = useState<Errors>({});
+  const [sent, setSent] = useState(false);
+
+  const onSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    const next: Errors = {};
+    if (values.name.trim().length < 2) next.name = t("errName");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) next.email = t("errEmail");
+    if (values.message.trim().length < 10) next.message = t("errMessage");
+    setErrors(next);
+    if (Object.keys(next).length === 0) {
+      setSent(true);
+      setValues({ name: "", email: "", message: "" });
+    }
+  };
+
+  const field =
+    "mt-2 w-full rounded-[14px] border border-line bg-surface px-4 py-3 text-base outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
+
+  return (
+    <motion.section
+      id="contacto"
+      aria-labelledby="contacto-title"
+      variants={sectionVariants(reduced)}
+      {...inViewProps}
+      className="py-20 sm:py-28"
+    >
+      <div className="mx-auto max-w-6xl px-5 sm:px-6">
+        <div id="contacto-title">
+          <SectionHeading title={t("contactTitle")} subtitle={t("contactSubtitle")} />
+        </div>
+
+        <div className="mt-10 grid gap-10 lg:grid-cols-2">
+          <motion.div variants={childVariants} className="space-y-4">
+            <a
+              href="tel:+573174042430"
+              className="flex min-h-11 items-center gap-3 text-lg font-medium"
+            >
+              <Phone className="h-4 w-4 text-text-muted" aria-hidden="true" />
+              +57 317 404 2430
+            </a>
+            <a
+              href="mailto:coleccionsmart@gmail.com"
+              className="flex min-h-11 items-center gap-3 text-lg font-medium break-all"
+            >
+              <Mail className="h-4 w-4 shrink-0 text-text-muted" aria-hidden="true" />
+              coleccionsmart@gmail.com
+            </a>
+            <div className="flex flex-wrap items-center gap-2 pt-2">
+              {socials.map(({ name, href, Icon }) => (
+                <motion.a
+                  key={name}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileTap={tap}
+                  transition={springFast}
+                  aria-label={name}
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-line text-text-muted transition-colors hover:text-text"
+                >
+                  <Icon className="h-4 w-4" aria-hidden="true" />
+                </motion.a>
+              ))}
+            </div>
+          </motion.div>
+
+          <motion.form
+            variants={childVariants}
+            onSubmit={onSubmit}
+            noValidate
+            className="rounded-[20px] border border-line bg-surface p-5 sm:p-7"
+          >
+            <div>
+              <label htmlFor="name" className="meta">
+                {t("formName")}
+              </label>
+              <input
+                id="name"
+                name="name"
+                value={values.name}
+                onChange={(e) => setValues({ ...values, name: e.target.value })}
+                className={field}
+                aria-invalid={Boolean(errors.name)}
+              />
+              {errors.name ? <p className="mt-2 text-sm text-text-muted">{errors.name}</p> : null}
+            </div>
+
+            <div className="mt-5">
+              <label htmlFor="email" className="meta">
+                {t("formEmail")}
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                value={values.email}
+                onChange={(e) => setValues({ ...values, email: e.target.value })}
+                className={field}
+                aria-invalid={Boolean(errors.email)}
+              />
+              {errors.email ? <p className="mt-2 text-sm text-text-muted">{errors.email}</p> : null}
+            </div>
+
+            <div className="mt-5">
+              <label htmlFor="message" className="meta">
+                {t("formMessage")}
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                rows={4}
+                value={values.message}
+                onChange={(e) => setValues({ ...values, message: e.target.value })}
+                className={field}
+                aria-invalid={Boolean(errors.message)}
+              />
+              {errors.message ? (
+                <p className="mt-2 text-sm text-text-muted">{errors.message}</p>
+              ) : null}
+            </div>
+
+            <motion.button
+              type="submit"
+              whileTap={tap}
+              transition={springFast}
+              className="mt-6 flex min-h-11 w-full items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-text"
+            >
+              {t("formSend")}
+            </motion.button>
+
+            <AnimatePresence>
+              {sent && (
+                <motion.p
+                  role="status"
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={springFast}
+                  className="mt-4 flex items-start gap-2 text-sm text-text-muted"
+                >
+                  <Check className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+                  {t("formSuccess")}
+                </motion.p>
+              )}
+            </AnimatePresence>
+          </motion.form>
+        </div>
+      </div>
+    </motion.section>
+  );
+}
+
+export function Footer() {
+  const { t } = useLang();
+  return (
+    <footer className="border-t border-line py-10">
+      <div className="mx-auto flex max-w-6xl flex-col gap-2 px-5 sm:px-6">
+        <span className="tight text-base font-semibold">{t("brand")}</span>
+        <span className="meta">
+          © {new Date().getFullYear()} Librosmart · {t("rights")}
+        </span>
+      </div>
+    </footer>
+  );
+}
