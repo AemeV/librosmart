@@ -80,6 +80,10 @@ export const strings = {
     en: "Reviews from readers, press and institutions.",
   },
   goodreadsCta: { es: "Perfil en Goodreads", en: "Goodreads profile" },
+  goodreadsBookCta: { es: "Leer las reseñas en Goodreads", en: "Read the reviews on Goodreads" },
+  goodreadsRatings: { es: "valoraciones", en: "ratings" },
+  goodreadsReviews: { es: "reseñas", en: "reviews" },
+
 
   authorTitle: { es: "El autor", en: "The author" },
   authorBio1: {
