@@ -50,7 +50,7 @@ export function RealSky() {
   };
 
   const brightness = state?.palette.brightness ?? 0.5;
-  const scrimOpacity = 0.2 + brightness * 0.55;
+  const scrimOpacity = 0.16 + brightness * 0.42;
 
   const onPointerMove = (event: React.PointerEvent) => {
     const rect = containerRef.current?.getBoundingClientRect();
@@ -113,8 +113,10 @@ export function RealSky() {
           className="pointer-events-none absolute inset-0 transition-opacity duration-700"
           style={{
             opacity: scrimOpacity,
-            background:
-              "linear-gradient(180deg, rgba(4,6,14,0.95) 0%, rgba(4,6,14,0.55) 45%, rgba(4,6,14,0.1) 100%)",
+            backgroundImage: [
+              "linear-gradient(100deg, rgba(4,6,14,0.96) 0%, rgba(4,6,14,0.72) 38%, rgba(4,6,14,0.12) 70%, rgba(4,6,14,0) 100%)",
+              "linear-gradient(180deg, rgba(4,6,14,0.5) 0%, rgba(4,6,14,0.12) 55%, rgba(4,6,14,0.35) 100%)",
+            ].join(", "),
           }}
         />
 
