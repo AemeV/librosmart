@@ -1,12 +1,72 @@
-import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
-import { Check } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { Check, ChevronDown } from "lucide-react";
 import { useRef, useState } from "react";
-import type { Book } from "@/data/books";
+import type { Book, Edition } from "@/data/books";
 import { useLang } from "@/context/LanguageContext";
 import { BookObject } from "./BookObject";
 import { RetailerButton } from "./RetailerButton";
 import { CrossfadeText } from "./CrossfadeText";
 import { childVariants, inViewProps, sectionVariants, springFast, tap } from "@/lib/motion-config";
+
+/**
+ * Acordeón de índice para móvil: el libro ya no se abre, así que los capítulos
+ * y la contratapa viven en un desplegable simple debajo del objeto.
+ */
+function ContentsAccordion({ book, edition }: { book: Book; edition: Edition }) {
+  const { t, tr } = useLang();
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="w-full md:hidden">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        className="label mx-auto flex min-h-11 items-center gap-2"
+      >
+        {open ? t("hideContents") : t("viewContents")}
+        <ChevronDown
+          className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`}
+          aria-hidden="true"
+        />
+      </button>
+
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            key="contents"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.32 }}
+            className="overflow-hidden"
+          >
+            <div className="mx-auto mt-4 max-w-[52ch] rounded-[14px] border border-line bg-surface-alt p-6 text-left">
+              <p className="label">{t("indexTitle")}</p>
+              <ol className="mt-4 space-y-4">
+                {book.chapters.map((chapter) => (
+                  <li key={chapter.number} className="flex gap-3">
+                    <span className="label pt-0.5">
+                      {String(chapter.number).padStart(2, "0")}
+                    </span>
+                    <span>
+                      <span className="body">{tr(chapter.title)}</span>
+                      {chapter.summary ? (
+                        <span className="body-s block">{tr(chapter.summary)}</span>
+                      ) : null}
+                    </span>
+                  </li>
+                ))}
+              </ol>
+              <p className="label mt-8">{t("backCoverTitle")}</p>
+              <p className="body-s mt-2">{tr(edition.backCover)}</p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 /** Cada libro es una unidad centrada. El destacado recibe más aire y portada mayor. */
 export function BookEntry({ book }: { book: Book }) {
