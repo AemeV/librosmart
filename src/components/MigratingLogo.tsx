@@ -39,10 +39,10 @@ export function MigratingLogo() {
   const geomRef = useRef<Geometry | null>(null);
   const settled = useRef(false);
 
-  // Objetivos crudos: se recalculan tanto al hacer scroll como al medir.
-  const targetX = useMotionValue(0);
-  const targetY = useMotionValue(0);
-  const targetW = useMotionValue(0);
+  // Springs imperativos: se actualizan al hacer scroll y al medir la geometría.
+  const x = useSpring(0, MIGRATE_SPRING);
+  const y = useSpring(0, MIGRATE_SPRING);
+  const width = useSpring(0, MIGRATE_SPRING);
   const progress = useMotionValue(0);
 
   const apply = useCallback(
@@ -55,16 +55,16 @@ export function MigratingLogo() {
       const nw = lerp(g.heroW, g.dockW, p);
       progress.set(p);
       if (jump) {
-        targetX.jump(nx);
-        targetY.jump(ny);
-        targetW.jump(nw);
+        x.jump(nx);
+        y.jump(ny);
+        width.jump(nw);
         return;
       }
-      targetX.set(nx);
-      targetY.set(ny);
-      targetW.set(nw);
+      x.set(nx);
+      y.set(ny);
+      width.set(nw);
     },
-    [progress, targetW, targetX, targetY],
+    [progress, width, x, y],
   );
 
   useEffect(() => {
@@ -105,10 +105,6 @@ export function MigratingLogo() {
   }, [heroSlot, headerSlot, reduced, apply]);
 
   useMotionValueEvent(scrollY, "change", (s) => apply(s));
-
-  const x = useSpring(targetX, MIGRATE_SPRING);
-  const y = useSpring(targetY, MIGRATE_SPRING);
-  const width = useSpring(targetW, MIGRATE_SPRING);
 
   // Sobre el cielo el logo es claro; en el header toma el color del tema.
   const skyOpacity = useTransform(progress, [0, 0.85], [1, 0]);
