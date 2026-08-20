@@ -46,11 +46,7 @@ function LanguageToggle() {
               className="absolute inset-0 rounded-full bg-text/10"
             />
           )}
-          <span
-            className={`relative z-1 font-mono text-[11px] uppercase tracking-[0.08em] ${
-              lang === option ? "text-text" : "text-text-muted"
-            }`}
-          >
+          <span className={`label relative z-1 ${lang === option ? "text-text" : ""}`}>
             {option}
           </span>
         </motion.button>
@@ -91,103 +87,93 @@ function ThemeToggle() {
   );
 }
 
+/**
+ * Subheader: vive DEBAJO del hero y se pega arriba al hacer scroll.
+ * Se esconde al bajar y reaparece al subir.
+ */
 export function Header() {
   const { t } = useLang();
   const { scrollY } = useScroll();
-  const [elevated, setElevated] = useState(false);
-  const [subVisible, setSubVisible] = useState(true);
+  const [visible, setVisible] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const [lastY, setLastY] = useState(0);
 
   useMotionValueEvent(scrollY, "change", (y) => {
-    setElevated(y > 80);
     if (Math.abs(y - lastY) > 8) {
-      setSubVisible(y < lastY || y < 120);
+      setVisible(y < lastY || y < 120);
       setLastY(y);
     }
   });
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
-      <div
-        className={`transition-colors duration-300 ${
-          elevated ? "glass border-b border-line" : "border-b border-transparent"
-        }`}
+    <div className="sticky top-0 z-50">
+      <motion.div
+        animate={{ y: visible ? 0 : "-105%" }}
+        transition={springFast}
+        className="glass border-b border-line"
       >
-        <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3 sm:px-6">
-          <a href="#top" className="flex min-w-0 flex-1 items-center gap-3">
-            <LogoSmart className="h-6 w-auto shrink-0 text-text" />
-            <span className="min-w-0">
-              <span className="tight block truncate text-lg font-semibold">{t("brand")}</span>
-              <span className="meta hidden sm:block">{t("brandTagline")}</span>
-            </span>
+        <div className="mx-auto grid max-w-[1100px] grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-5 py-3 sm:px-6">
+          <a href="#top" className="flex min-w-0 items-center gap-3">
+            <LogoSmart className="h-5 w-auto shrink-0 text-text" />
+            <span className="label hidden sm:block">{t("brandTagline")}</span>
           </a>
 
-          <nav aria-label={t("follow")} className="hidden items-center gap-1 md:flex">
-            {socials.map(({ name, href, Icon }) => (
-              <motion.a
-                key={name}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                whileTap={tap}
-                aria-label={name}
-                className="flex h-11 w-11 items-center justify-center rounded-full text-text-muted transition-colors hover:text-text"
-              >
-                <Icon className="h-4 w-4" aria-hidden="true" />
-              </motion.a>
-            ))}
-          </nav>
+          <div className="flex items-center justify-end gap-2">
+            <nav aria-label={t("menu")} className="hidden lg:block">
+              <ul className="flex items-center gap-5">
+                {navItems.map((item) => (
+                  <li key={item.id}>
+                    <a href={`#${item.id}`} className="label transition-colors hover:text-text">
+                      {t(item.key)}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
 
-          <LanguageToggle />
-          <ThemeToggle />
-
-          <motion.button
-            type="button"
-            whileTap={tap}
-            onClick={() => setMenuOpen(true)}
-            aria-label={t("menu")}
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-line md:hidden"
-          >
-            <Menu className="h-4 w-4" aria-hidden="true" />
-          </motion.button>
-        </div>
-
-        <motion.nav
-          aria-label={t("menu")}
-          animate={{ y: subVisible ? 0 : -12, opacity: subVisible ? 1 : 0 }}
-          transition={springFast}
-          className={`hidden md:block ${subVisible ? "" : "pointer-events-none"}`}
-        >
-          <ul className="mx-auto flex max-w-6xl items-center gap-6 px-6 pb-3">
-            {navItems.map((item) => (
-              <li key={item.id}>
-                <a
-                  href={`#${item.id}`}
-                  className="meta transition-colors hover:text-text"
+            <nav aria-label={t("follow")} className="hidden items-center gap-0.5 md:flex">
+              {socials.map(({ name, href, Icon }) => (
+                <motion.a
+                  key={name}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileTap={tap}
+                  aria-label={name}
+                  className="flex h-11 w-11 items-center justify-center rounded-full text-text-muted transition-colors hover:text-text"
                 >
-                  {t(item.key)}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </motion.nav>
-      </div>
+                  <Icon className="h-4 w-4" aria-hidden="true" />
+                </motion.a>
+              ))}
+            </nav>
+
+            <LanguageToggle />
+            <ThemeToggle />
+
+            <motion.button
+              type="button"
+              whileTap={tap}
+              onClick={() => setMenuOpen(true)}
+              aria-label={t("menu")}
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-line lg:hidden"
+            >
+              <Menu className="h-4 w-4" aria-hidden="true" />
+            </motion.button>
+          </div>
+        </div>
+      </motion.div>
 
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            className="glass fixed inset-0 z-60 flex flex-col px-6 py-5 md:hidden"
+            className="glass fixed inset-0 z-60 flex flex-col px-6 py-5 lg:hidden"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 16 }}
             transition={springFast}
           >
             <div className="flex items-center justify-between">
-              <span className="flex items-center gap-3">
-                <LogoSmart className="h-6 w-auto text-text" />
-                <span className="tight text-lg font-semibold">{t("brand")}</span>
-              </span>
+              <LogoSmart className="h-5 w-auto text-text" />
               <motion.button
                 type="button"
                 whileTap={tap}
@@ -199,7 +185,7 @@ export function Header() {
               </motion.button>
             </div>
 
-            <ul className="mt-10 flex flex-col gap-2">
+            <ul className="mt-10 flex flex-col items-center gap-2 text-center">
               {navItems.map((item, index) => (
                 <motion.li
                   key={item.id}
@@ -218,7 +204,7 @@ export function Header() {
               ))}
             </ul>
 
-            <div className="mt-auto flex items-center gap-2">
+            <div className="mt-auto flex items-center justify-center gap-2">
               {socials.map(({ name, href, Icon }) => (
                 <a
                   key={name}
@@ -235,6 +221,6 @@ export function Header() {
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </div>
   );
 }

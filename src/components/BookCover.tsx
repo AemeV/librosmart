@@ -8,10 +8,12 @@ export function BookCover({
   src,
   alt,
   title,
+  featured = false,
 }: {
   src: string;
   alt: string;
   title: string;
+  featured?: boolean;
 }) {
   const reduced = useReducedMotion();
   const rx = useSpring(useMotionValue(0), springFast);
@@ -36,7 +38,7 @@ export function BookCover({
 
   return (
     <div
-      className="w-[65vw] max-w-[340px] sm:w-full sm:max-w-[380px]"
+      className={featured ? "w-[80vw] max-w-[460px]" : "w-[62vw] max-w-[330px]"}
       style={{ perspective: 1000 }}
       onMouseMove={onMove}
       onMouseLeave={reset}
@@ -55,7 +57,7 @@ export function BookCover({
           >
             <BookOpen className="h-6 w-6 text-text-muted" aria-hidden="true" />
             <span className="display text-2xl leading-tight">{title}</span>
-            <span className="meta">Portada pendiente</span>
+            <span className="label">Portada pendiente</span>
           </div>
         ) : (
           <img

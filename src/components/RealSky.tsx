@@ -114,9 +114,10 @@ export function RealSky() {
           style={{
             opacity: scrimOpacity,
             backgroundImage: [
-              "linear-gradient(100deg, rgba(4,6,14,0.96) 0%, rgba(4,6,14,0.72) 38%, rgba(4,6,14,0.12) 70%, rgba(4,6,14,0) 100%)",
-              "linear-gradient(180deg, rgba(4,6,14,0.5) 0%, rgba(4,6,14,0.12) 55%, rgba(4,6,14,0.35) 100%)",
+              "radial-gradient(60% 45% at 50% 48%, rgba(4,6,14,0.9) 0%, rgba(4,6,14,0.55) 55%, rgba(4,6,14,0) 100%)",
+              "linear-gradient(180deg, rgba(4,6,14,0.35) 0%, rgba(4,6,14,0.1) 45%, rgba(4,6,14,0.4) 100%)",
             ].join(", "),
+
           }}
         />
 
@@ -127,7 +128,7 @@ export function RealSky() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.94 }}
               transition={springFast}
-              className="glass pointer-events-none absolute z-20 -translate-x-1/2 -translate-y-[150%] rounded-full px-3 py-1.5 font-mono text-[11px] tracking-[0.08em] whitespace-nowrap"
+              className="glass pointer-events-none absolute z-20 -translate-x-1/2 -translate-y-[150%] rounded-full px-3 py-1.5 label whitespace-nowrap"
               style={{ left: hover.x, top: hover.y }}
             >
               {(planetNames[hover.id]?.[lang] ?? hover.name).toUpperCase()} ·{" "}
@@ -138,7 +139,7 @@ export function RealSky() {
       </div>
 
       {/* Selector de ciudades */}
-      <div className="pointer-events-auto absolute top-28 right-4 z-20 sm:right-6 sm:top-32">
+      <div className="pointer-events-auto absolute right-4 bottom-4 z-20 sm:right-6 sm:bottom-6">
         <div
           role="group"
           aria-label={t("skyCityLabel")}
@@ -161,7 +162,7 @@ export function RealSky() {
                 />
               )}
               <span
-                className={`relative z-1 font-mono text-[11px] tracking-[0.08em] uppercase ${
+                className={`relative z-1 label ${
                   option.id === city.id ? "opacity-100" : "opacity-65"
                 }`}
               >
@@ -170,14 +171,14 @@ export function RealSky() {
             </motion.button>
           ))}
         </div>
-        <p className="mt-2 text-right font-mono text-[11px] tracking-[0.08em] opacity-70">
+        <p className="label mt-2 text-right opacity-70">
           {clock ? localTime(city, clock, true) : "--:--:--"}
         </p>
       </div>
 
       {/* Capa informativa */}
       <div className="pointer-events-none absolute bottom-4 left-4 z-20 max-w-[calc(100%-2rem)] sm:bottom-6 sm:left-6">
-        <p className="glass rounded-full px-4 py-2 font-mono text-[10px] leading-relaxed tracking-[0.08em] uppercase sm:text-[11px]">
+        <p className="glass rounded-full px-4 py-2 label leading-relaxed">
           {city.name} · {formatCoords(city, lang)}{clock ? ` · ${localTime(city, clock)}` : ""}
           {moonLabel ? ` · ${moonLabel}` : ""}
           {planetLabel ? ` · ${planetLabel}` : ""}

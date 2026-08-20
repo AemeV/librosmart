@@ -6,8 +6,10 @@
 
 /*
  * Librosmart design system.
- * Editorial científico x sistema de interfaz iOS.
- * El cristal (.glass) es solo para lo que FLOTA sobre el contenido.
+ * Escala de grises absoluta: negros, grises y blancos. No hay color de acento.
+ * El contraste es el acento. La ÚNICA fuente de color del sitio es el cielo
+ * real del hero, y eso es deliberado.
+ * Dos tipografías: Instrument Serif (títulos) e Inter Tight (todo lo demás).
  */
 
 @theme inline {
@@ -20,72 +22,66 @@
 
   --font-sans: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
-  --font-mono: "Geist Mono", ui-monospace, monospace;
 
   --color-bg: var(--bg);
   --color-surface: var(--surface);
-  --color-surface-2: var(--surface-2);
+  --color-surface-alt: var(--surface-alt);
+  --color-surface-2: var(--surface-alt);
   --color-text: var(--text);
   --color-text-muted: var(--text-muted);
-  --color-accent: var(--accent);
-  --color-accent-text: var(--accent-text);
   --color-line: var(--border-color);
 
-  /* shadcn compatibility */
+  /* shadcn compatibility — todo neutro */
   --color-background: var(--bg);
   --color-foreground: var(--text);
   --color-card: var(--surface);
   --color-card-foreground: var(--text);
   --color-popover: var(--surface);
   --color-popover-foreground: var(--text);
-  --color-primary: var(--accent);
-  --color-primary-foreground: var(--accent-text);
-  --color-secondary: var(--surface-2);
+  --color-primary: var(--text);
+  --color-primary-foreground: var(--bg);
+  --color-secondary: var(--surface-alt);
   --color-secondary-foreground: var(--text);
-  --color-muted: var(--surface-2);
+  --color-muted: var(--surface-alt);
   --color-muted-foreground: var(--text-muted);
-  --color-accent-foreground: var(--accent-text);
+  --color-accent: var(--surface-alt);
+  --color-accent-foreground: var(--text);
   --color-destructive: oklch(0.577 0.245 27.325);
   --color-destructive-foreground: oklch(0.984 0.003 247.858);
   --color-border: var(--border-color);
   --color-input: var(--border-color);
-  --color-ring: var(--accent);
+  --color-ring: var(--text);
 }
 
 :root {
   --radius: 20px;
-  --bg: #e8eae4;
-  --surface: #f4f5f1;
-  --surface-2: #dee1d9;
-  --text: #16181a;
-  --text-muted: #6b7069;
-  --accent: #d4f55a;
-  --accent-text: #16181a;
-  --border-color: rgba(22, 24, 26, 0.1);
+  --bg: #fafaf9;
+  --surface: #ffffff;
+  --surface-alt: #f2f2f1;
+  --text: #111111;
+  --text-muted: #757575;
+  --border-color: rgba(17, 17, 17, 0.1);
 
-  --glass-bg: rgba(255, 255, 255, 0.55);
-  --glass-border: rgba(255, 255, 255, 0.7);
-  --glass-blur: blur(20px) saturate(180%);
-  --glass-shadow:
-    0 1px 2px rgba(22, 24, 26, 0.04), 0 8px 24px rgba(22, 24, 26, 0.06);
-  --glass-fallback: rgba(244, 245, 241, 0.96);
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(17, 17, 17, 0.08);
+  --glass-blur: blur(20px) saturate(160%);
+  --glass-shadow: 0 1px 2px rgba(17, 17, 17, 0.04), 0 8px 24px rgba(17, 17, 17, 0.06);
+  --glass-fallback: rgba(250, 250, 249, 0.96);
 }
 
 [data-theme="dark"] {
-  --bg: #14171a;
-  --surface: #1c2023;
-  --surface-2: #23282b;
-  --text: #f0f2ed;
-  --text-muted: #878d86;
-  --accent: #d4f55a;
-  --accent-text: #16181a;
-  --border-color: rgba(240, 242, 237, 0.1);
+  --bg: #0e0e0e;
+  --surface: #171717;
+  --surface-alt: #1f1f1f;
+  --text: #f5f5f4;
+  --text-muted: #8a8a88;
+  --border-color: rgba(245, 245, 244, 0.12);
 
   --glass-bg: rgba(255, 255, 255, 0.06);
   --glass-border: rgba(255, 255, 255, 0.1);
   --glass-blur: blur(24px) saturate(140%);
   --glass-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 32px rgba(0, 0, 0, 0.25);
-  --glass-fallback: rgba(28, 32, 35, 0.96);
+  --glass-fallback: rgba(23, 23, 23, 0.96);
 }
 
 @layer base {
@@ -95,7 +91,7 @@
 
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 7.5rem;
+    scroll-padding-top: 5.5rem;
   }
 
   body {
@@ -110,8 +106,8 @@
   }
 
   ::selection {
-    background-color: var(--accent);
-    color: var(--accent-text);
+    background-color: var(--text);
+    color: var(--bg);
   }
 }
 
@@ -144,12 +140,25 @@
   color: var(--text);
 }
 
-@utility meta {
-  font-family: var(--font-mono);
-  font-size: 11px;
+/* Etiqueta técnica: reemplaza toda la monoespaciada del sitio. */
+@utility label {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 10px;
   line-height: 1.4;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+}
+
+/* Alias histórico de .label */
+@utility meta {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
   color: var(--text-muted);
 }
 
@@ -161,6 +170,14 @@
 
 @utility tight {
   letter-spacing: -0.03em;
+}
+
+/* Texto corrido: máximo ~60 caracteres, alineado a la izquierda,
+   pero centrado como bloque dentro de la columna. */
+@utility prose-measure {
+  max-width: 60ch;
+  margin-inline: auto;
+  text-align: left;
 }
 
 @utility no-scrollbar {

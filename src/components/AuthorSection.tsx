@@ -46,15 +46,15 @@ export function AuthorSection() {
         {...inViewProps}
         className="py-20 sm:py-28"
       >
-        <div className="mx-auto max-w-6xl px-5 sm:px-6">
+        <div className="mx-auto max-w-[1100px] px-5 sm:px-6">
           <div id="autor-title">
             <SectionHeading title={t("authorTitle")} />
           </div>
-          <motion.div variants={childVariants} className="mt-8 grid gap-6 md:grid-cols-2">
+          <motion.div variants={childVariants} className="prose-measure mt-10 space-y-5">
             <p className="text-lg leading-relaxed">{t("authorBio1")}</p>
             <p className="text-base leading-relaxed text-text-muted">{t("authorBio2")}</p>
           </motion.div>
-          <motion.p variants={childVariants} className="meta mt-8">
+          <motion.p variants={childVariants} className="label mt-10 text-center">
             David Mauricio Guerrero Vélez · Bogotá, Colombia
           </motion.p>
         </div>
@@ -67,7 +67,7 @@ export function AuthorSection() {
         {...inViewProps}
         className="py-20 sm:py-28"
       >
-        <div className="mx-auto max-w-6xl px-5 sm:px-6">
+        <div className="mx-auto max-w-[1100px] px-5 sm:px-6">
           <div id="proyectos-title">
             <SectionHeading title={t("projectsTitle")} subtitle={t("projectsSubtitle")} />
           </div>
@@ -76,9 +76,9 @@ export function AuthorSection() {
               <motion.article
                 key={title.es}
                 variants={childVariants}
-                className="rounded-[14px] border border-line bg-surface p-6"
+                className="rounded-[14px] border border-line bg-surface p-6 text-center"
               >
-                <Icon className="h-5 w-5 text-text-muted" aria-hidden="true" />
+                <Icon className="mx-auto h-5 w-5 text-text-muted" aria-hidden="true" />
                 <h3 className="tight mt-4 text-xl font-semibold">{tr(title)}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-text-muted">{tr(description)}</p>
               </motion.article>
