@@ -2,6 +2,7 @@ import { motion, useReducedMotion, AnimatePresence } from "motion/react";
 import { Mail, Phone, Instagram, Youtube, Facebook, Music2, Check } from "lucide-react";
 import { useState } from "react";
 import { useLang } from "@/context/LanguageContext";
+import { LogoSmart } from "./LogoSmart";
 import { SectionHeading } from "./SectionHeading";
 import { childVariants, inViewProps, sectionVariants, springFast, tap } from "@/lib/motion-config";
 
@@ -175,7 +176,10 @@ export function Footer() {
   return (
     <footer className="border-t border-line py-10">
       <div className="mx-auto flex max-w-6xl flex-col gap-2 px-5 sm:px-6">
-        <span className="tight text-base font-semibold">{t("brand")}</span>
+        <span className="flex items-center gap-3">
+          <LogoSmart className="h-5 w-auto text-text" />
+          <span className="tight text-base font-semibold">{t("brand")}</span>
+        </span>
         <span className="meta">
           © {new Date().getFullYear()} Librosmart · {t("rights")}
         </span>
