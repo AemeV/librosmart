@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { computeSky, planetNames, rgb, type City, type SkyState } from "@/lib/sky";
+import { computeSky, planetNames, rgb, type City, type SkyState } from "./sky";
 
 export type PlanetHit = {
   id: string;
