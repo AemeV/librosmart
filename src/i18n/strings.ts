@@ -47,6 +47,8 @@ export const strings = {
     en: "Pick your format, your edition language and your store.",
   },
   featured: { es: "Novedad", en: "New" },
+  openBook: { es: "Abrir el libro", en: "Open the book" },
+  closeBook: { es: "Cerrar el libro", en: "Close the book" },
   newBook: { es: "Nuevo libro", en: "New book" },
   keyPoints: { es: "Qué vas a encontrar", en: "What you'll find" },
   viewIndex: { es: "Ver índice y contraportada", en: "Index and back cover" },

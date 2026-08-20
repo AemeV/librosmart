@@ -378,7 +378,13 @@ export function BookObject({
         onFocus={() => setHover(true)}
         onBlur={() => setHover(false)}
         className="relative block cursor-pointer rounded-[12px] focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-text"
-        style={{ perspective: 2000, width, height, transformStyle: "preserve-3d" }}
+        style={{
+          perspective: 2000,
+          width,
+          height,
+          transformStyle: "preserve-3d",
+          zIndex: open ? 50 : undefined,
+        }}
       >
         {/* Sombra proyectada asimétrica, coherente con la rotación en reposo */}
         <motion.div

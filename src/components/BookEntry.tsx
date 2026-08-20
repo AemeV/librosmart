@@ -1,12 +1,11 @@
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
-import { Check, ListTree } from "lucide-react";
+import { Check } from "lucide-react";
 import { useRef, useState } from "react";
 import type { Book } from "@/data/books";
 import { useLang } from "@/context/LanguageContext";
-import { BookCover } from "./BookCover";
+import { BookObject } from "./BookObject";
 import { RetailerButton } from "./RetailerButton";
 import { CrossfadeText } from "./CrossfadeText";
-import { Sheet } from "./Sheet";
 import { childVariants, inViewProps, sectionVariants, springFast, tap } from "@/lib/motion-config";
 
 /** Cada libro es una unidad centrada. El destacado recibe más aire y portada mayor. */
@@ -15,7 +14,6 @@ export function BookEntry({ book }: { book: Book }) {
   const reduced = useReducedMotion();
   const ref = useRef<HTMLElement>(null);
   const [editionLang, setEditionLang] = useState<"es" | "en">(book.editions[0]!.language);
-  const [sheetOpen, setSheetOpen] = useState(false);
 
   const edition = book.editions.find((e) => e.language === editionLang) ?? book.editions[0]!;
   const hasEnglish = book.editions.some((e) => e.language === "en");
@@ -47,14 +45,7 @@ export function BookEntry({ book }: { book: Book }) {
       } ${book.featured ? "pt-16 sm:pt-20" : ""}`}
     >
       <motion.div variants={childVariants} style={{ y: parallax }}>
-        <CrossfadeText k={`${book.slug}-${editionLang}`}>
-          <BookCover
-            src={edition.coverUrl}
-            alt={`${t("coverAlt")} ${book.title} — ${tr(book.subtitle)}`}
-            title={book.title}
-            featured={book.featured}
-          />
-        </CrossfadeText>
+        <BookObject book={book} edition={edition} featured={book.featured} />
       </motion.div>
 
       <motion.div
@@ -113,19 +104,6 @@ export function BookEntry({ book }: { book: Book }) {
             </li>
           ))}
         </ul>
-      </motion.div>
-
-      <motion.div variants={childVariants} className="mt-8">
-        <motion.button
-          type="button"
-          onClick={() => setSheetOpen(true)}
-          whileTap={tap}
-          transition={springFast}
-          className="flex min-h-11 items-center gap-2 rounded-full border border-line px-5 py-2.5 text-sm font-medium"
-        >
-          <ListTree className="h-4 w-4" aria-hidden="true" />
-          {t("viewIndex")}
-        </motion.button>
       </motion.div>
 
       <motion.div
@@ -200,30 +178,6 @@ export function BookEntry({ book }: { book: Book }) {
         </CrossfadeText>
       </motion.div>
 
-      <Sheet open={sheetOpen} onClose={() => setSheetOpen(false)} title={book.title}>
-        <div className="space-y-8 text-left">
-          <section>
-            <h4 className="label">{t("indexTitle")}</h4>
-            <ol className="mt-3 space-y-2.5">
-              {book.chapters.map((chapter) => (
-                <li key={chapter.number} className="flex gap-3 text-sm">
-                  <span className="label pt-0.5">{String(chapter.number).padStart(2, "0")}</span>
-                  <span>
-                    <span className="font-medium">{tr(chapter.title)}</span>
-                    {chapter.summary ? (
-                      <span className="block text-text-muted">{tr(chapter.summary)}</span>
-                    ) : null}
-                  </span>
-                </li>
-              ))}
-            </ol>
-          </section>
-          <section>
-            <h4 className="label">{t("backCoverTitle")}</h4>
-            <p className="mt-3 max-w-[60ch] text-sm leading-relaxed">{tr(edition.backCover)}</p>
-          </section>
-        </div>
-      </Sheet>
     </motion.article>
   );
 }
