@@ -1,4 +1,5 @@
 export const springFast = { type: "spring" as const, stiffness: 400, damping: 30 };
+export const springSoft = { type: "spring" as const, stiffness: 120, damping: 20 };
 export const springSheet = { type: "spring" as const, stiffness: 260, damping: 30 };
 export const easeEnter = { duration: 0.6, ease: [0.16, 1, 0.3, 1] as const };
 

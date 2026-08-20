@@ -3,7 +3,7 @@ import { ChevronDown } from "lucide-react";
 import { RealSky } from "./RealSky";
 import { LogoSmart } from "./LogoSmart";
 import { useLang } from "@/context/LanguageContext";
-import { spring } from "@/lib/motion-config";
+import { springSoft } from "@/lib/motion-config";
 
 /**
  * Hero: solo el cielo real y el logo. Ningún texto compite con ellos.
@@ -24,7 +24,7 @@ export function Hero() {
         className="relative z-10 flex w-full flex-col items-center px-5"
         initial={{ opacity: 0, scale: reduced ? 1 : 0.96 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={spring}
+        transition={springSoft}
       >
         <LogoSmart className="w-[75vw] max-w-[900px] text-text sm:w-[48vw]" />
       </motion.div>
