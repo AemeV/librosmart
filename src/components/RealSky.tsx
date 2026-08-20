@@ -67,7 +67,7 @@ export function RealSky() {
   };
 
   const moonLabel = state
-    ? `${planetNames.moon![lang].toUpperCase()} ${Math.round(state.moon.fraction * 100)}% ${moonPhaseName(
+    ? `${planetNames['moon']![lang].toUpperCase()} ${Math.round(state.moon.fraction * 100)}% ${moonPhaseName(
         state.moon.phaseAngle,
       )[lang].toUpperCase()}`
     : null;

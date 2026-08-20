@@ -30,6 +30,9 @@ export const strings = {
     es: "Los libros de David Mauricio Guerrero Vélez: biodiversidad, espacio y los descubrimientos que están redefiniendo nuestro siglo.",
     en: "Books by David Mauricio Guerrero Vélez: biodiversity, space and the discoveries redefining our century.",
   },
+  skyCityLabel: { es: "Ciudad del cielo", en: "Sky city" },
+  skyVisible: { es: "visible", en: "visible" },
+
   heroScroll: { es: "Desliza", en: "Scroll" },
 
   readersTitle: { es: "Muro de lectores", en: "Readers wall" },
