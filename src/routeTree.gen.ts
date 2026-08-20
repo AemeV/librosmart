@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SiteRouteImport } from './routes/_site'
 import { Route as SiteIndexRouteImport } from './routes/_site.index'
 import { Route as SiteProyectosRouteImport } from './routes/_site.proyectos'
+import { Route as SiteLibrosSlugRouteImport } from './routes/_site/libros.$slug'
 import { Route as SiteProyectosIndexRouteImport } from './routes/_site.proyectos.index'
 
 const SiteRoute = SiteRouteImport.update({
@@ -28,6 +29,11 @@ const SiteProyectosRoute = SiteProyectosRouteImport.update({
   path: '/proyectos',
   getParentRoute: () => SiteRoute,
 } as any)
+const SiteLibrosSlugRoute = SiteLibrosSlugRouteImport.update({
+  id: '/libros/$slug',
+  path: '/libros/$slug',
+  getParentRoute: () => SiteRoute,
+} as any)
 const SiteProyectosIndexRoute = SiteProyectosIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -37,10 +43,12 @@ const SiteProyectosIndexRoute = SiteProyectosIndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof SiteIndexRoute
   '/proyectos': typeof SiteProyectosRouteWithChildren
+  '/libros/$slug': typeof SiteLibrosSlugRoute
   '/proyectos/': typeof SiteProyectosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof SiteIndexRoute
+  '/libros/$slug': typeof SiteLibrosSlugRoute
   '/proyectos': typeof SiteProyectosIndexRoute
 }
 export interface FileRoutesById {
@@ -48,15 +56,21 @@ export interface FileRoutesById {
   '/_site': typeof SiteRouteWithChildren
   '/_site/proyectos': typeof SiteProyectosRouteWithChildren
   '/_site/': typeof SiteIndexRoute
+  '/_site/libros/$slug': typeof SiteLibrosSlugRoute
   '/_site/proyectos/': typeof SiteProyectosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/proyectos' | '/proyectos/'
+  fullPaths: '/' | '/proyectos' | '/libros/$slug' | '/proyectos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/proyectos'
+  to: '/' | '/libros/$slug' | '/proyectos'
   id:
-    '__root__' | '/_site' | '/_site/proyectos' | '/_site/' | '/_site/proyectos/'
+    | '__root__'
+    | '/_site'
+    | '/_site/proyectos'
+    | '/_site/'
+    | '/_site/libros/$slug'
+    | '/_site/proyectos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -86,6 +100,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteProyectosRouteImport
       parentRoute: typeof SiteRoute
     }
+    '/_site/libros/$slug': {
+      id: '/_site/libros/$slug'
+      path: '/libros/$slug'
+      fullPath: '/libros/$slug'
+      preLoaderRoute: typeof SiteLibrosSlugRouteImport
+      parentRoute: typeof SiteRoute
+    }
     '/_site/proyectos/': {
       id: '/_site/proyectos/'
       path: '/'
@@ -111,11 +132,13 @@ const SiteProyectosRouteWithChildren = SiteProyectosRoute._addFileChildren(
 interface SiteRouteChildren {
   SiteProyectosRoute: typeof SiteProyectosRouteWithChildren
   SiteIndexRoute: typeof SiteIndexRoute
+  SiteLibrosSlugRoute: typeof SiteLibrosSlugRoute
 }
 
 const SiteRouteChildren: SiteRouteChildren = {
   SiteProyectosRoute: SiteProyectosRouteWithChildren,
   SiteIndexRoute: SiteIndexRoute,
+  SiteLibrosSlugRoute: SiteLibrosSlugRoute,
 }
 
 const SiteRouteWithChildren = SiteRoute._addFileChildren(SiteRouteChildren)
