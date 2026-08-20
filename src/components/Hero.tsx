@@ -54,30 +54,29 @@ export function Hero() {
       </motion.div>
 
       <motion.div {...rise(1)}>
-        <Link
-          to="/libros/$slug"
-          params={{ slug: featured.slug }}
-          className="glass group flex min-h-11 items-center gap-2 rounded-full px-4 py-2"
-        >
-          <span className="label !text-accent">{t("heroNew")}</span>
-          <span aria-hidden="true" className="label opacity-40">
-            ·
-          </span>
-          <span
-            style={{ fontFamily: "var(--font-sans)", fontWeight: 500, fontSize: 14 }}
+        <motion.div initial="rest" animate="rest" whileHover="hover" whileFocus="hover">
+          <Link
+            to="/libros/$slug"
+            params={{ slug: featured.slug }}
+            className="glass flex min-h-11 items-center gap-2 rounded-full px-4 py-2"
           >
-            {featured.title}
-          </span>
-          <motion.span
-            aria-hidden="true"
-            className="flex items-center"
-            initial={false}
-            variants={{ rest: { x: 0 }, hover: { x: 4 } }}
-          >
-            <ArrowRight className="h-4 w-4" />
-          </motion.span>
-        </Link>
+            <span className="label !text-accent">{t("heroNew")}</span>
+            <span aria-hidden="true" className="label opacity-40">
+              ·
+            </span>
+            <span className="pill-title">{featured.title}</span>
+            <motion.span
+              aria-hidden="true"
+              className="flex items-center"
+              variants={{ rest: { x: 0 }, hover: { x: 4 } }}
+              transition={{ type: "spring", stiffness: 320, damping: 22 }}
+            >
+              <ArrowRight className="h-4 w-4" />
+            </motion.span>
+          </Link>
+        </motion.div>
       </motion.div>
+
 
       <motion.div {...rise(2)}>
         <motion.button
