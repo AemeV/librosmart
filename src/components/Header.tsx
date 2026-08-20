@@ -137,9 +137,31 @@ export function Header() {
     <>
       <div ref={wrapperRef} className="fixed inset-x-0 top-0 z-50">
         {/* Barra superior: siempre visible */}
+        {/* Barra superior: siempre visible, composición centrada en tres zonas */}
         <div className="glass border-b border-line">
-          <div className="mx-auto flex max-w-[1100px] items-center justify-between gap-3 px-5 py-3 sm:px-6">
-            <Link to="/" className="flex min-w-0 items-center gap-3" aria-label={t("brand")}>
+          <div className="mx-auto grid max-w-[1100px] grid-cols-[1fr_auto_1fr] items-center gap-3 px-5 py-3 sm:px-6">
+            <nav aria-label={t("follow")} className="hidden items-center gap-0.5 md:flex">
+              {socials.map(({ name, href, Icon }) => (
+                <motion.a
+                  key={name}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileTap={tap}
+                  aria-label={name}
+                  className="flex h-11 w-11 items-center justify-center rounded-full text-text-muted transition-colors hover:text-text"
+                >
+                  <Icon className="h-4 w-4" aria-hidden="true" />
+                </motion.a>
+              ))}
+            </nav>
+            <span className="md:hidden" aria-hidden="true" />
+
+            <Link
+              to="/"
+              className="flex items-center justify-center"
+              aria-label={t("brand")}
+            >
               <span
                 ref={setHeaderSlot}
                 className="block h-9 shrink-0"
@@ -152,26 +174,9 @@ export function Header() {
                   }`}
                 />
               </span>
-              <span className="label hidden sm:block">{t("brandTagline")}</span>
             </Link>
 
             <div className="flex items-center justify-end gap-2">
-              <nav aria-label={t("follow")} className="hidden items-center gap-0.5 md:flex">
-                {socials.map(({ name, href, Icon }) => (
-                  <motion.a
-                    key={name}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileTap={tap}
-                    aria-label={name}
-                    className="flex h-11 w-11 items-center justify-center rounded-full text-text-muted transition-colors hover:text-text"
-                  >
-                    <Icon className="h-4 w-4" aria-hidden="true" />
-                  </motion.a>
-                ))}
-              </nav>
-
               <LanguageToggle />
               <ThemeToggle />
 
@@ -187,6 +192,7 @@ export function Header() {
             </div>
           </div>
         </div>
+
 
         {/* Subheader: el menú se oculta al bajar y vuelve al subir */}
         <motion.div

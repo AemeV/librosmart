@@ -125,124 +125,136 @@ export function BookEntry({ book }: { book: Book }) {
         </span>
       </motion.div>
 
-      <motion.h3 id={`book-${book.slug}`} variants={childVariants} className="display-m mt-4">
+      <motion.h3
+        id={`book-${book.slug}`}
+        variants={childVariants}
+        className="mt-4 max-w-[22ch] text-balance display-xl"
+      >
         {book.title}
       </motion.h3>
 
       <motion.div variants={childVariants} className="mx-auto max-w-[52ch]">
-        <CrossfadeText k={`sub-${book.slug}-${lang}`} as="p" className="body-s mt-4">
+        <CrossfadeText k={`sub-${book.slug}-${lang}`} as="p" className="body-lead mt-4">
           {tr(book.subtitle)}
         </CrossfadeText>
       </motion.div>
 
-      {/* Texto corrido: izquierda, 60ch, bloque centrado. */}
+      {/* Texto corrido: justificado dentro de la columna centrada. */}
       <motion.div variants={childVariants} className="prose-measure mt-8">
-        <CrossfadeText k={`desc-${book.slug}-${lang}`} as="p" className="body">
+        <CrossfadeText k={`desc-${book.slug}-${lang}`} as="p" className="body text-justify hyphens-auto">
           {tr(book.description)}
         </CrossfadeText>
       </motion.div>
 
-      <motion.div variants={childVariants} className="mt-10 w-full">
-        <h4 className="label">{t("keyPoints")}</h4>
-        <ul className="mx-auto mt-4 max-w-[52ch] space-y-4 text-left">
-          {book.keyPoints.map((point) => (
-            <li key={point.title.es} className="flex gap-2.5">
-              <Check className="mt-1 h-4 w-4 shrink-0 text-text-muted" aria-hidden="true" />
-              <div>
-                <p className="body">{tr(point.title)}</p>
-                <p className="body-s mt-0.5">{tr(point.text)}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </motion.div>
-
-      {/* Banda de compra: único bloque de color saturado a todo el ancho.
-          Purple Heart sólido con texto y logos en Seashell, en ambos temas. */}
+      {/* Franja única: a la izquierda qué vas a encontrar (tarjetas horizontales),
+          a la derecha dónde comprarlo. Purple Heart sólido. */}
       <motion.div
         variants={childVariants}
-        className="relative left-1/2 mt-14 w-screen -translate-x-1/2 bg-[#4E2BCC] py-10 text-[#EFEFEF] sm:py-12"
+        className="mt-14 w-screen max-w-none -mx-[calc((100vw-100%)/2)] bg-[#4E2BCC] py-10 text-[#EFEFEF] sm:py-14"
       >
-        <div className="mx-auto flex max-w-[1100px] flex-col items-center gap-4 px-5 sm:px-6">
-          <h4 className="label text-[#EFEFEF]/80">{t("buyTitle")}</h4>
-
-          {hasEnglish && (
-            <div
-              role="group"
-              aria-label={t("editionLabel")}
-              className="flex items-center rounded-full border border-[#EFEFEF]/25 p-0.5"
-            >
-              {book.editions.map((e) => (
-                <motion.button
-                  key={e.language}
-                  type="button"
-                  onClick={() => setEditionLang(e.language)}
-                  whileTap={tap}
-                  aria-pressed={editionLang === e.language}
-                  className="relative flex h-9 items-center justify-center rounded-full px-3.5"
+        <div className="mx-auto grid max-w-[1100px] gap-8 px-5 sm:px-6 lg:grid-cols-[1.35fr_1fr] lg:gap-10">
+          {/* Qué vas a encontrar */}
+          <div className="text-left">
+            <h4 className="label text-[#EFEFEF]/70">{t("keyPoints")}</h4>
+            <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+              {book.keyPoints.map((point) => (
+                <li
+                  key={point.title.es}
+                  className="rounded-[14px] border border-[#EFEFEF]/20 bg-[#EFEFEF]/8 p-5"
                 >
-                  {editionLang === e.language && (
-                    <motion.span
-                      layoutId={`edition-${book.slug}`}
-                      transition={springFast}
-                      className="absolute inset-0 rounded-full bg-[#EFEFEF]/18"
-                    />
-                  )}
-                  <span
-                    className={`label relative z-1 ${
-                      editionLang === e.language ? "text-[#EFEFEF]" : "text-[#EFEFEF]/65"
-                    }`}
-                  >
-                    {e.language === "es" ? t("editionEs") : t("editionEn")}
-                  </span>
-                </motion.button>
+                  <Check className="h-4 w-4 text-[#EFEFEF]/80" aria-hidden="true" />
+                  <p className="body mt-3 text-[#EFEFEF]">{tr(point.title)}</p>
+                  <p className="body-s mt-1 text-justify hyphens-auto text-[#EFEFEF]/80">
+                    {tr(point.text)}
+                  </p>
+                </li>
               ))}
-            </div>
-          )}
+            </ul>
+          </div>
 
-          <CrossfadeText
-            k={`buy-${book.slug}-${editionLang}-${lang}`}
-            className="mt-4 w-full space-y-6"
-          >
-            {edition.physical.length === 0 && edition.digital.length === 0 ? (
-              <p className="body-s text-center text-[#EFEFEF]/85">{t("soonRetailers")}</p>
-            ) : (
-              <>
-                {edition.physical.length > 0 && (
-                  <div>
-                    <p className="label text-center text-[#EFEFEF]/70">{t("physical")}</p>
-                    <div className="mt-4 flex flex-wrap justify-center gap-2.5">
-                      {edition.physical.map((retailer) => (
-                        <RetailerButton
-                          key={retailer.name}
-                          name={retailer.name}
-                          url={retailer.url}
-                          onBand
-                        />
-                      ))}
-                    </div>
-                  </div>
-                )}
-                {edition.digital.length > 0 && (
-                  <div>
-                    <p className="label text-center text-[#EFEFEF]/70">{t("digital")}</p>
-                    <div className="mt-4 flex flex-wrap justify-center gap-2.5">
-                      {edition.digital.map((retailer) => (
-                        <RetailerButton
-                          key={retailer.name}
-                          name={retailer.name}
-                          url={retailer.url}
-                          onBand
-                        />
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </>
+          {/* Dónde comprarlo */}
+          <div className="rounded-[14px] border border-[#EFEFEF]/20 bg-[#EFEFEF]/8 p-6 text-left lg:self-start">
+            <h4 className="label text-[#EFEFEF]/70">{t("buyTitle")}</h4>
+
+            {hasEnglish && (
+              <div
+                role="group"
+                aria-label={t("editionLabel")}
+                className="mt-4 inline-flex items-center rounded-full border border-[#EFEFEF]/25 p-0.5"
+              >
+                {book.editions.map((e) => (
+                  <motion.button
+                    key={e.language}
+                    type="button"
+                    onClick={() => setEditionLang(e.language)}
+                    whileTap={tap}
+                    aria-pressed={editionLang === e.language}
+                    className="relative flex h-9 items-center justify-center rounded-full px-3.5"
+                  >
+                    {editionLang === e.language && (
+                      <motion.span
+                        layoutId={`edition-${book.slug}`}
+                        transition={springFast}
+                        className="absolute inset-0 rounded-full bg-[#EFEFEF]/18"
+                      />
+                    )}
+                    <span
+                      className={`label relative z-1 ${
+                        editionLang === e.language ? "text-[#EFEFEF]" : "text-[#EFEFEF]/65"
+                      }`}
+                    >
+                      {e.language === "es" ? t("editionEs") : t("editionEn")}
+                    </span>
+                  </motion.button>
+                ))}
+              </div>
             )}
-          </CrossfadeText>
+
+            <CrossfadeText
+              k={`buy-${book.slug}-${editionLang}-${lang}`}
+              className="mt-5 w-full space-y-6"
+            >
+              {edition.physical.length === 0 && edition.digital.length === 0 ? (
+                <p className="body-s text-[#EFEFEF]/85">{t("soonRetailers")}</p>
+              ) : (
+                <>
+                  {edition.physical.length > 0 && (
+                    <div>
+                      <p className="label text-[#EFEFEF]/70">{t("physical")}</p>
+                      <div className="mt-3 flex flex-wrap gap-2.5">
+                        {edition.physical.map((retailer) => (
+                          <RetailerButton
+                            key={retailer.name}
+                            name={retailer.name}
+                            url={retailer.url}
+                            onBand
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {edition.digital.length > 0 && (
+                    <div>
+                      <p className="label text-[#EFEFEF]/70">{t("digital")}</p>
+                      <div className="mt-3 flex flex-wrap gap-2.5">
+                        {edition.digital.map((retailer) => (
+                          <RetailerButton
+                            key={retailer.name}
+                            name={retailer.name}
+                            url={retailer.url}
+                            onBand
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
+            </CrossfadeText>
+          </div>
         </div>
       </motion.div>
+
 
 
     </motion.article>
