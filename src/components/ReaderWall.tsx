@@ -55,18 +55,8 @@ export function ReaderWall() {
         </div>
       </div>
 
-      <motion.div
-        variants={childVariants}
-        className="mt-10"
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
-      >
-        <motion.div
-          className="flex w-max gap-3"
-          animate={reduced ? {} : { x: paused ? undefined : ["0%", "-50%"] }}
-          transition={{ repeat: Infinity, ease: "linear", duration: 60 }}
-          style={reduced ? { transform: "none" } : undefined}
-        >
+      <motion.div variants={childVariants} className="marquee-pause mt-10">
+        <div className="marquee-track flex w-max gap-3">
           {loop.map((photo, index) => (
             <PhotoTile
               key={`${photo.id}-${index}`}
@@ -74,7 +64,7 @@ export function ReaderWall() {
               onOpen={() => setActive(photo)}
             />
           ))}
-        </motion.div>
+        </div>
       </motion.div>
 
       <AnimatePresence>
