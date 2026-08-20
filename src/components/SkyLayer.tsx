@@ -218,7 +218,10 @@ export function SkyLayer({
           ctx.fillText(label, x, y + r + 8);
           ctx.restore();
 
-          hits.push({ id: "moon", name: "Luna", x, y, r, alt: state.moon.alt, az: state.moon.az });
+          // sólo es interactivo si su centro está dentro del encuadre
+          if (x > 0 && x < width) {
+            hits.push({ id: "moon", name: "Luna", x, y, r, alt: state.moon.alt, az: state.moon.az });
+          }
         }
       }
 
@@ -257,7 +260,9 @@ export function SkyLayer({
         ctx.fillText(name, x, y + r + 8);
         ctx.restore();
 
-        hits.push({ id: planet.id, name: planet.name, x, y, r, alt: planet.alt, az: planet.az });
+        if (x > 0 && x < width) {
+          hits.push({ id: planet.id, name: planet.name, x, y, r, alt: planet.alt, az: planet.az });
+        }
       }
 
       // suelo y línea de horizonte
