@@ -78,7 +78,7 @@ function CoverFace({
       <div
         role="img"
         aria-label={alt}
-        className="flex h-full w-full flex-col items-center justify-center gap-3 bg-surface-alt px-6 text-center"
+        className="flex h-full w-full flex-col items-center justify-center gap-3 bg-surface-alt px-6 text-center [backface-visibility:hidden]"
       >
         <span className="display text-2xl leading-tight">{book.title}</span>
         <span className="label">Portada pendiente</span>
@@ -90,7 +90,7 @@ function CoverFace({
       src={edition.coverUrl}
       alt={alt}
       loading="lazy"
-      className="h-full w-full object-cover"
+      className="h-full w-full object-cover [backface-visibility:hidden]"
       draggable={false}
     />
   );
@@ -308,7 +308,7 @@ export function BookObject({
         className="absolute inset-0 overflow-hidden rounded-[4px_10px_10px_4px] border border-line bg-surface-alt"
         style={{
           transformOrigin: "left center",
-          transformStyle: "preserve-3d",
+          transformStyle: "flat",
           rotateY: reduced ? 0 : coverRotate,
           translateZ: thickness / 2,
           boxShadow: "6px 10px 30px -12px rgba(0,0,0,0.55)",
