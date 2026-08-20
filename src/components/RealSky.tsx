@@ -31,10 +31,11 @@ export function RealSky() {
   const [state, setState] = useState<SkyState | null>(null);
   const [hits, setHits] = useState<PlanetHit[]>([]);
   const [hover, setHover] = useState<PlanetHit | null>(null);
-  const [clock, setClock] = useState(() => new Date());
+  const [clock, setClock] = useState<Date | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    setClock(new Date());
     const id = window.setInterval(() => setClock(new Date()), 1000);
     return () => window.clearInterval(id);
   }, []);
@@ -168,14 +169,14 @@ export function RealSky() {
           ))}
         </div>
         <p className="mt-2 text-right font-mono text-[11px] tracking-[0.08em] opacity-70">
-          {localTime(city, clock, true)}
+          {clock ? localTime(city, clock, true) : "--:--:--"}
         </p>
       </div>
 
       {/* Capa informativa */}
       <div className="pointer-events-none absolute bottom-4 left-4 z-20 max-w-[calc(100%-2rem)] sm:bottom-6 sm:left-6">
         <p className="glass rounded-full px-4 py-2 font-mono text-[10px] leading-relaxed tracking-[0.08em] uppercase sm:text-[11px]">
-          {city.name} · {formatCoords(city, lang)} · {localTime(city, clock)}
+          {city.name} · {formatCoords(city, lang)}{clock ? ` · ${localTime(city, clock)}` : ""}
           {moonLabel ? ` · ${moonLabel}` : ""}
           {planetLabel ? ` · ${planetLabel}` : ""}
         </p>
