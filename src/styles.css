@@ -129,6 +129,21 @@
   }
 }
 
+/*
+ * Contenido que flota sobre el cielo real del hero. El cielo no depende del
+ * tema, así que aquí el texto y el cristal se fijan a valores claros que
+ * mantienen contraste AA sobre el scrim, en cualquier tema.
+ */
+@utility sky-scope {
+  --text: #f7f8fb;
+  --text-muted: rgba(247, 248, 251, 0.78);
+  --glass-bg: rgba(255, 255, 255, 0.12);
+  --glass-border: rgba(255, 255, 255, 0.22);
+  --glass-fallback: rgba(12, 16, 26, 0.8);
+  --border-color: rgba(255, 255, 255, 0.22);
+  color: var(--text);
+}
+
 @utility meta {
   font-family: var(--font-mono);
   font-size: 11px;
