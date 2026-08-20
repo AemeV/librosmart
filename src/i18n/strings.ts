@@ -3,10 +3,6 @@ export type Localized = { es: string; en: string };
 
 export const strings = {
   brand: { es: "Librosmart", en: "Librosmart" },
-  brandTagline: {
-    es: "Editorial de divulgación científica",
-    en: "Science writing imprint",
-  },
 
   navBooks: { es: "Libros", en: "Books" },
   navAuthor: { es: "El autor", en: "The author" },
