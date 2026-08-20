@@ -2,6 +2,7 @@ import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/
 import { Instagram, Youtube, Facebook, Music2, Sun, Moon, Monitor, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { useLang } from "@/context/LanguageContext";
+import { useAuthorSheet } from "@/context/AuthorSheetContext";
 import { useTheme } from "@/context/ThemeContext";
 import { springFast, tap } from "@/lib/motion-config";
 import type { StringKey } from "@/i18n/strings";
@@ -93,6 +94,7 @@ function ThemeToggle() {
  */
 export function Header() {
   const { t } = useLang();
+  const { openSheet } = useAuthorSheet();
   const { scrollY } = useScroll();
   const [visible, setVisible] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -121,13 +123,25 @@ export function Header() {
           <div className="flex items-center justify-end gap-2">
             <nav aria-label={t("menu")} className="hidden lg:block">
               <ul className="flex items-center gap-5">
-                {navItems.map((item) => (
-                  <li key={item.id}>
-                    <a href={`#${item.id}`} className="label transition-colors hover:text-text">
-                      {t(item.key)}
-                    </a>
-                  </li>
-                ))}
+                {navItems.map((item) =>
+                  item.id === "autor" ? (
+                    <li key={item.id}>
+                      <button
+                        type="button"
+                        onClick={openSheet}
+                        className="label transition-colors hover:text-text"
+                      >
+                        {t(item.key)}
+                      </button>
+                    </li>
+                  ) : (
+                    <li key={item.id}>
+                      <a href={`#${item.id}`} className="label transition-colors hover:text-text">
+                        {t(item.key)}
+                      </a>
+                    </li>
+                  ),
+                )}
               </ul>
             </nav>
 
@@ -193,13 +207,26 @@ export function Header() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ ...springFast, delay: 0.04 * index }}
                 >
-                  <a
-                    href={`#${item.id}`}
-                    onClick={() => setMenuOpen(false)}
-                    className="tight block py-3 text-3xl font-medium"
-                  >
-                    {t(item.key)}
-                  </a>
+                  {item.id === "autor" ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setMenuOpen(false);
+                        openSheet();
+                      }}
+                      className="tight block py-3 text-3xl font-medium"
+                    >
+                      {t(item.key)}
+                    </button>
+                  ) : (
+                    <a
+                      href={`#${item.id}`}
+                      onClick={() => setMenuOpen(false)}
+                      className="tight block py-3 text-3xl font-medium"
+                    >
+                      {t(item.key)}
+                    </a>
+                  )}
                 </motion.li>
               ))}
             </ul>
