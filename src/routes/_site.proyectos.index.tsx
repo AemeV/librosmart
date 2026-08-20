@@ -48,7 +48,9 @@ function ProjectsPage() {
               eyebrow={t("projectsEyebrow")}
               title={t("projectsTitle")}
               subtitle={t("projectsIntro")}
+              size="xl"
             />
+
 
             <div className="mt-16 flex w-full flex-col gap-20 sm:gap-28">
               {projects.map((project) => (
