@@ -31,12 +31,12 @@ function Index() {
   return (
     <ThemeProvider>
       <LanguageProvider>
+        <h1 className="sr-only">Librosmart — David Mauricio Guerrero Vélez</h1>
+        <Hero />
         <Header />
         <main>
-          <h1 className="sr-only">Librosmart — David Mauricio Guerrero Vélez</h1>
-          <Hero />
-          <ReaderWall />
           <BooksSection />
+          <ReaderWall />
           <ReviewsSection />
           <AuthorSection />
           <ContactSection />
