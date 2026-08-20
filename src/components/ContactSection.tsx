@@ -46,13 +46,13 @@ export function ContactSection() {
       {...inViewProps}
       className="py-20 sm:py-28"
     >
-      <div className="mx-auto max-w-6xl px-5 sm:px-6">
+      <div className="mx-auto max-w-[1100px] px-5 sm:px-6">
         <div id="contacto-title">
           <SectionHeading title={t("contactTitle")} subtitle={t("contactSubtitle")} />
         </div>
 
-        <div className="mt-10 grid gap-10 lg:grid-cols-2">
-          <motion.div variants={childVariants} className="space-y-4">
+        <div className="mx-auto mt-12 grid max-w-3xl gap-10">
+          <motion.div variants={childVariants} className="flex flex-col items-center gap-3 text-center">
             <a
               href="tel:+573174042430"
               className="flex min-h-11 items-center gap-3 text-lg font-medium"
@@ -67,7 +67,7 @@ export function ContactSection() {
               <Mail className="h-4 w-4 shrink-0 text-text-muted" aria-hidden="true" />
               coleccionsmart@gmail.com
             </a>
-            <div className="flex flex-wrap items-center gap-2 pt-2">
+            <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
               {socials.map(({ name, href, Icon }) => (
                 <motion.a
                   key={name}
@@ -175,7 +175,7 @@ export function Footer() {
   const { t } = useLang();
   return (
     <footer className="border-t border-line py-10">
-      <div className="mx-auto flex max-w-6xl flex-col gap-2 px-5 sm:px-6">
+      <div className="mx-auto flex max-w-[1100px] flex-col items-center gap-3 px-5 text-center sm:px-6">
         <span className="flex items-center gap-3">
           <LogoSmart className="h-5 w-auto text-text" />
           <span className="tight text-base font-semibold">{t("brand")}</span>

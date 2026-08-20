@@ -25,7 +25,7 @@ export function ReviewsSection() {
       {...inViewProps}
       className="py-20 sm:py-28"
     >
-      <div className="mx-auto max-w-6xl px-5 sm:px-6">
+      <div className="mx-auto max-w-[1100px] px-5 sm:px-6">
         <div id="resenas-title">
           <SectionHeading title={t("reviewsTitle")} subtitle={t("reviewsSubtitle")} />
         </div>
@@ -55,7 +55,7 @@ export function ReviewsSection() {
           ))}
         </div>
 
-        <motion.div variants={childVariants} className="mt-8">
+        <motion.div variants={childVariants} className="mt-10 text-center">
           <motion.a
             href={goodreadsProfileUrl}
             target="_blank"

@@ -48,7 +48,7 @@ export function ReaderWall() {
       {...inViewProps}
       className="overflow-hidden py-20 sm:py-28"
     >
-      <div className="mx-auto max-w-6xl px-5 sm:px-6">
+      <div className="mx-auto max-w-[1100px] px-5 sm:px-6">
         <div id="lectores-title">
           <SectionHeading title={t("readersTitle")} subtitle={t("readersSubtitle")} />
         </div>
