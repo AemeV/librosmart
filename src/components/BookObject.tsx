@@ -68,8 +68,12 @@ function Paper({
   );
 }
 
+export function isPlaceholderCover(edition: Edition) {
+  return !edition.coverUrl || edition.coverUrl.startsWith("/covers/");
+}
+
 function CoverFace({ edition, book, alt }: { edition: Edition; book: Book; alt: string }) {
-  const isPlaceholder = edition.coverUrl.startsWith("/covers/");
+  const isPlaceholder = isPlaceholderCover(edition);
   if (isPlaceholder) {
     return (
       <div
@@ -99,25 +103,30 @@ function BookFaces({
   width,
   height,
   thickness,
+  placeholder = false,
 }: {
   book: Book;
   width: number;
   height: number;
   thickness: number;
+  placeholder?: boolean;
 }) {
+  // Sin portada real el objeto no finge materia: las caras quedan transparentes
+  // para que nada dibuje un recuadro sobre el degradado.
+  const solid = placeholder ? "bg-transparent" : "bg-midnight dark:bg-seashell";
   return (
     <>
       {/* Contratapa */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 rounded-[10px] bg-midnight [backface-visibility:hidden] dark:bg-seashell"
+        className={`absolute inset-0 rounded-[10px] [backface-visibility:hidden] ${solid}`}
         style={{ transform: `translateZ(-${thickness / 2}px) rotateY(180deg)` }}
       />
 
       {/* Lomo: título en vertical */}
       <div
         aria-hidden="true"
-        className="absolute top-0 left-0 flex items-center justify-center overflow-hidden rounded-[3px] bg-midnight text-seashell [backface-visibility:hidden] dark:bg-seashell dark:text-midnight"
+        className={`absolute top-0 left-0 flex items-center justify-center overflow-hidden rounded-[3px] [backface-visibility:hidden] ${placeholder ? "bg-transparent" : "bg-midnight text-seashell dark:bg-seashell dark:text-midnight"}`}
         style={{
           width: thickness,
           height,
@@ -226,7 +235,7 @@ function PassiveBook({
         className="relative"
         style={{ width, height, transformStyle: "preserve-3d", rotateY, rotateX: 4 }}
       >
-        <BookFaces book={book} width={width} height={height} thickness={thickness} />
+        <BookFaces book={book} width={width} height={height} thickness={thickness} placeholder={isPlaceholderCover(edition)} />
 
         {/* Tapa + banda especular */}
         <div
@@ -395,7 +404,7 @@ export function BookObject({
     >
       {open && spread}
 
-      <BookFaces book={book} width={width} height={height} thickness={thickness} />
+      <BookFaces book={book} width={width} height={height} thickness={thickness} placeholder={isPlaceholderCover(edition)} />
 
       {/* Tapa frontal: puerta sobre el canto de las hojas */}
       <motion.div
