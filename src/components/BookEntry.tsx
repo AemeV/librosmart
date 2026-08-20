@@ -101,19 +101,23 @@ export function BookEntry({ book }: { book: Book }) {
       {...inViewProps}
       aria-labelledby={`book-${book.slug}`}
       className={`flex flex-col items-center border-t border-line text-center first:border-t-0 ${
-        book.featured ? "pb-24 sm:pb-36" : "py-16 sm:py-24"
-      } ${book.featured ? "pt-16 sm:pt-20" : ""}`}
+        book.featured ? "pt-16 pb-24 sm:pt-24 sm:pb-32" : "py-16 sm:py-24"
+      }`}
     >
       <motion.div variants={childVariants} style={{ y: parallax }}>
         <BookObject book={book} edition={edition} featured={book.featured} />
       </motion.div>
 
+      <motion.div variants={childVariants} className="mt-8 w-full">
+        <ContentsAccordion book={book} edition={edition} />
+      </motion.div>
+
       <motion.div
         variants={childVariants}
-        className={`flex flex-col items-center gap-2 ${book.featured ? "mt-10" : "mt-8"}`}
+        className={`flex flex-col items-center gap-2 ${book.featured ? "mt-8" : "mt-8"}`}
       >
         {book.featured && (
-          <span className="label rounded-full bg-text px-3 py-1.5 text-bg">{t("newBook")}</span>
+          <span className="label rounded-full bg-text px-4 py-2 text-bg">{t("newBook")}</span>
         )}
         <span className="label">
           {book.year} · {languages}
@@ -121,16 +125,12 @@ export function BookEntry({ book }: { book: Book }) {
         </span>
       </motion.div>
 
-      <motion.h3
-        id={`book-${book.slug}`}
-        variants={childVariants}
-        className={`mt-4 ${book.featured ? "display-xl" : "display-m"}`}
-      >
+      <motion.h3 id={`book-${book.slug}`} variants={childVariants} className="display-m mt-4">
         {book.title}
       </motion.h3>
 
       <motion.div variants={childVariants} className="mx-auto max-w-[52ch]">
-        <CrossfadeText k={`sub-${book.slug}-${lang}`} as="p" className="body-s mt-3">
+        <CrossfadeText k={`sub-${book.slug}-${lang}`} as="p" className="body-s mt-4">
           {tr(book.subtitle)}
         </CrossfadeText>
       </motion.div>
