@@ -242,7 +242,19 @@
 @utility numeral {
   font-family: var(--font-serif);
   font-weight: 400;
+  font-size: 28px;
+  line-height: 1;
   letter-spacing: -0.02em;
+}
+
+/* Título del lomo del libro 3D: única micro-tipografía del sistema. */
+@utility spine-text {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 8px;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
 }
 
 
