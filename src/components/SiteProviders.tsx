@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/context/ThemeContext";
 import { AuthorSheetProvider } from "@/context/AuthorSheetContext";
 import { AuthorSheet } from "@/components/AuthorSheet";
 import { LogoMigrationProvider } from "@/context/LogoMigrationContext";
+import { LogoMetalProvider } from "@/context/LogoMetalContext";
 
 /**
  * Contexto compartido por todas las rutas del sitio (tema, idioma, sheet del autor).
@@ -14,10 +15,12 @@ export function SiteProviders({ children }: { children: ReactNode }) {
     <ThemeProvider>
       <LanguageProvider>
         <AuthorSheetProvider>
-          <LogoMigrationProvider>
-            {children}
-            <AuthorSheet />
-          </LogoMigrationProvider>
+          <LogoMetalProvider>
+            <LogoMigrationProvider>
+              {children}
+              <AuthorSheet />
+            </LogoMigrationProvider>
+          </LogoMetalProvider>
         </AuthorSheetProvider>
       </LanguageProvider>
     </ThemeProvider>

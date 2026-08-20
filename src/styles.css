@@ -6,9 +6,13 @@
 
 /*
  * Librosmart design system.
- * Escala de grises absoluta: negros, grises y blancos. No hay color de acento.
- * El contraste es el acento. La ÚNICA fuente de color del sitio es el cielo
- * real del hero, y eso es deliberado.
+ * Paleta de marca: morado, negro y blanco.
+ *   Midnight Purple #0F032D · Purple Heart #4E2BCC
+ *   Lavender Indigo #905BF4 · Seashell #EFEFEF
+ * El morado va SIEMPRE en campos planos y sólidos: sin degradados decorativos,
+ * sin glow ni sombras de color. Superficies grandes casi neutras; morado para
+ * acción y énfasis. Única excepción a la regla de degradados: el logo.
+ * La otra fuente de color del sitio es el cielo real del hero.
  * Dos tipografías: Instrument Serif (títulos) e Inter Tight (todo lo demás).
  */
 
@@ -31,61 +35,74 @@
   --color-text-muted: var(--text-muted);
   --color-line: var(--border-color);
 
-  /* shadcn compatibility — todo neutro */
+  /* Morados de marca */
+  --color-accent: var(--accent);
+  --color-action: var(--action);
+  --color-midnight: #0f032d;
+  --color-purple-heart: #4e2bcc;
+  --color-lavender: #905bf4;
+  --color-seashell: #efefef;
+
+  /* shadcn compatibility */
   --color-background: var(--bg);
   --color-foreground: var(--text);
   --color-card: var(--surface);
   --color-card-foreground: var(--text);
   --color-popover: var(--surface);
   --color-popover-foreground: var(--text);
-  --color-primary: var(--text);
-  --color-primary-foreground: var(--bg);
+  --color-primary: var(--action);
+  --color-primary-foreground: #efefef;
   --color-secondary: var(--surface-alt);
   --color-secondary-foreground: var(--text);
   --color-muted: var(--surface-alt);
   --color-muted-foreground: var(--text-muted);
-  --color-accent: var(--surface-alt);
-  --color-accent-foreground: var(--text);
+  --color-accent-foreground: #efefef;
   --color-destructive: oklch(0.577 0.245 27.325);
   --color-destructive-foreground: oklch(0.984 0.003 247.858);
   --color-border: var(--border-color);
   --color-input: var(--border-color);
-  --color-ring: var(--text);
+  --color-ring: var(--accent);
 }
 
+/* Modo claro */
 :root {
   --radius: 20px;
   /* Altura real combinada de las dos barras fijas. Header.tsx la mide en runtime. */
   --header-height: 104px;
-  --bg: #fafaf9;
+  --bg: #efefef;
   --surface: #ffffff;
-  --surface-alt: #f2f2f1;
-  --text: #111111;
-  --text-muted: #757575;
-  --border-color: rgba(17, 17, 17, 0.1);
+  --surface-alt: #f5f4fa;
+  --text: #0f032d;
+  --text-muted: #6b6088;
+  --accent: #4e2bcc;
+  --action: #4e2bcc;
+  --border-color: rgba(15, 3, 45, 0.12);
 
-  --glass-bg: rgba(255, 255, 255, 0.6);
-  --glass-border: rgba(17, 17, 17, 0.08);
-  --glass-blur: blur(20px) saturate(160%);
-  --glass-shadow: 0 1px 2px rgba(17, 17, 17, 0.04), 0 8px 24px rgba(17, 17, 17, 0.06);
-  --glass-fallback: rgba(250, 250, 249, 0.96);
+  --glass-bg: rgba(255, 255, 255, 0.62);
+  --glass-border: rgba(15, 3, 45, 0.1);
+  --glass-blur: blur(20px) saturate(150%);
+  --glass-shadow: 0 1px 2px rgba(15, 3, 45, 0.05), 0 8px 24px rgba(15, 3, 45, 0.07);
+  --glass-fallback: rgba(239, 239, 239, 0.96);
 }
 
-
+/* Modo oscuro: el canónico */
 [data-theme="dark"] {
-  --bg: #0e0e0e;
-  --surface: #171717;
-  --surface-alt: #1f1f1f;
-  --text: #f5f5f4;
-  --text-muted: #8a8a88;
-  --border-color: rgba(245, 245, 244, 0.12);
+  --bg: #0f032d;
+  --surface: #1a0d3f;
+  --surface-alt: #241553;
+  --text: #efefef;
+  --text-muted: #9a8fc4;
+  --accent: #905bf4;
+  --action: #4e2bcc;
+  --border-color: rgba(239, 239, 239, 0.12);
 
-  --glass-bg: rgba(255, 255, 255, 0.06);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-blur: blur(24px) saturate(140%);
-  --glass-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 32px rgba(0, 0, 0, 0.25);
-  --glass-fallback: rgba(23, 23, 23, 0.96);
+  --glass-bg: rgba(239, 239, 239, 0.07);
+  --glass-border: rgba(239, 239, 239, 0.12);
+  --glass-blur: blur(24px) saturate(135%);
+  --glass-shadow: 0 1px 2px rgba(5, 1, 16, 0.4), 0 8px 32px rgba(5, 1, 16, 0.3);
+  --glass-fallback: rgba(26, 13, 63, 0.96);
 }
+
 
 @layer base {
   * {
@@ -269,5 +286,27 @@
 @media (prefers-reduced-motion: reduce) {
   .marquee-track {
     animation: none;
+  }
+}
+
+/* Brillo especular del logo: banda estrecha que lo recorre en bucle (~4s).
+   Enmascarada al trazo del logo dentro del propio SVG. */
+@keyframes logo-sheen {
+  from {
+    transform: translateX(-120%);
+  }
+  to {
+    transform: translateX(120%);
+  }
+}
+
+.logo-sheen {
+  animation: logo-sheen 4s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-sheen {
+    animation: none;
+    opacity: 0;
   }
 }

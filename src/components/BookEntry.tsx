@@ -97,19 +97,20 @@ export function BookEntry({ book }: { book: Book }) {
         </ul>
       </motion.div>
 
+      {/* Banda de compra: único bloque de color saturado a todo el ancho.
+          Purple Heart sólido con texto y logos en Seashell, en ambos temas. */}
       <motion.div
         variants={childVariants}
-        className="mt-12 w-full max-w-2xl rounded-[20px] border border-line bg-surface p-6 sm:p-8"
+        className="relative left-1/2 mt-14 w-screen -translate-x-1/2 bg-[#4E2BCC] py-10 text-[#EFEFEF] sm:py-12"
       >
-        <div className="flex flex-col items-center gap-4">
-          <h4 className="label">{t("buyTitle")}</h4>
-
+        <div className="mx-auto flex max-w-[1100px] flex-col items-center gap-4 px-5 sm:px-6">
+          <h4 className="label text-[#EFEFEF]/80">{t("buyTitle")}</h4>
 
           {hasEnglish && (
             <div
               role="group"
               aria-label={t("editionLabel")}
-              className="flex items-center rounded-full border border-line p-0.5"
+              className="flex items-center rounded-full border border-[#EFEFEF]/25 p-0.5"
             >
               {book.editions.map((e) => (
                 <motion.button
@@ -124,12 +125,12 @@ export function BookEntry({ book }: { book: Book }) {
                     <motion.span
                       layoutId={`edition-${book.slug}`}
                       transition={springFast}
-                      className="absolute inset-0 rounded-full bg-text/10"
+                      className="absolute inset-0 rounded-full bg-[#EFEFEF]/18"
                     />
                   )}
                   <span
                     className={`label relative z-1 ${
-                      editionLang === e.language ? "text-text" : ""
+                      editionLang === e.language ? "text-[#EFEFEF]" : "text-[#EFEFEF]/65"
                     }`}
                   >
                     {e.language === "es" ? t("editionEs") : t("editionEn")}
@@ -138,37 +139,51 @@ export function BookEntry({ book }: { book: Book }) {
               ))}
             </div>
           )}
-        </div>
 
-        <CrossfadeText k={`buy-${book.slug}-${editionLang}-${lang}`} className="mt-7 space-y-6">
-          {edition.physical.length === 0 && edition.digital.length === 0 ? (
-            <p className="body-s">{t("soonRetailers")}</p>
-          ) : (
-            <>
-              {edition.physical.length > 0 && (
-                <div>
-                  <p className="label">{t("physical")}</p>
-                  <div className="mt-3 flex flex-wrap justify-center gap-2.5">
-                    {edition.physical.map((retailer) => (
-                      <RetailerButton key={retailer.name} name={retailer.name} url={retailer.url} />
-                    ))}
+          <CrossfadeText
+            k={`buy-${book.slug}-${editionLang}-${lang}`}
+            className="mt-4 w-full space-y-6"
+          >
+            {edition.physical.length === 0 && edition.digital.length === 0 ? (
+              <p className="body-s text-center text-[#EFEFEF]/85">{t("soonRetailers")}</p>
+            ) : (
+              <>
+                {edition.physical.length > 0 && (
+                  <div>
+                    <p className="label text-center text-[#EFEFEF]/70">{t("physical")}</p>
+                    <div className="mt-3 flex flex-wrap justify-center gap-2.5">
+                      {edition.physical.map((retailer) => (
+                        <RetailerButton
+                          key={retailer.name}
+                          name={retailer.name}
+                          url={retailer.url}
+                          onBand
+                        />
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
-              {edition.digital.length > 0 && (
-                <div>
-                  <p className="label">{t("digital")}</p>
-                  <div className="mt-3 flex flex-wrap justify-center gap-2.5">
-                    {edition.digital.map((retailer) => (
-                      <RetailerButton key={retailer.name} name={retailer.name} url={retailer.url} />
-                    ))}
+                )}
+                {edition.digital.length > 0 && (
+                  <div>
+                    <p className="label text-center text-[#EFEFEF]/70">{t("digital")}</p>
+                    <div className="mt-3 flex flex-wrap justify-center gap-2.5">
+                      {edition.digital.map((retailer) => (
+                        <RetailerButton
+                          key={retailer.name}
+                          name={retailer.name}
+                          url={retailer.url}
+                          onBand
+                        />
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
-            </>
-          )}
-        </CrossfadeText>
+                )}
+              </>
+            )}
+          </CrossfadeText>
+        </div>
       </motion.div>
+
 
     </motion.article>
   );

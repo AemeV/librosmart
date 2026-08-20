@@ -14,11 +14,24 @@ import {
   type SkyState,
 } from "@/lib/sky";
 import { SkyLayer, type PlanetHit } from "./SkyLayer";
+import { SkyBodyCard } from "./SkyBodyCard";
+
+/** Media circular de azimuts: el punto del horizonte donde hay más planetas. */
+function circularMean(degrees: number[]) {
+  if (degrees.length === 0) return 180;
+  let x = 0;
+  let y = 0;
+  for (const d of degrees) {
+    x += Math.cos((d * Math.PI) / 180);
+    y += Math.sin((d * Math.PI) / 180);
+  }
+  return ((Math.atan2(y, x) * 180) / Math.PI + 360) % 360;
+}
 
 /**
- * Cielo astronómico real del hero: refleja siempre las condiciones de la
- * ciudad seleccionada, sin importar el tema de la interfaz. Toda la
- * composición vive en el eje central: logo, chips de ciudad y panel de datos.
+ * Cielo astronómico real del hero, en proyección panorámica y navegable:
+ * se arrastra horizontalmente para girar el horizonte, con inercia y
+ * desplazamiento envolvente. Los planetas son focalizables y abren su ficha.
  */
 export function RealSky({ children }: { children?: ReactNode }) {
   const { lang, t } = useLang();
@@ -31,9 +44,15 @@ export function RealSky({ children }: { children?: ReactNode }) {
   const [previous, setPrevious] = useState<City | null>(null);
   const [state, setState] = useState<SkyState | null>(null);
   const [hits, setHits] = useState<PlanetHit[]>([]);
-  const [hover, setHover] = useState<PlanetHit | null>(null);
+  const [selected, setSelected] = useState<PlanetHit | null>(null);
+  const [heading, setHeading] = useState(180);
   const [clock, setClock] = useState<Date | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const viewAzRef = useRef(180);
+  const centeredForCity = useRef<string | null>(null);
+  const drag = useRef({ active: false, axis: "" as "" | "x" | "y", x: 0, y: 0, vx: 0, last: 0 });
+  const inertia = useRef(0);
 
   useEffect(() => {
     setClock(new Date());
@@ -41,46 +60,111 @@ export function RealSky({ children }: { children?: ReactNode }) {
     return () => window.clearInterval(id);
   }, []);
 
+  // La brújula necesita re-render, pero el canvas no: se refresca a 8fps.
+  useEffect(() => {
+    const id = window.setInterval(() => setHeading(viewAzRef.current), 125);
+    return () => window.clearInterval(id);
+  }, []);
+
+  useEffect(() => () => cancelAnimationFrame(inertia.current), []);
+
+  const receiveState = (next: SkyState) => {
+    setState(next);
+    // Al cargar cada ciudad, centrar donde haya más planetas visibles.
+    if (centeredForCity.current !== next.city.id) {
+      centeredForCity.current = next.city.id;
+      const interesting = next.planets.map((p) => p.az);
+      if (next.moon.alt > 0) interesting.push(next.moon.az);
+      viewAzRef.current = circularMean(interesting.length > 0 ? interesting : [next.sunAz]);
+      setHeading(viewAzRef.current);
+    }
+  };
+
   const selectCity = (next: City) => {
     if (next.id === city.id) return;
     setPrevious(city);
     setCity(next);
     setState(null);
-    setHover(null);
+    setSelected(null);
     window.setTimeout(() => setPrevious(null), 850);
+  };
+
+  const spin = (deltaPx: number) => {
+    const width = containerRef.current?.clientWidth ?? 1200;
+    const hfov = isMobile ? 150 : 210;
+    viewAzRef.current = (((viewAzRef.current - (deltaPx / width) * hfov) % 360) + 360) % 360;
+  };
+
+  const onPointerDown = (event: React.PointerEvent) => {
+    cancelAnimationFrame(inertia.current);
+    drag.current = {
+      active: true,
+      axis: "",
+      x: event.clientX,
+      y: event.clientY,
+      vx: 0,
+      last: performance.now(),
+    };
+  };
+
+  const onPointerMove = (event: React.PointerEvent) => {
+    const d = drag.current;
+    if (!d.active) return;
+    const dx = event.clientX - d.x;
+    const dy = event.clientY - d.y;
+    if (d.axis === "") {
+      if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
+      // Si el gesto es más vertical que horizontal, el scroll de la página pasa.
+      d.axis = Math.abs(dy) > Math.abs(dx) ? "y" : "x";
+      if (d.axis === "y") {
+        d.active = false;
+        return;
+      }
+      containerRef.current?.setPointerCapture?.(event.pointerId);
+    }
+    if (d.axis !== "x") return;
+    const now = performance.now();
+    const dt = Math.max(8, now - d.last);
+    d.vx = dx / dt;
+    d.last = now;
+    d.x = event.clientX;
+    d.y = event.clientY;
+    spin(dx);
+  };
+
+  const onPointerUp = () => {
+    const d = drag.current;
+    const wasDragging = d.active && d.axis === "x";
+    d.active = false;
+    if (!wasDragging || reduced) return;
+    let v = d.vx * 16; // px por frame
+    const step = () => {
+      v *= 0.94;
+      spin(v);
+      if (Math.abs(v) > 0.08) inertia.current = requestAnimationFrame(step);
+    };
+    if (Math.abs(v) > 0.5) inertia.current = requestAnimationFrame(step);
   };
 
   const brightness = state?.palette.brightness ?? 0.5;
   const scrimOpacity = 0.16 + brightness * 0.42;
 
-  const onPointerMove = (event: React.PointerEvent) => {
-    const rect = containerRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-    let found: PlanetHit | null = null;
-    for (const hit of hits) {
-      if (Math.hypot(hit.x - x, hit.y - y) < 22) {
-        found = hit;
-        break;
-      }
-    }
-    setHover(found);
-  };
-
   const moonLabel = state
-    ? `${planetNames['moon']![lang].toUpperCase()} ${Math.round(state.moon.fraction * 100)}% ${moonPhaseName(
-        state.moon.phaseAngle,
-      )[lang].toUpperCase()}`
+    ? `${planetNames["moon"]![lang].toUpperCase()} ${Math.round(
+        state.moon.fraction * 100,
+      )}% ${moonPhaseName(state.moon.phaseAngle)[lang].toUpperCase()}`
     : null;
 
   return (
     <>
       <div
         ref={containerRef}
+        onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
-        onPointerLeave={() => setHover(null)}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerUp}
         className="absolute inset-0 overflow-hidden"
+        style={{ touchAction: "pan-y", cursor: "grab" }}
       >
         {previous && (
           <SkyLayer
@@ -91,6 +175,7 @@ export function RealSky({ children }: { children?: ReactNode }) {
             reduced={reduced}
             lang={lang}
             mobile={isMobile}
+            viewAzRef={viewAzRef}
           />
         )}
         <SkyLayer
@@ -101,7 +186,8 @@ export function RealSky({ children }: { children?: ReactNode }) {
           reduced={reduced}
           lang={lang}
           mobile={isMobile}
-          onState={setState}
+          viewAzRef={viewAzRef}
+          onState={receiveState}
           onHits={setHits}
         />
 
@@ -118,31 +204,41 @@ export function RealSky({ children }: { children?: ReactNode }) {
           }}
         />
 
+        {/* Cuerpos interactivos: botones reales sobre el canvas, focalizables. */}
+        {hits.map((hit) => (
+          <button
+            key={hit.id}
+            type="button"
+            onClick={() => setSelected(hit)}
+            aria-label={`${t("skyOpenBody")} ${planetNames[hit.id]?.[lang] ?? hit.name}`}
+            className="group absolute z-20 -translate-x-1/2 -translate-y-1/2 rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/80"
+            style={{
+              left: hit.x,
+              top: hit.y,
+              width: Math.max(44, hit.r * 2.4),
+              height: Math.max(44, hit.r * 2.4),
+            }}
+          >
+            <span
+              aria-hidden="true"
+              className="absolute inset-[18%] rounded-full border border-white/0 transition-colors group-hover:border-white/60 group-focus-visible:border-white/70"
+            />
+          </button>
+        ))}
+
         <AnimatePresence>
-          {hover && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.94 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.94 }}
-              transition={springFast}
-              className="glass pointer-events-none absolute z-20 label -translate-x-1/2 -translate-y-[150%] rounded-full px-3 py-1.5 whitespace-nowrap"
-              style={{ left: hover.x, top: hover.y }}
-            >
-              {(planetNames[hover.id]?.[lang] ?? hover.name).toUpperCase()} ·{" "}
-              {Math.round(hover.alt)}° {compass(hover.az, lang)}
-            </motion.div>
-          )}
+          {selected && <SkyBodyCard hit={selected} onClose={() => setSelected(null)} />}
         </AnimatePresence>
       </div>
 
-      {/* Composición centrada: logo, ciudades y datos, en columna sobre el eje. */}
+      {/* Composición centrada: logo, ciudades, datos y brújula, sobre el eje. */}
       <div
-        className="relative z-10 flex flex-1 flex-col items-center justify-center gap-8 px-5 pb-14"
+        className="pointer-events-none relative z-10 flex flex-1 flex-col items-center justify-center gap-8 px-5 pb-14"
         style={{ paddingTop: "var(--header-height)" }}
       >
         {children}
 
-        <div className="flex flex-col items-center gap-3">
+        <div className="pointer-events-auto flex flex-col items-center gap-3">
           <div
             role="group"
             aria-label={t("skyCityLabel")}
@@ -189,6 +285,16 @@ export function RealSky({ children }: { children?: ReactNode }) {
             </span>
           </p>
         </div>
+      </div>
+
+      {/* Brújula: dirección actual de la vista, en el eje central. */}
+      <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2">
+        <p className="glass label flex items-center gap-2 rounded-full px-3.5 py-1.5">
+          <span className="opacity-60">{t("skyCompass")}</span>
+          <span>{compass(heading, lang)}</span>
+          <span className="opacity-60">{Math.round(heading)}°</span>
+          <span className="hidden opacity-45 sm:inline">· {t("skyDragHint")}</span>
+        </p>
       </div>
     </>
   );

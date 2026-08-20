@@ -10,6 +10,7 @@ import {
   MoonPhase,
   Observer,
   SiderealTime,
+  GeoVector,
 } from "astronomy-engine";
 import starCatalog from "@/data/stars.json";
 
@@ -261,4 +262,25 @@ export function localTime(city: City, date: Date, withSeconds = false) {
     ...(withSeconds ? { second: "2-digit" as const } : {}),
     hour12: false,
   }).format(date);
+}
+
+const AU_KM = 149_597_870.7;
+
+const bodyMap: Record<string, Body> = {
+  mercury: Body.Mercury,
+  venus: Body.Venus,
+  mars: Body.Mars,
+  jupiter: Body.Jupiter,
+  saturn: Body.Saturn,
+  moon: Body.Moon,
+  sun: Body.Sun,
+};
+
+/** Distancia geocéntrica actual en millones de kilómetros, calculada en vivo. */
+export function bodyDistanceMkm(id: string, date: Date): number | null {
+  const body = bodyMap[id];
+  if (!body) return null;
+  const v = GeoVector(body, date, true);
+  const au = Math.hypot(v.x, v.y, v.z);
+  return (au * AU_KM) / 1_000_000;
 }
