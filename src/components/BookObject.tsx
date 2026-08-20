@@ -312,6 +312,7 @@ export function BookObject({
           rotateY: reduced ? 0 : coverRotate,
           translateZ: thickness / 2,
           boxShadow: "6px 10px 30px -12px rgba(0,0,0,0.55)",
+          backfaceVisibility: "hidden",
           opacity: reduced && open ? 0 : 1,
         }}
       >
