@@ -94,8 +94,15 @@
 
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 5.5rem;
+    scroll-padding-top: var(--header-height);
   }
+
+  /* Al navegar desde el menú, el título nunca queda detrás de las barras fijas. */
+  [id] {
+    scroll-margin-top: var(--header-height);
+  }
+
+
 
   body {
     background-color: var(--bg);
