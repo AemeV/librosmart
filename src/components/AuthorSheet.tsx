@@ -130,7 +130,7 @@ export function AuthorSheet() {
                   <h2 className="display-m mt-6">
                     David Mauricio Guerrero Vélez
                   </h2>
-                  <p className="label mt-3">{t("authorSheetRole")}</p>
+                  <p className="label mt-4">{t("authorSheetRole")}</p>
                 </div>
 
                 <div className="prose-measure mt-10 space-y-5 text-left">
@@ -154,9 +154,9 @@ export function AuthorSheet() {
                         className="rounded-[14px] border border-line bg-surface-alt p-6 text-center"
                       >
                         <Icon className="mx-auto h-5 w-5 text-text-muted" aria-hidden="true" />
-                        <p className="numeral mt-3 text-[28px] leading-none">{value}</p>
+                        <p className="numeral mt-4">{value}</p>
                         <p className="label mt-2">{t(label)}</p>
-                        <p className="body-s mt-3">{t(detail)}</p>
+                        <p className="body-s mt-4">{t(detail)}</p>
                       </div>
                     ))}
                   </div>
@@ -171,12 +171,12 @@ export function AuthorSheet() {
                     target="_blank"
                     rel="noopener noreferrer"
                     whileTap={tap}
-                    className="glass mt-5 inline-flex items-center gap-3 rounded-full px-5 py-3"
+                    className="glass mt-6 inline-flex items-center gap-3 rounded-full px-5 py-3"
                   >
                     <Instagram className="h-4 w-4" aria-hidden="true" />
                     <span className="body">{INSTAGRAM_HANDLE}</span>
                   </motion.a>
-                  <p className="body-s mt-3">{t("authorSocialDetail")}</p>
+                  <p className="body-s mt-4">{t("authorSocialDetail")}</p>
                 </section>
 
                 <section
@@ -186,7 +186,7 @@ export function AuthorSheet() {
                   <h3 id="autor-cta" className="display-m">
                     {t("authorCtaTitle")}
                   </h3>
-                  <p className="body-s mx-auto mt-3 max-w-xl">
+                  <p className="body-s mx-auto mt-4 max-w-xl">
                     {t("authorCtaDetail")}
                   </p>
                   <motion.button

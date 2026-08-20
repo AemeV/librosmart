@@ -19,7 +19,7 @@ export function SectionHeading({
   return (
     <motion.div variants={childVariants} className="mx-auto max-w-3xl text-center">
       {eyebrow ? <p className="label">{eyebrow}</p> : null}
-      <h2 className={`mt-3 ${size === "xl" ? "display-xl" : "display-m"}`}>{title}</h2>
+      <h2 className={`mt-4 ${size === "xl" ? "display-xl" : "display-m"}`}>{title}</h2>
       {subtitle ? <p className="body-s mx-auto mt-4 max-w-[52ch]">{subtitle}</p> : null}
     </motion.div>
   );

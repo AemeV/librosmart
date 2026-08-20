@@ -106,7 +106,7 @@ export function ContactSection() {
               {errors.name ? <p className="body-s mt-2">{errors.name}</p> : null}
             </div>
 
-            <div className="mt-5">
+            <div className="mt-6">
               <label htmlFor="email" className="label">
                 {t("formEmail")}
               </label>
@@ -122,7 +122,7 @@ export function ContactSection() {
               {errors.email ? <p className="body-s mt-2">{errors.email}</p> : null}
             </div>
 
-            <div className="mt-5">
+            <div className="mt-6">
               <label htmlFor="message" className="label">
                 {t("formMessage")}
               </label>

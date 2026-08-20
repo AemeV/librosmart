@@ -15,6 +15,8 @@ export const strings = {
   navContact: { es: "Contacto", en: "Contact" },
   menu: { es: "Menú", en: "Menu" },
   close: { es: "Cerrar", en: "Close" },
+  viewContents: { es: "Ver índice", en: "View contents" },
+  hideContents: { es: "Ocultar índice", en: "Hide contents" },
 
   themeLight: { es: "Tema claro", en: "Light theme" },
   themeDark: { es: "Tema oscuro", en: "Dark theme" },
