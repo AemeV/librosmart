@@ -113,6 +113,59 @@ export const strings = {
   },
   rights: { es: "Todos los derechos reservados.", en: "All rights reserved." },
   follow: { es: "Redes", en: "Social" },
+
+  authorSheetOpen: { es: "Conoce al autor", en: "Meet the author" },
+  authorSheetRole: { es: "Divulgador científico", en: "Science writer" },
+  authorSheetDrag: { es: "Desliza hacia abajo para cerrar", en: "Drag down to close" },
+  authorPortraitAlt: {
+    es: "Retrato de David Mauricio Guerrero Vélez",
+    en: "Portrait of David Mauricio Guerrero Vélez",
+  },
+  authorSheetBio1: {
+    es: "David Mauricio Guerrero Vélez nació en Colombia y lleva más de una década contando ciencia: biodiversidad, extinciones, exploración espacial y los descubrimientos que están redefiniendo la forma en que entendemos el planeta.",
+    en: "David Mauricio Guerrero Vélez was born in Colombia and has spent over a decade telling science stories: biodiversity, extinctions, space exploration and the discoveries redefining how we understand the planet.",
+  },
+  authorSheetBio2: {
+    es: "Su trabajo parte de un principio fijo: rigor sin jerga. Cada libro nace de fuentes revisadas por pares y se escribe para que un lector de quince años y un profesor universitario puedan leerlo con el mismo gusto.",
+    en: "His work follows one fixed principle: rigor without jargon. Every book starts from peer-reviewed sources and is written so a fifteen-year-old and a university professor can both enjoy it.",
+  },
+  authorSheetBio3: {
+    es: "Desde Librosmart, su editorial personal, publica la colección Sm@rt y sus títulos monográficos, y acompaña cada lanzamiento con charlas, videos y material educativo para colegios y universidades.",
+    en: "Through Librosmart, his personal imprint, he publishes the Sm@rt collection and his monographic titles, pairing every launch with talks, videos and educational material for schools and universities.",
+  },
+  authorTrackTitle: { es: "Trayectoria", en: "Track record" },
+  trackBooks: { es: "Libros publicados", en: "Published books" },
+  trackBooksDetail: {
+    es: "Títulos de divulgación en español e inglés, en formato físico y digital.",
+    en: "Science titles in Spanish and English, in print and digital.",
+  },
+  trackVideos: { es: "Videos de divulgación", en: "Science videos" },
+  trackVideosDetail: {
+    es: "Cápsulas y series que amplían los temas de cada libro.",
+    en: "Short explainers and series expanding each book's topics.",
+  },
+  trackTalks: { es: "Charlas", en: "Talks" },
+  trackTalksDetail: {
+    es: "Colegios, universidades y ferias del libro en Colombia y América Latina.",
+    en: "Schools, universities and book fairs across Colombia and Latin America.",
+  },
+  trackConferences: { es: "Conferencias", en: "Conferences" },
+  trackConferencesDetail: {
+    es: "Participación en encuentros de ciencia, educación y medio ambiente.",
+    en: "Appearances at science, education and environment gatherings.",
+  },
+  authorSocialTitle: { es: "Redes personales", en: "Personal channels" },
+  authorSocialDetail: {
+    es: "Viajes, ciencia y detrás de cámaras de cada libro.",
+    en: "Travel, science and the making of each book.",
+  },
+  authorCtaTitle: { es: "¿Quieres invitarlo a una conferencia?", en: "Want to book a talk?" },
+  authorCtaDetail: {
+    es: "Charlas para colegios, universidades, empresas y ferias del libro, en español o inglés.",
+    en: "Talks for schools, universities, companies and book fairs, in Spanish or English.",
+  },
+  authorCtaButton: { es: "Escribir para conferencias", en: "Get in touch for talks" },
+
 } satisfies Record<string, Localized>;
 
 export type StringKey = keyof typeof strings;
