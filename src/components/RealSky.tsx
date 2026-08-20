@@ -114,9 +114,10 @@ export function RealSky() {
           style={{
             opacity: scrimOpacity,
             backgroundImage: [
-              "linear-gradient(100deg, rgba(4,6,14,0.96) 0%, rgba(4,6,14,0.72) 38%, rgba(4,6,14,0.12) 70%, rgba(4,6,14,0) 100%)",
-              "linear-gradient(180deg, rgba(4,6,14,0.5) 0%, rgba(4,6,14,0.12) 55%, rgba(4,6,14,0.35) 100%)",
+              "radial-gradient(60% 45% at 50% 48%, rgba(4,6,14,0.9) 0%, rgba(4,6,14,0.55) 55%, rgba(4,6,14,0) 100%)",
+              "linear-gradient(180deg, rgba(4,6,14,0.35) 0%, rgba(4,6,14,0.1) 45%, rgba(4,6,14,0.4) 100%)",
             ].join(", "),
+
           }}
         />
 
