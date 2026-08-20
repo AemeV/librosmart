@@ -138,7 +138,7 @@ export function RealSky() {
       </div>
 
       {/* Selector de ciudades */}
-      <div className="pointer-events-auto absolute top-28 right-4 z-20 sm:right-6 sm:top-32">
+      <div className="pointer-events-auto absolute right-4 bottom-4 z-20 sm:right-6 sm:bottom-6">
         <div
           role="group"
           aria-label={t("skyCityLabel")}
@@ -170,7 +170,7 @@ export function RealSky() {
             </motion.button>
           ))}
         </div>
-        <p className="mt-2 text-right label opacity-70">
+        <p className="label mt-2 text-right opacity-70">
           {clock ? localTime(city, clock, true) : "--:--:--"}
         </p>
       </div>
