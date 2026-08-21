@@ -24,7 +24,7 @@ export const Route = createFileRoute("/_site/orion")({
 });
 
 function OrionPage() {
-  const { t, tr } = useLang();
+  const { t } = useLang();
 
   return (
     <>
