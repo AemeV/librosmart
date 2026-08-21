@@ -277,16 +277,16 @@ export function OrbitScene() {
       <div
         className="absolute inset-x-0 bottom-0 h-[46%] overflow-hidden"
         style={{
-          maskImage: "linear-gradient(180deg, #000 0%, #000 84%, rgba(0,0,0,0) 100%)",
-          WebkitMaskImage: "linear-gradient(180deg, #000 0%, #000 84%, rgba(0,0,0,0) 100%)",
+          maskImage: "linear-gradient(180deg, #000 0%, #000 93%, rgba(0,0,0,0) 100%)",
+          WebkitMaskImage: "linear-gradient(180deg, #000 0%, #000 93%, rgba(0,0,0,0) 100%)",
         }}
       >
         <div
           className="absolute left-1/2 aspect-square w-[250vw] -translate-x-1/2 rounded-full"
           style={{
-            top: "72%",
+            top: "70%",
             background:
-              "radial-gradient(circle at 50% 0%, #1B0A3F 0%, #120428 45%, #0A0118 100%)",
+              "radial-gradient(circle at 50% 0%, #241048 0%, #140630 40%, #0A0118 100%)",
             boxShadow:
               "0 -2px 4px rgba(200,180,255,0.55), 0 -12px 40px rgba(144,91,244,0.35), 0 -40px 120px rgba(78,43,204,0.22)",
           }}
@@ -297,7 +297,7 @@ export function OrbitScene() {
             reduced ? "" : "arc-breath"
           }`}
           style={{
-            top: "72%",
+            top: "70%",
             boxShadow:
               "0 -2px 4px rgba(200,180,255,0.4), 0 -12px 40px rgba(144,91,244,0.28), 0 -40px 120px rgba(78,43,204,0.16)",
             opacity: 0.1,
