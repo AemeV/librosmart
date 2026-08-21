@@ -138,6 +138,7 @@
 
 
   body {
+  hyphens: none;
     background-color: var(--bg);
     color: var(--text);
     font-family: var(--font-sans);
@@ -457,7 +458,7 @@
 @utility prose-measure {
   max-width: 60ch;
   margin-inline: auto;
-  text-align: left;
+  text-align: center;
 }
 
 @utility no-scrollbar {

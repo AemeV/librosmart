@@ -80,7 +80,7 @@ export function ReviewsSection() {
                     ))}
                   </div>
                 ) : null}
-                <blockquote className="body mt-4 text-justify hyphens-auto">
+                <blockquote className="body mt-4 text-center">
                   “{tr(review.text)}”
                 </blockquote>
                 <figcaption className="label mt-6">

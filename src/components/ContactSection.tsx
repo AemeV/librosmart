@@ -1,16 +1,15 @@
 import { motion, useReducedMotion, AnimatePresence } from "motion/react";
-import { Mail, Phone, Instagram, Youtube, Facebook, Music2, Check } from "lucide-react";
+import { Mail, Phone, Instagram, Music2, Check } from "lucide-react";
 import { useState } from "react";
+import { INSTAGRAM_URL, TIKTOK_URL } from "@/lib/social";
 import { useLang } from "@/context/LanguageContext";
 import { LogoSmart } from "./LogoSmart";
 import { SectionHeading } from "./SectionHeading";
 import { childVariants, inViewProps, sectionVariants, springFast, tap } from "@/lib/motion-config";
 
 const socials = [
-  { name: "Instagram", href: "https://instagram.com/", Icon: Instagram },
-  { name: "YouTube", href: "https://youtube.com/", Icon: Youtube },
-  { name: "TikTok", href: "https://tiktok.com/", Icon: Music2 },
-  { name: "Facebook", href: "https://facebook.com/", Icon: Facebook },
+  { name: "Instagram", href: INSTAGRAM_URL, Icon: Instagram },
+  { name: "TikTok", href: TIKTOK_URL, Icon: Music2 },
 ];
 
 type Errors = { name?: string; email?: string; message?: string };
