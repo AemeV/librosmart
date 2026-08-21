@@ -75,11 +75,18 @@ export function Header() {
   const hash = (id: string) => (isLanding ? `#${id}` : `/#${id}`);
   const { scrollY } = useScroll();
   const [navVisible, setNavVisible] = useState(true);
+  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const lastY = useRef(0);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  /**
+   * En el inicio, arriba del todo, el cristal del header se esconde: el logo
+   * grande vive en el hero. Al empezar a bajar, aparece y recibe el logo.
+   */
+  const chromeVisible = !isLanding || scrolled;
 
   useMotionValueEvent(scrollY, "change", (y) => {
+    setScrolled(y > 12);
     if (Math.abs(y - lastY.current) > 8) {
       setNavVisible(y < lastY.current || y < 120);
       lastY.current = y;
