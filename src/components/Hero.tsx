@@ -45,13 +45,12 @@ export function Hero() {
     <section
       id="top"
       aria-label={t("brand")}
-      className="relative flex flex-col items-center justify-center gap-10 overflow-hidden px-5"
+      className="relative flex flex-col items-center overflow-hidden px-5"
       style={{ minHeight: "88svh", paddingTop: "var(--header-height)" }}
     >
       <PlanetGlow />
 
-      <motion.div {...rise(0)} className="flex w-full justify-center">
-
+      <motion.div {...rise(0)} className="flex w-full justify-center pt-[8vh] sm:pt-[10vh]">
         <div
           ref={setHeroSlot}
           className="w-[82vw] max-w-[1200px] sm:w-[62vw]"
@@ -61,52 +60,54 @@ export function Hero() {
         </div>
       </motion.div>
 
-      <motion.div {...rise(1)} className="mt-8 sm:mt-20">
-        <BorderBeam
-          size="pulse-inner"
-          colorVariant="mono"
-          theme={resolved}
-          strength={1}
-          className="inline-flex"
-        >
-          <motion.button
-            type="button"
-            onClick={goToFeaturedBook}
-            whileTap={tap}
-            whileHover={reduced ? {} : { y: -2 }}
-            className="glass group flex flex-col items-center gap-0.5 rounded-full px-7 py-3 text-center"
+      <div className="z-1 mt-auto flex w-full flex-col items-center pb-24 sm:pb-28">
+        <motion.div {...rise(1)}>
+          <BorderBeam
+            size="pulse-inner"
+            colorVariant="mono"
+            theme={resolved}
+            strength={1}
+            className="inline-flex"
           >
-            <span className="label">{t("heroNew")}</span>
-            <span className="flex items-center gap-2">
-              <span className="pill-title">{featured.title}</span>
-              <motion.span
-                aria-hidden="true"
-                className="flex items-center"
-                variants={{ rest: { y: 0 }, hover: { y: 2 } }}
-                transition={{ type: "spring", stiffness: 320, damping: 22 }}
-              >
-                <ChevronDown className="h-4 w-4" />
-              </motion.span>
-            </span>
-          </motion.button>
-        </BorderBeam>
-      </motion.div>
+            <motion.button
+              type="button"
+              onClick={goToFeaturedBook}
+              whileTap={tap}
+              whileHover={reduced ? {} : { y: -2 }}
+              className="glass group flex flex-col items-center gap-0.5 rounded-full px-7 py-3 text-center"
+            >
+              <span className="label">{t("heroNew")}</span>
+              <span className="flex items-center gap-2">
+                <span className="pill-title">{featured.title}</span>
+                <motion.span
+                  aria-hidden="true"
+                  className="flex items-center"
+                  variants={{ rest: { y: 0 }, hover: { y: 2 } }}
+                  transition={{ type: "spring", stiffness: 320, damping: 22 }}
+                >
+                  <ChevronDown className="h-4 w-4" />
+                </motion.span>
+              </span>
+            </motion.button>
+          </BorderBeam>
+        </motion.div>
 
-      <motion.div
-        aria-hidden="true"
-        className="absolute bottom-6 flex flex-col items-center gap-1"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.55 }}
-        transition={{ delay: 0.6, duration: 0.8 }}
-      >
-        <span className="label">{t("heroScroll")}</span>
-        <motion.span
-          animate={reduced ? {} : { y: [0, 5, 0] }}
-          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+        <motion.div
+          aria-hidden="true"
+          className="mt-3 flex flex-col items-center gap-1"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.7 }}
+          transition={{ delay: 0.8, duration: 0.8 }}
         >
-          <ChevronDown className="h-4 w-4" />
-        </motion.span>
-      </motion.div>
+          <span className="label">{t("heroScroll")}</span>
+          <motion.span
+            animate={reduced ? {} : { y: [0, 5, 0] }}
+            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+          >
+            <ChevronDown className="h-4 w-4" />
+          </motion.span>
+        </motion.div>
+      </div>
     </section>
   );
 }
