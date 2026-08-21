@@ -157,7 +157,7 @@ const emptyBook = (position = 99): BookRow => ({
   description_en: "",
   year: new Date().getFullYear(),
   featured: false,
-  position: 99,
+  position,
   cover_url: "",
   back_cover_url: null,
   back_cover_es: "",
