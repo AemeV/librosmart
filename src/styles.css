@@ -260,6 +260,15 @@
   }
 }
 
+/* Borde degradado para fotos y elementos destacados. */
+@utility gradient-border {
+  border-radius: 18px;
+  background:
+    linear-gradient(var(--surface), var(--surface)) padding-box,
+    linear-gradient(135deg, #905bf4, #4e2bcc) border-box;
+  border: 2px solid transparent;
+}
+
 /* Deriva líquida del fondo: tres trayectorias desfasadas y muy lentas. */
 @keyframes liquid-a {
   0% {
