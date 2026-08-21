@@ -178,10 +178,9 @@ export function Footer() {
       <div className="mx-auto flex max-w-[1100px] flex-col items-center gap-3 px-5 text-center sm:px-6">
         <span className="flex items-center gap-3">
           <LogoSmart className="h-5 w-auto text-text" />
-          <span className="body">{t("brand")}</span>
         </span>
         <span className="label">
-          © {new Date().getFullYear()} Librosmart · {t("rights")}
+          © {new Date().getFullYear()} · {t("rights")}
         </span>
       </div>
     </footer>

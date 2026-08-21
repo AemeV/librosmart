@@ -2,7 +2,7 @@ export type Lang = "es" | "en";
 export type Localized = { es: string; en: string };
 
 export const strings = {
-  brand: { es: "Librosmart", en: "Librosmart" },
+  brand: { es: "Sm@rt", en: "Sm@rt" },
 
   navBooks: { es: "Libros", en: "Books" },
   navAuthor: { es: "El autor", en: "The author" },
@@ -19,7 +19,7 @@ export const strings = {
   themeSystem: { es: "Tema del sistema", en: "System theme" },
   langLabel: { es: "Idioma de la interfaz", en: "Interface language" },
 
-  heroKicker: { es: "Librosmart presenta", en: "Librosmart presents" },
+  heroKicker: { es: "Sm@rt presenta", en: "Sm@rt presents" },
   heroTitle: {
     es: "La ciencia, contada para que no se olvide",
     en: "Science, told so it stays with you",
@@ -87,8 +87,8 @@ export const strings = {
     en: "David Mauricio Guerrero Vélez is a Colombian science writer. He writes about biodiversity, space exploration and the discoveries reshaping how we understand the world, with one fixed principle: rigor without jargon.",
   },
   authorBio2: {
-    es: "Librosmart es su editorial personal, desde donde publica la colección Sm@rt y los títulos monográficos.",
-    en: "Librosmart is his personal imprint, home to the Sm@rt collection and his monographic titles.",
+    es: "Sm@rt es su editorial personal, desde donde publica la colección Sm@rt y los títulos monográficos.",
+    en: "Sm@rt is his personal imprint, home to the Sm@rt collection and his monographic titles.",
   },
 
   projectsTitle: { es: "Otros proyectos", en: "Other projects" },
@@ -96,7 +96,7 @@ export const strings = {
     es: "Charlas, contenidos y colaboraciones alrededor de los libros.",
     en: "Talks, content and collaborations around the books.",
   },
-  projectsEyebrow: { es: "Librosmart", en: "Librosmart" },
+  projectsEyebrow: { es: "Sm@rt", en: "Sm@rt" },
   projectsIntro: {
     es: "Lo que ocurre alrededor de los libros: una cerveza artesanal, un podcast, expediciones de campo y talleres para colegios.",
     en: "Everything that happens around the books: a craft beer, a podcast, field expeditions and school workshops.",
@@ -142,8 +142,8 @@ export const strings = {
     en: "His work follows one fixed principle: rigor without jargon. Every book starts from peer-reviewed sources and is written so a fifteen-year-old and a university professor can both enjoy it.",
   },
   authorSheetBio3: {
-    es: "Desde Librosmart, su editorial personal, publica la colección Sm@rt y sus títulos monográficos, y acompaña cada lanzamiento con charlas, videos y material educativo para colegios y universidades.",
-    en: "Through Librosmart, his personal imprint, he publishes the Sm@rt collection and his monographic titles, pairing every launch with talks, videos and educational material for schools and universities.",
+    es: "Desde Sm@rt, su editorial personal, publica la colección Sm@rt y sus títulos monográficos, y acompaña cada lanzamiento con charlas, videos y material educativo para colegios y universidades.",
+    en: "Through Sm@rt, his personal imprint, he publishes the Sm@rt collection and his monographic titles, pairing every launch with talks, videos and educational material for schools and universities.",
   },
   authorTrackTitle: { es: "Trayectoria", en: "Track record" },
   trackBooks: { es: "Libros publicados", en: "Published books" },

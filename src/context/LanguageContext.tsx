@@ -27,8 +27,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       setLangState(stored);
       return;
     }
-    const detected = navigator.language?.toLowerCase().startsWith("es") ? "es" : "en";
-    setLangState(detected);
+    // Español por defecto: sin preferencia guardada la página siempre carga en ES.
+    setLangState("es");
   }, []);
 
   useEffect(() => {

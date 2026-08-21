@@ -198,7 +198,6 @@
 @utility body-lead {
   font-family: var(--font-sans);
   font-weight: 400;
-  font-style: italic;
   font-size: 18px;
   line-height: 1.5;
   @media (width >= 40rem) {
