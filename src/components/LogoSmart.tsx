@@ -68,11 +68,11 @@ export function LogoSmart({ className, plain = false }: { className?: string; pl
           gradientUnits="objectBoundingBox"
           gradientTransform={`rotate(${angle.get()} 0.5 0.5)`}
         >
-          <stop offset="0" stopColor="#EFEFEF" />
-          <stop offset="0.4" stopColor="#905BF4" />
-          <stop offset="0.5" stopColor="#4E2BCC" />
-          <stop offset="0.6" stopColor="#905BF4" />
-          <stop offset="1" stopColor="#EFEFEF" />
+          <stop offset="0" className="[stop-color:#0f032d] dark:[stop-color:#efefef]" />
+          <stop offset="0.4" className="[stop-color:#4e2bcc] dark:[stop-color:#905bf4]" />
+          <stop offset="0.5" className="[stop-color:#905bf4] dark:[stop-color:#4e2bcc]" />
+          <stop offset="0.6" className="[stop-color:#4e2bcc] dark:[stop-color:#905bf4]" />
+          <stop offset="1" className="[stop-color:#0f032d] dark:[stop-color:#efefef]" />
         </linearGradient>
 
         <linearGradient id={`sheen-${uid}`} x1="0" y1="0" x2="1" y2="0">
