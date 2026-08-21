@@ -3,7 +3,7 @@ import { Check, ChevronDown } from "lucide-react";
 import { useRef, useState } from "react";
 import type { Book, Edition } from "@/data/books";
 import { useLang } from "@/context/LanguageContext";
-import { BookObject } from "./BookObject";
+import { BookCard } from "./BookCard";
 import { RetailerButton } from "./RetailerButton";
 import { CrossfadeText } from "./CrossfadeText";
 import { childVariants, inViewProps, sectionVariants, springFast, tap } from "@/lib/motion-config";
@@ -17,7 +17,7 @@ function ContentsAccordion({ book, edition }: { book: Book; edition: Edition }) 
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="w-full md:hidden">
+    <div className="w-full">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
@@ -105,7 +105,12 @@ export function BookEntry({ book }: { book: Book }) {
       }`}
     >
       <motion.div variants={childVariants} style={{ y: parallax }}>
-        <BookObject book={book} edition={edition} featured={book.featured} />
+        <BookCard
+          book={book}
+          edition={edition}
+          featured={book.featured}
+          alt={`${t("coverAlt")} ${book.title}`}
+        />
       </motion.div>
 
       <motion.div variants={childVariants} className="mt-8 w-full">
