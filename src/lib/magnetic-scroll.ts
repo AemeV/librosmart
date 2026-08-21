@@ -22,13 +22,18 @@ const headerOffset = () =>
 
 /** Destino: centro del bloque alineado con el centro de la ventana. */
 function targetY(): number | null {
-  const block = document.querySelector<HTMLElement>("[data-magnet-block]");
-  if (block) {
-    const rect = block.getBoundingClientRect();
-    const tall = rect.height > window.innerHeight - headerOffset() - 24;
+  // El bloque puede marcarse con uno o dos nodos (inicio y fin); se centra la
+  // unión de sus rectángulos: portada … título.
+  const parts = Array.from(document.querySelectorAll<HTMLElement>("[data-magnet-block]"));
+  if (parts.length > 0) {
+    const rects = parts.map((el) => el.getBoundingClientRect());
+    const top = Math.min(...rects.map((r) => r.top));
+    const bottom = Math.max(...rects.map((r) => r.bottom));
+    const height = bottom - top;
+    const tall = height > window.innerHeight - headerOffset() - 24;
     const y = tall
-      ? rect.top + window.scrollY - headerOffset() - 24
-      : rect.top + window.scrollY - (window.innerHeight - rect.height) / 2;
+      ? top + window.scrollY - headerOffset() - 24
+      : top + window.scrollY - (window.innerHeight - height) / 2;
     return Math.min(Math.max(y, 0), maxScroll());
   }
   // Fallback: ancla del libro con offset de header.
