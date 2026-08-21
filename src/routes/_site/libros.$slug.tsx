@@ -15,11 +15,11 @@ export const Route = createFileRoute("/_site/libros/$slug")({
   head: ({ loaderData }) => {
     if (!loaderData) {
       return {
-        meta: [{ title: "Librosmart" }, { name: "robots", content: "noindex" }],
+        meta: [{ title: "Sm@rt" }, { name: "robots", content: "noindex" }],
       };
     }
     const { book } = loaderData;
-    const title = `${book.title} — Librosmart`;
+    const title = `${book.title} — Sm@rt`;
     const description = book.description.es.slice(0, 155);
     return {
       meta: [
