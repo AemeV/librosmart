@@ -58,21 +58,20 @@ export function Hero() {
           <Link
             to="/libros/$slug"
             params={{ slug: featured.slug }}
-            className="glass flex min-h-11 items-center gap-2 rounded-full px-4 py-2"
+            className="glass border-beam flex flex-col items-center gap-1 rounded-full px-7 py-3 text-center"
           >
-            <span className="label !text-accent">{t("heroNew")}</span>
-            <span aria-hidden="true" className="label opacity-40">
-              ·
+            <span className="label">{t("heroNew")}</span>
+            <span className="flex items-center gap-2">
+              <span className="pill-title">{featured.title}</span>
+              <motion.span
+                aria-hidden="true"
+                className="flex items-center"
+                variants={{ rest: { x: 0 }, hover: { x: 4 } }}
+                transition={{ type: "spring", stiffness: 320, damping: 22 }}
+              >
+                <ArrowRight className="h-4 w-4" />
+              </motion.span>
             </span>
-            <span className="pill-title">{featured.title}</span>
-            <motion.span
-              aria-hidden="true"
-              className="flex items-center"
-              variants={{ rest: { x: 0 }, hover: { x: 4 } }}
-              transition={{ type: "spring", stiffness: 320, damping: 22 }}
-            >
-              <ArrowRight className="h-4 w-4" />
-            </motion.span>
           </Link>
         </motion.div>
       </motion.div>
