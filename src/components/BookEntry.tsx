@@ -169,7 +169,7 @@ export function BookEntry({ book }: { book: Book }) {
           {fourPoints.map((point, index) => (
             <li
               key={`${book.slug}-kp-${index}`}
-              className="glass-card-dark glass-card-content flex flex-col items-center p-5 text-center sm:p-6"
+              className="glass-card-dark glass-card-content !shadow-none flex flex-col items-center p-5 text-center sm:p-6"
             >
               <p className="body text-center text-seashell">{tr(point.title)}</p>
               <p className="body-s mt-2 text-center text-seashell/80">{tr(point.text)}</p>
