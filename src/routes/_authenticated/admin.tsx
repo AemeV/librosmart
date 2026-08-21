@@ -233,8 +233,41 @@ function BooksAdmin() {
     await load();
   }
 
+  /** Mueve un libro en la lista y reescribe el orden de todas las filas. */
+  async function move(index: number, direction: -1 | 1) {
+    const next = [...rows];
+    const target = index + direction;
+    if (target < 0 || target >= next.length) return;
+    const a = next[index]!;
+    next[index] = next[target]!;
+    next[target] = a;
+    setRows(next);
+    const results = await Promise.all(
+      next.map((row, position) =>
+        supabase.from("books").update({ position }).eq("id", row.id),
+      ),
+    );
+    const failed = results.find((r) => r.error);
+    if (failed?.error) setError(failed.error.message);
+    else flash("Orden guardado");
+    await load();
+  }
+
+  async function toggleVisible(row: BookRow) {
+    const { error: updateError } = await supabase
+      .from("books")
+      .update({ published: !row.published })
+      .eq("id", row.id);
+    if (updateError) {
+      setError(updateError.message);
+      return;
+    }
+    await load();
+  }
+
   async function remove(id: string) {
-    if (!window.confirm("¿Borrar este libro del sitio?")) return;
+    if (!window.confirm("¿Borrar este libro del sitio? Si sólo quieres esconderlo, usa «Ocultar»."))
+      return;
     const { error: deleteError } = await supabase.from("books").delete().eq("id", id);
     if (deleteError) {
       setError(deleteError.message);
