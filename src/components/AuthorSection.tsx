@@ -50,13 +50,9 @@ export function AuthorSection() {
           <div id="autor-title">
             <SectionHeading title={t("authorTitle")} />
           </div>
-          <motion.div variants={childVariants} className="prose-measure mt-10 space-y-5">
-            <p className="body-lead">{t("authorBio1")}</p>
-            <p className="body">{t("authorBio2")}</p>
-          </motion.div>
-          <motion.p variants={childVariants} className="label mt-10 text-center">
-            David Mauricio Guerrero Vélez · Bogotá, Colombia
-          </motion.p>
+          <div className="mt-10 flex justify-center">
+            <AuthorCard className="w-full" />
+          </div>
         </div>
       </motion.section>
 
