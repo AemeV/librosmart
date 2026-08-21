@@ -51,7 +51,7 @@ const BODIES: Body[] = [
     id: "luna",
     left: "-6%",
     top: "6%",
-    size: "34vw",
+    size: "22vw",
     background: "radial-gradient(circle at 62% 22%, #2A1550 0%, #1A0A3C 60%, #14082F 100%)",
     boxShadow:
       "inset 8px -8px 16px -8px rgba(255,255,255,0.85), inset 4px -4px 26px -10px rgba(190,170,255,0.6), 0 0 60px rgba(144,91,244,0.12)",
@@ -61,14 +61,14 @@ const BODIES: Body[] = [
     delay: 0,
     scrollFactor: 1,
     cursorFactor: 1,
-    opacity: 0.5,
+    opacity: 0.32,
   },
   {
     // Marte: pequeño, a la derecha, a media altura. Filo rojizo.
     id: "marte",
     left: "84%",
     top: "38%",
-    size: "7vw",
+    size: "5.5vw",
     background: "radial-gradient(circle at 35% 25%, #2B1246 0%, #1A0A38 70%, #15082E 100%)",
     boxShadow:
       "inset -5px -5px 11px -5px rgba(224,138,92,0.7), 0 0 60px rgba(144,91,244,0.1)",
@@ -78,14 +78,14 @@ const BODIES: Body[] = [
     delay: -18,
     scrollFactor: 0.55,
     cursorFactor: 0.6,
-    opacity: 0.55,
+    opacity: 0.4,
   },
   {
     // Júpiter: mediano, abajo a la derecha, muy tenue y más lejano.
     id: "jupiter",
-    left: "68%",
-    top: "70%",
-    size: "16vw",
+    left: "78%",
+    top: "74%",
+    size: "12vw",
     background: "radial-gradient(circle at 40% 22%, #291247 0%, #1B0B3A 65%, #160830 100%)",
     boxShadow:
       "inset -6px -6px 14px -7px rgba(190,170,255,0.55), 0 0 60px rgba(144,91,244,0.08)",
@@ -95,7 +95,7 @@ const BODIES: Body[] = [
     delay: -40,
     scrollFactor: 0.2,
     cursorFactor: 0.25,
-    opacity: 0.3,
+    opacity: 0.18,
   },
 ];
 
@@ -274,7 +274,13 @@ export function OrbitScene() {
       ))}
 
       {/* Borde de la Tierra: 2.5x el ancho del viewport, asomando un 25%. */}
-      <div className="absolute inset-x-0 bottom-0 h-[46%] overflow-hidden">
+      <div
+        className="absolute inset-x-0 bottom-0 h-[46%] overflow-hidden"
+        style={{
+          maskImage: "linear-gradient(180deg, #000 0%, #000 46%, rgba(0,0,0,0) 96%)",
+          WebkitMaskImage: "linear-gradient(180deg, #000 0%, #000 46%, rgba(0,0,0,0) 96%)",
+        }}
+      >
         <div
           className="absolute left-1/2 aspect-square w-[250vw] -translate-x-1/2 rounded-full"
           style={{
