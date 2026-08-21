@@ -170,6 +170,95 @@
   }
 }
 
+/*
+ * Tarjetas glassmorphism: fondo translúcido, reflejos especulares y borde
+ * luminoso. Basado en el referente del usuario, adaptado a la paleta clara.
+ */
+@utility glass-card {
+  position: relative;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.32);
+  backdrop-filter: blur(12px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow:
+    -4px 14px 28px 0 rgba(15, 3, 45, 0.12),
+    inset 0 0 5px 1px rgba(255, 255, 255, 0.6);
+  overflow: hidden;
+
+  /* Reflejo diagonal superior-izquierdo */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    background: linear-gradient(to left top, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 50%);
+    z-index: 1;
+  }
+
+  /* Brillo suave de arriba hacia abajo */
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 100%);
+    z-index: 1;
+  }
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .glass-card {
+    background: rgba(239, 239, 239, 0.96);
+  }
+}
+
+@utility glass-card-content {
+  position: relative;
+  z-index: 10;
+}
+
+/* Variante oscura para tarjetas que viven sobre degradados o fondos morados. */
+@utility glass-card-dark {
+  position: relative;
+  border-radius: 20px;
+  background: rgba(15, 3, 45, 0.42);
+  backdrop-filter: blur(12px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow:
+    -4px 14px 28px 0 rgba(5, 1, 16, 0.35),
+    inset 0 0 5px 1px rgba(255, 255, 255, 0.18);
+  overflow: hidden;
+  color: #efefef;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    background: linear-gradient(to left top, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 50%);
+    z-index: 1;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 100%);
+    z-index: 1;
+  }
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .glass-card-dark {
+    background: rgba(26, 13, 63, 0.96);
+  }
+}
+
 /* Deriva líquida del fondo: tres trayectorias desfasadas y muy lentas. */
 @keyframes liquid-a {
   0% {
