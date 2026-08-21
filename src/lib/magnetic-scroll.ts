@@ -20,15 +20,29 @@ const headerOffset = () =>
     10,
   ) || 104;
 
-/** Destino: centro del bloque alineado con el centro de la ventana. */
+/**
+ * Posición del elemento en el documento sin contar transformaciones (parallax,
+ * animaciones de entrada). Así el destino es estable y no se persigue a sí mismo.
+ */
+function layoutTop(el: HTMLElement): number {
+  let y = 0;
+  let node: HTMLElement | null = el;
+  while (node) {
+    y += node.offsetTop;
+    node = node.offsetParent as HTMLElement | null;
+  }
+  return y;
+}
+
+/** Destino: centro del bloque alineado con el centro del área útil. */
 function targetY(): number | null {
   // El bloque puede marcarse con uno o dos nodos (inicio y fin); se centra la
-  // unión de sus rectángulos: portada … título.
+  // unión: portada … título.
   const parts = Array.from(document.querySelectorAll<HTMLElement>("[data-magnet-block]"));
   if (parts.length > 0) {
-    const rects = parts.map((el) => el.getBoundingClientRect());
-    const top = Math.min(...rects.map((r) => r.top));
-    const bottom = Math.max(...rects.map((r) => r.bottom));
+    const tops = parts.map((el) => layoutTop(el));
+    const top = Math.min(...tops);
+    const bottom = Math.max(...parts.map((el, i) => tops[i]! + el.offsetHeight));
     const height = bottom - top;
     // Se centra dentro del área útil (debajo del header fijo); si el bloque no
     // cabe, se alinea justo bajo el header.
