@@ -6,7 +6,7 @@ import { ReviewsSection } from "@/components/ReviewsSection";
 import { AuthorSection } from "@/components/AuthorSection";
 import { ContactSection, Footer } from "@/components/ContactSection";
 
-const title = "Librosmart — Libros de David Mauricio Guerrero Vélez";
+const title = "Sm@rt — Libros de David Mauricio Guerrero Vélez";
 const description =
   "Los libros de divulgación científica de David Mauricio Guerrero Vélez: biodiversidad, espacio y la colección Sm@rt. Encuentra tu edición y tu librería.";
 
@@ -27,7 +27,7 @@ export const Route = createFileRoute("/_site/")({
 function Index() {
   return (
     <>
-      <h1 className="sr-only">Librosmart — David Mauricio Guerrero Vélez</h1>
+      <h1 className="sr-only">Sm@rt — David Mauricio Guerrero Vélez</h1>
       <Hero />
       <main>
         <BooksSection />

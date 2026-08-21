@@ -5,7 +5,9 @@ import { useLang } from "@/context/LanguageContext";
 import { useAuthorSheet } from "@/context/AuthorSheetContext";
 import { springSheet, tap } from "@/lib/motion-config";
 import type { StringKey } from "@/i18n/strings";
-import portrait from "@/assets/retrato-david.jpg";
+import portraitAsset from "@/assets/retrato-david.png.asset.json";
+
+const portrait = portraitAsset.url;
 
 // TODO (David): reemplazar el retrato por la foto real y ajustar las cifras de trayectoria.
 const INSTAGRAM_HANDLE = "@david.viajesyciencia";

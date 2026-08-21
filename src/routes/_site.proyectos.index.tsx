@@ -12,9 +12,9 @@ const stagger = {
   show: { transition: { staggerChildren: 0.08 } },
 };
 
-const title = "Otros proyectos — Librosmart";
+const title = "Otros proyectos — Sm@rt";
 const description =
-  "Proyectos paralelos de Librosmart: la cerveza artesanal Sexta Extinción, el podcast, las expediciones de divulgación y los talleres en colegios.";
+  "Proyectos paralelos de Sm@rt: la cerveza artesanal Sexta Extinción, el podcast, las expediciones de divulgación y los talleres en colegios.";
 
 export const Route = createFileRoute("/_site/proyectos/")({
   head: () => ({
