@@ -1,5 +1,10 @@
 import type { Localized } from "@/i18n/strings";
 import sextaExtincionCover from "@/assets/portada-sexta-extincion.png.asset.json";
+import colonizacionCover from "@/assets/portada-colonizacion.png.asset.json";
+import smart3Cover from "@/assets/portada-smart-3.png.asset.json";
+import smart2Cover from "@/assets/portada-smart-2.png.asset.json";
+import smart1Cover from "@/assets/portada-smart-1.png.asset.json";
+import guiaCovidCover from "@/assets/portada-guia-covid.png.asset.json";
 
 export type Retailer = {
   name: string;
@@ -183,7 +188,7 @@ export const books: Book[] = [
     editions: [
       {
         language: "es",
-        coverUrl: "/covers/colonizacion-es.jpg", // TODO (David)
+        coverUrl: colonizacionCover.url, // TODO (David)
         specs: {
           publisher: "Librosmart", // TODO (David)
           releaseDate: "2024", // TODO (David)
@@ -201,7 +206,7 @@ export const books: Book[] = [
       },
       {
         language: "en",
-        coverUrl: "/covers/colonizacion-en.jpg", // TODO (David)
+        coverUrl: colonizacionCover.url, // TODO (David)
         specs: {
           publisher: "Librosmart", // TODO (David)
           releaseDate: "2024", // TODO (David)
@@ -265,7 +270,7 @@ export const books: Book[] = [
     editions: [
       {
         language: "es",
-        coverUrl: "/covers/smart-3-es.jpg", // TODO (David)
+        coverUrl: smart3Cover.url, // TODO (David)
         specs: {
           publisher: "Librosmart", // TODO (David)
           releaseDate: "2023", // TODO (David)
@@ -283,7 +288,7 @@ export const books: Book[] = [
       },
       {
         language: "en",
-        coverUrl: "/covers/smart-3-en.jpg", // TODO (David)
+        coverUrl: smart3Cover.url, // TODO (David)
         specs: {
           publisher: "Librosmart", // TODO (David)
           releaseDate: "2023", // TODO (David)
@@ -344,7 +349,7 @@ export const books: Book[] = [
     editions: [
       {
         language: "es",
-        coverUrl: "/covers/smart-2-es.jpg", // TODO (David)
+        coverUrl: smart2Cover.url, // TODO (David)
         specs: {
           publisher: "Librosmart", // TODO (David)
           releaseDate: "2021", // TODO (David)
@@ -362,7 +367,7 @@ export const books: Book[] = [
       },
       {
         language: "en",
-        coverUrl: "/covers/smart-2-en.jpg", // TODO (David)
+        coverUrl: smart2Cover.url, // TODO (David)
         specs: {
           publisher: "Librosmart", // TODO (David)
           releaseDate: "2021", // TODO (David)
@@ -424,7 +429,7 @@ export const books: Book[] = [
     editions: [
       {
         language: "es",
-        coverUrl: "/covers/smart-1-es.jpg", // TODO (David)
+        coverUrl: smart1Cover.url, // TODO (David)
         specs: {
           publisher: "Librosmart", // TODO (David)
           releaseDate: "2019", // TODO (David)
@@ -478,7 +483,7 @@ export const books: Book[] = [
     editions: [
       {
         language: "es",
-        coverUrl: "/covers/guia-covid-es.jpg", // TODO (David)
+        coverUrl: guiaCovidCover.url, // TODO (David)
         specs: {
           publisher: "Librosmart", // TODO (David)
           releaseDate: "2020", // TODO (David)
