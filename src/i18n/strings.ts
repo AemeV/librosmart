@@ -128,25 +128,26 @@ export const strings = {
   follow: { es: "Redes", en: "Social" },
 
   authorSheetOpen: { es: "Conoce al autor", en: "Meet the author" },
-  authorSheetRole: { es: "Divulgador científico", en: "Science writer" },
+  authorSheetRole: { es: "Economista · Escritor · Divulgador científico", en: "Economist · Writer · Science communicator" },
   authorSheetDrag: { es: "Desliza hacia abajo para cerrar", en: "Drag down to close" },
   authorPortraitAlt: {
     es: "Retrato de David Mauricio Guerrero Vélez",
     en: "Portrait of David Mauricio Guerrero Vélez",
   },
   authorSheetBio1: {
-    es: "David Mauricio Guerrero Vélez nació en Colombia y lleva más de una década contando ciencia: biodiversidad, extinciones, exploración espacial y los descubrimientos que están redefiniendo la forma en que entendemos el planeta.",
-    en: "David Mauricio Guerrero Vélez was born in Colombia and has spent over a decade telling science stories: biodiversity, extinctions, space exploration and the discoveries redefining how we understand the planet.",
+    es: "Autor de la colección de libros Sm@rt: Los Más Recientes e Importantes Descubrimientos Científicos.",
+    en: "Author of the Sm@rt book collection: The Most Recent and Important Scientific Discoveries.",
   },
   authorSheetBio2: {
-    es: "Su trabajo parte de un principio fijo: rigor sin jerga. Cada libro nace de fuentes revisadas por pares y se escribe para que un lector de quince años y un profesor universitario puedan leerlo con el mismo gusto.",
-    en: "His work follows one fixed principle: rigor without jargon. Every book starts from peer-reviewed sources and is written so a fifteen-year-old and a university professor can both enjoy it.",
+    es: "Economista, escritor, máster en Comunicación de la Ciencia y la Tecnología, fotógrafo aficionado y apasionado por la historia.",
+    en: "Economist, writer, master's in Science and Technology Communication, amateur photographer and history enthusiast.",
   },
   authorSheetBio3: {
-    es: "Desde Sm@rt, su editorial personal, publica la colección Sm@rt y sus títulos monográficos, y acompaña cada lanzamiento con charlas, videos y material educativo para colegios y universidades.",
-    en: "Through Sm@rt, his personal imprint, he publishes the Sm@rt collection and his monographic titles, pairing every launch with talks, videos and educational material for schools and universities.",
+    es: "Su principal objetivo es generar interés por la ciencia y la tecnología e inspirar a niños, jóvenes y adultos para que no pierdan el interés por el conocimiento.",
+    en: "His main goal is to spark interest in science and technology, and to inspire children, young people and adults never to lose their curiosity for knowledge.",
   },
   authorTrackTitle: { es: "Trayectoria", en: "Track record" },
+
   trackBooks: { es: "Libros publicados", en: "Published books" },
   trackBooksDetail: {
     es: "Títulos de divulgación en español e inglés, en formato físico y digital.",
