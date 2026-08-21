@@ -9,7 +9,7 @@ export function SectionHeading({
   eyebrow,
   title,
   subtitle,
-  size = "m",
+  size = "xl",
 }: {
   eyebrow?: string;
   title: string;

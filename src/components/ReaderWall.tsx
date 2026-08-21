@@ -52,7 +52,7 @@ export function ReaderWall() {
         </div>
       </div>
 
-      <motion.div variants={childVariants} className="marquee-pause mt-10">
+      <motion.div variants={childVariants} className="mt-10">
         <div className="marquee-track flex w-max gap-3">
           {loop.map((photo, index) => (
             <PhotoTile

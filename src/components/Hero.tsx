@@ -81,17 +81,7 @@ export function Hero() {
               className="glass group flex flex-col items-center gap-0.5 rounded-full px-7 py-3 text-center"
             >
               <span className="label">{t("heroNew")}</span>
-              <span className="flex items-center gap-2">
-                <span className="pill-title">{featured.title}</span>
-                <motion.span
-                  aria-hidden="true"
-                  className="flex items-center"
-                  variants={{ rest: { y: 0 }, hover: { y: 2 } }}
-                  transition={{ type: "spring", stiffness: 320, damping: 22 }}
-                >
-                  <ChevronDown className="h-4 w-4" />
-                </motion.span>
-              </span>
+              <span className="pill-title">{featured.title}</span>
             </motion.button>
           </BorderBeam>
         </motion.div>

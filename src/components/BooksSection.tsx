@@ -6,11 +6,21 @@ import { BookEntry } from "./BookEntry";
 export function BooksSection() {
   const { t } = useLang();
   const { books } = useSiteContent();
-  // Orden: el destacado primero, luego por año descendente.
-  const ordered = [...books].sort((a, b) => {
-    if (a.featured !== b.featured) return a.featured ? -1 : 1;
-    return b.year - a.year;
-  });
+  // Orden manual pedido: destacado, colonización, la serie Sm@rt seguida y la
+  // cartilla del coronavirus al final.
+  const ORDER = [
+    "sexta-extincion",
+    "colonizacion",
+    "smart-3",
+    "smart-2",
+    "smart-1",
+    "guia-covid",
+  ];
+  const rank = (slug: string) => {
+    const index = ORDER.indexOf(slug);
+    return index === -1 ? ORDER.length : index;
+  };
+  const ordered = [...books].sort((a, b) => rank(a.slug) - rank(b.slug));
   const { openSheet } = useAuthorSheet();
 
   return (
