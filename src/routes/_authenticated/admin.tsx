@@ -146,7 +146,8 @@ function useSaveState() {
 
 /* ---------------------------------- Libros --------------------------------- */
 
-const emptyBook = (): BookRow => ({
+const emptyBook = (position = 99): BookRow => ({
+  published: true,
   id: "",
   slug: "",
   title: "",
@@ -156,7 +157,7 @@ const emptyBook = (): BookRow => ({
   description_en: "",
   year: new Date().getFullYear(),
   featured: false,
-  position: 99,
+  position,
   cover_url: "",
   back_cover_url: null,
   back_cover_es: "",
@@ -232,8 +233,41 @@ function BooksAdmin() {
     await load();
   }
 
+  /** Mueve un libro en la lista y reescribe el orden de todas las filas. */
+  async function move(index: number, direction: -1 | 1) {
+    const next = [...rows];
+    const target = index + direction;
+    if (target < 0 || target >= next.length) return;
+    const a = next[index]!;
+    next[index] = next[target]!;
+    next[target] = a;
+    setRows(next);
+    const results = await Promise.all(
+      next.map((row, position) =>
+        supabase.from("books").update({ position }).eq("id", row.id),
+      ),
+    );
+    const failed = results.find((r) => r.error);
+    if (failed?.error) setError(failed.error.message);
+    else flash("Orden guardado");
+    await load();
+  }
+
+  async function toggleVisible(row: BookRow) {
+    const { error: updateError } = await supabase
+      .from("books")
+      .update({ published: !row.published })
+      .eq("id", row.id);
+    if (updateError) {
+      setError(updateError.message);
+      return;
+    }
+    await load();
+  }
+
   async function remove(id: string) {
-    if (!window.confirm("¿Borrar este libro del sitio?")) return;
+    if (!window.confirm("¿Borrar este libro del sitio? Si sólo quieres esconderlo, usa «Ocultar»."))
+      return;
     const { error: deleteError } = await supabase.from("books").delete().eq("id", id);
     if (deleteError) {
       setError(deleteError.message);
@@ -281,9 +315,14 @@ function BooksAdmin() {
           <Field label="Año">
             <NumberInput value={draft.year} onChange={(v) => patch({ year: v })} />
           </Field>
-          <Field label="Orden en el sitio">
-            <NumberInput value={draft.position} onChange={(v) => patch({ position: v })} />
-          </Field>
+          <label className="body-s flex items-center gap-3">
+            <input
+              type="checkbox"
+              checked={draft.published}
+              onChange={(event) => patch({ published: event.target.checked })}
+            />
+            Visible en el sitio
+          </label>
           <label className="body-s flex items-center gap-3">
             <input
               type="checkbox"
@@ -443,15 +482,37 @@ function BooksAdmin() {
     <section>
       <div className="flex items-center justify-between">
         <h2 className="display-m">Libros</h2>
-        <Button onClick={() => setDraft(emptyBook())}>Añadir libro</Button>
+        <Button onClick={() => setDraft(emptyBook(rows.length))}>Añadir libro</Button>
       </div>
       {error && <p className="body-s mt-3 text-red-500">{error}</p>}
       <ul className="mt-6 flex flex-col gap-3">
-        {rows.map((row) => (
+        {rows.map((row, index) => (
           <li
             key={row.id}
-            className="glass flex items-center gap-4 rounded-[16px] p-4"
+            className={`glass flex items-center gap-4 rounded-[16px] p-4 ${
+              row.published ? "" : "opacity-60"
+            }`}
           >
+            <div className="flex flex-col gap-1">
+              <button
+                type="button"
+                aria-label="Subir"
+                disabled={index === 0}
+                onClick={() => void move(index, -1)}
+                className="label rounded-full border border-line px-2 py-1 disabled:opacity-40"
+              >
+                ↑
+              </button>
+              <button
+                type="button"
+                aria-label="Bajar"
+                disabled={index === rows.length - 1}
+                onClick={() => void move(index, 1)}
+                className="label rounded-full border border-line px-2 py-1 disabled:opacity-40"
+              >
+                ↓
+              </button>
+            </div>
             <div className="h-20 w-14 shrink-0 overflow-hidden rounded-[8px] border border-line bg-surface-2">
               {row.cover_url ? (
                 <img src={row.cover_url} alt="" className="h-full w-full object-cover" />
@@ -461,8 +522,12 @@ function BooksAdmin() {
               <p className="body">{row.title}</p>
               <p className="body-s text-text-muted">
                 {row.year} · /{row.slug} {row.featured ? "· destacado" : ""}
+                {row.published ? "" : " · oculto"}
               </p>
             </div>
+            <Button variant="ghost" onClick={() => void toggleVisible(row)}>
+              {row.published ? "Ocultar" : "Mostrar"}
+            </Button>
             <Button variant="ghost" onClick={() => setSelected(row.id)}>
               Editar
             </Button>

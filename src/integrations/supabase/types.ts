@@ -32,6 +32,7 @@ export type Database = {
           key_points: Json
           pages: number
           position: number
+          published: boolean
           publisher: string
           release_date: string
           retailers: Json
@@ -59,6 +60,7 @@ export type Database = {
           key_points?: Json
           pages?: number
           position?: number
+          published?: boolean
           publisher?: string
           release_date?: string
           retailers?: Json
@@ -86,6 +88,7 @@ export type Database = {
           key_points?: Json
           pages?: number
           position?: number
+          published?: boolean
           publisher?: string
           release_date?: string
           retailers?: Json
