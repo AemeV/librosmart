@@ -42,7 +42,7 @@ function OrionPage() {
             {t("orionTitle")}
           </motion.h1>
           <motion.p variants={childVariants} className="body mt-6 max-w-[52ch]">
-            {tr({ es: "", en: "" }) === "" ? t("orionText") : t("orionText")}
+            {t("orionText")}
           </motion.p>
           <motion.div variants={childVariants} className="mt-10">
             <Link
