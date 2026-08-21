@@ -50,7 +50,11 @@ export function Hero() {
     >
       <PlanetGlow />
 
-      <motion.div {...rise(0)} className="flex w-full justify-center pt-[8vh] sm:pt-[10vh]">
+      <motion.div
+        {...rise(0)}
+        className="pointer-events-none absolute inset-0 flex items-center justify-center px-5"
+        style={{ paddingTop: "var(--header-height)" }}
+      >
         <div
           ref={setHeroSlot}
           className="w-[82vw] max-w-[1200px] sm:w-[62vw]"

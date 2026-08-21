@@ -14,6 +14,7 @@ import { Route as SiteRouteImport } from './routes/_site'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as SiteIndexRouteImport } from './routes/_site.index'
+import { Route as SiteOrionRouteImport } from './routes/_site.orion'
 import { Route as SiteProyectosRouteImport } from './routes/_site.proyectos'
 import { Route as SiteLibrosSlugRouteImport } from './routes/_site/libros.$slug'
 import { Route as SiteProyectosIndexRouteImport } from './routes/_site.proyectos.index'
@@ -42,6 +43,11 @@ const SiteIndexRoute = SiteIndexRouteImport.update({
   path: '/',
   getParentRoute: () => SiteRoute,
 } as any)
+const SiteOrionRoute = SiteOrionRouteImport.update({
+  id: '/orion',
+  path: '/orion',
+  getParentRoute: () => SiteRoute,
+} as any)
 const SiteProyectosRoute = SiteProyectosRouteImport.update({
   id: '/proyectos',
   path: '/proyectos',
@@ -67,6 +73,7 @@ export interface FileRoutesByFullPath {
   '/': typeof SiteIndexRoute
   '/auth': typeof AuthRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/orion': typeof SiteOrionRoute
   '/proyectos': typeof SiteProyectosRouteWithChildren
   '/libros/$slug': typeof SiteLibrosSlugRoute
   '/proyectos/': typeof SiteProyectosIndexRoute
@@ -76,6 +83,7 @@ export interface FileRoutesByTo {
   '/': typeof SiteIndexRoute
   '/auth': typeof AuthRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/orion': typeof SiteOrionRoute
   '/libros/$slug': typeof SiteLibrosSlugRoute
   '/proyectos': typeof SiteProyectosIndexRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
@@ -86,6 +94,7 @@ export interface FileRoutesById {
   '/_site': typeof SiteRouteWithChildren
   '/auth': typeof AuthRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/_site/orion': typeof SiteOrionRoute
   '/_site/proyectos': typeof SiteProyectosRouteWithChildren
   '/_site/': typeof SiteIndexRoute
   '/_site/libros/$slug': typeof SiteLibrosSlugRoute
@@ -98,6 +107,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/admin'
+    | '/orion'
     | '/proyectos'
     | '/libros/$slug'
     | '/proyectos/'
@@ -107,6 +117,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/admin'
+    | '/orion'
     | '/libros/$slug'
     | '/proyectos'
     | '/api/public/media/$'
@@ -116,6 +127,7 @@ export interface FileRouteTypes {
     | '/_site'
     | '/auth'
     | '/_authenticated/admin'
+    | '/_site/orion'
     | '/_site/proyectos'
     | '/_site/'
     | '/_site/libros/$slug'
@@ -165,6 +177,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof SiteIndexRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/orion': {
+      id: '/_site/orion'
+      path: '/orion'
+      fullPath: '/orion'
+      preLoaderRoute: typeof SiteOrionRouteImport
       parentRoute: typeof SiteRoute
     }
     '/_site/proyectos': {
@@ -222,12 +241,14 @@ const SiteProyectosRouteWithChildren = SiteProyectosRoute._addFileChildren(
 )
 
 interface SiteRouteChildren {
+  SiteOrionRoute: typeof SiteOrionRoute
   SiteProyectosRoute: typeof SiteProyectosRouteWithChildren
   SiteIndexRoute: typeof SiteIndexRoute
   SiteLibrosSlugRoute: typeof SiteLibrosSlugRoute
 }
 
 const SiteRouteChildren: SiteRouteChildren = {
+  SiteOrionRoute: SiteOrionRoute,
   SiteProyectosRoute: SiteProyectosRouteWithChildren,
   SiteIndexRoute: SiteIndexRoute,
   SiteLibrosSlugRoute: SiteLibrosSlugRoute,
