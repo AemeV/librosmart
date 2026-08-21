@@ -1,16 +1,16 @@
-import { books } from "@/data/books";
+import { useSiteContent } from "@/context/SiteContentContext";
 import { useLang } from "@/context/LanguageContext";
 import { useAuthorSheet } from "@/context/AuthorSheetContext";
 import { BookEntry } from "./BookEntry";
 
-// Orden: el destacado primero, luego por año descendente.
-const ordered = [...books].sort((a, b) => {
-  if (a.featured !== b.featured) return a.featured ? -1 : 1;
-  return b.year - a.year;
-});
-
 export function BooksSection() {
   const { t } = useLang();
+  const { books } = useSiteContent();
+  // Orden: el destacado primero, luego por año descendente.
+  const ordered = [...books].sort((a, b) => {
+    if (a.featured !== b.featured) return a.featured ? -1 : 1;
+    return b.year - a.year;
+  });
   const { openSheet } = useAuthorSheet();
 
   return (

@@ -7,6 +7,7 @@ import {
   type ReactNode,
 } from "react";
 import { strings, type Lang, type Localized, type StringKey } from "@/i18n/strings";
+import { useSiteContent } from "@/context/SiteContentContext";
 
 type LanguageContextValue = {
   lang: Lang;
@@ -20,6 +21,7 @@ const STORAGE_KEY = "librosmart:lang";
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>("es");
+  const { texts } = useSiteContent();
 
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -40,7 +42,11 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(STORAGE_KEY, next);
   }, []);
 
-  const t = useCallback((key: StringKey) => strings[key][lang], [lang]);
+  // Los textos editados en el panel tienen prioridad sobre los del código.
+  const t = useCallback(
+    (key: StringKey) => texts[key]?.[lang] || strings[key][lang],
+    [lang, texts],
+  );
   const tr = useCallback((value: Localized) => value[lang], [lang]);
 
   return (
