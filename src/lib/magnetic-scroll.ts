@@ -30,10 +30,12 @@ function targetY(): number | null {
     const top = Math.min(...rects.map((r) => r.top));
     const bottom = Math.max(...rects.map((r) => r.bottom));
     const height = bottom - top;
-    const tall = height > window.innerHeight - headerOffset() - 24;
-    const y = tall
-      ? top + window.scrollY - headerOffset() - 24
-      : top + window.scrollY - (window.innerHeight - height) / 2;
+    // Se centra dentro del área útil (debajo del header fijo); si el bloque no
+    // cabe, se alinea justo bajo el header.
+    const header = headerOffset() + 16;
+    const available = window.innerHeight - header;
+    const slack = Math.max(0, available - height);
+    const y = top + window.scrollY - header - slack / 2;
     return Math.min(Math.max(y, 0), maxScroll());
   }
   // Fallback: ancla del libro con offset de header.
