@@ -1,7 +1,6 @@
-import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "motion/react";
+import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "motion/react";
 import { useRef, useState } from "react";
 import type { Book, Edition } from "@/data/books";
-import { springFast } from "@/lib/motion-config";
 
 /**
  * <BookCard /> — la portada como tarjeta, no como objeto libro.
@@ -31,7 +30,8 @@ export function BookCard({
   const ref = useRef<HTMLDivElement>(null);
   const px = useMotionValue(0);
   const py = useMotionValue(0);
-  const [hover, setHover] = useState(false);
+  const [, setHover] = useState(false);
+  const [turns, setTurns] = useState(0);
 
   const rotateY = useSpring(useTransform(px, [-0.5, 0.5], reduced ? [0, 0] : [-7, 7]), SOFT);
   const rotateX = useSpring(useTransform(py, [-0.5, 0.5], reduced ? [0, 0] : [5, -5]), SOFT);
@@ -47,6 +47,8 @@ export function BookCard({
 
   const placeholder = isPlaceholderCover(edition);
   const backCover = edition.backCoverUrl;
+  const canFlip = Boolean(backCover) && !placeholder;
+  const showingBack = turns % 2 === 1;
 
   return (
     <div
@@ -60,65 +62,78 @@ export function BookCard({
         px.set(0);
         py.set(0);
       }}
-      className="relative mx-auto flex h-[320px] w-full items-center justify-center gap-4 sm:h-[440px]"
-      style={{ perspective: 1200 }}
+      className="relative mx-auto flex h-[320px] w-full items-center justify-center sm:h-[440px]"
+      style={{ perspective: 1400 }}
     >
       <motion.div
-        className="relative h-full overflow-hidden rounded-[16px]"
+        className="relative h-full"
         style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
         whileHover={reduced ? {} : { y: -6 }}
         transition={{ type: "spring", stiffness: 220, damping: 22 }}
       >
-        {placeholder ? (
-          <div
-            role="img"
-            aria-label={alt}
-            className="flex h-full w-[213px] flex-col items-center justify-center gap-3 rounded-[16px] border border-line bg-surface-alt px-6 text-center sm:w-[293px]"
-          >
-            <span className="display-m">{book.title}</span>
-            <span className="label">Portada pendiente</span>
-          </div>
-        ) : (
-          <img
-            src={edition.coverUrl}
-            alt={alt}
-            loading="lazy"
-            draggable={false}
-            className="block h-full w-auto rounded-[16px] object-contain shadow-[0_18px_50px_-20px_rgba(15,3,45,0.55)]"
-          />
-        )}
-
         <motion.div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-y-[-30%] left-0 w-[35%]"
-          style={{
-            x: shineX,
-            rotate: 14,
-            backgroundImage:
-              "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.16) 50%, rgba(255,255,255,0) 100%)",
+          role={canFlip ? "button" : undefined}
+          tabIndex={canFlip ? 0 : undefined}
+          aria-label={canFlip ? (showingBack ? "Ver portada" : "Ver contraportada") : undefined}
+          onClick={() => canFlip && setTurns((v) => v + 1)}
+          onKeyDown={(event) => {
+            if (!canFlip) return;
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              setTurns((v) => v + 1);
+            }
           }}
-        />
-      </motion.div>
+          animate={{ rotateY: turns * 180 }}
+          transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 90, damping: 16 }}
+          className={`relative h-full ${canFlip ? "cursor-pointer" : ""}`}
+          style={{ transformStyle: "preserve-3d" }}
+        >
+          {/* Cara frontal: portada */}
+          <div className="relative h-full" style={{ backfaceVisibility: "hidden" }}>
+            {placeholder ? (
+              <div
+                role="img"
+                aria-label={alt}
+                className="flex h-full w-[213px] flex-col items-center justify-center gap-3 rounded-[16px] border border-line bg-surface-alt px-6 text-center sm:w-[293px]"
+              >
+                <span className="display-m">{book.title}</span>
+                <span className="label">Portada pendiente</span>
+              </div>
+            ) : (
+              <img
+                src={edition.coverUrl}
+                alt={alt}
+                loading="lazy"
+                draggable={false}
+                className="block h-full w-auto rounded-[16px] object-contain shadow-[0_18px_50px_-20px_rgba(15,3,45,0.55)]"
+              />
+            )}
 
-      {/* Contraportada: sólo desktop y sólo al pasar el cursor. */}
-      {backCover ? (
-        <AnimatePresence>
-          {hover && (
-            <motion.img
-              key="back"
+            <motion.div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-y-[-30%] left-0 w-[35%] overflow-hidden"
+              style={{
+                x: shineX,
+                rotate: 14,
+                backgroundImage:
+                  "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.16) 50%, rgba(255,255,255,0) 100%)",
+              }}
+            />
+          </div>
+
+          {/* Cara trasera: contraportada, girada 180deg. */}
+          {canFlip ? (
+            <img
               src={backCover}
               alt=""
               aria-hidden="true"
               draggable={false}
-              initial={{ opacity: 0, x: -24, rotateY: 12 }}
-              animate={{ opacity: 1, x: 0, rotateY: 0 }}
-              exit={{ opacity: 0, x: -24, rotateY: 12 }}
-              transition={springFast}
-              className="hidden h-full w-auto rounded-[16px] object-contain shadow-[0_18px_50px_-20px_rgba(15,3,45,0.45)] lg:block"
+              className="absolute inset-0 block h-full w-full rounded-[16px] object-contain shadow-[0_18px_50px_-20px_rgba(15,3,45,0.45)]"
+              style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
             />
-          )}
-        </AnimatePresence>
-      ) : null}
+          ) : null}
+        </motion.div>
+      </motion.div>
     </div>
   );
 }
