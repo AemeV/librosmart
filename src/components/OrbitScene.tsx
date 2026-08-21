@@ -275,16 +275,16 @@ export function OrbitScene() {
 
       {/* Borde de la Tierra: 2.5x el ancho del viewport, asomando un 25%. */}
       <div
-        className="absolute inset-x-0 bottom-0 h-[46%] overflow-hidden"
+        className="absolute inset-x-0 bottom-0 h-[42%] overflow-hidden"
         style={{
-          maskImage: "linear-gradient(180deg, #000 0%, #000 24%, rgba(0,0,0,0) 92%)",
-          WebkitMaskImage: "linear-gradient(180deg, #000 0%, #000 24%, rgba(0,0,0,0) 92%)",
+          maskImage: "linear-gradient(180deg, #000 0%, #000 62%, rgba(0,0,0,0) 100%)",
+          WebkitMaskImage: "linear-gradient(180deg, #000 0%, #000 62%, rgba(0,0,0,0) 100%)",
         }}
       >
         <div
           className="absolute left-1/2 aspect-square w-[250vw] -translate-x-1/2 rounded-full"
           style={{
-            top: "75%",
+            top: "58%",
             background:
               "radial-gradient(circle at 50% 0%, #1B0A3F 0%, #120428 45%, #0A0118 100%)",
             boxShadow:
@@ -297,7 +297,7 @@ export function OrbitScene() {
             reduced ? "" : "arc-breath"
           }`}
           style={{
-            top: "75%",
+            top: "58%",
             boxShadow:
               "0 -2px 4px rgba(200,180,255,0.4), 0 -12px 40px rgba(144,91,244,0.28), 0 -40px 120px rgba(78,43,204,0.16)",
             opacity: 0.1,
