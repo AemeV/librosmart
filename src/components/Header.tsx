@@ -1,11 +1,11 @@
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
-import { Instagram, Youtube, Facebook, Music2, Sun, Moon, Monitor, Menu, X } from "lucide-react";
+import { Instagram, Youtube, Facebook, Music2, Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useLang } from "@/context/LanguageContext";
 import { useAuthorSheet } from "@/context/AuthorSheetContext";
 import { useLogoMigration } from "@/context/LogoMigrationContext";
-import { useTheme } from "@/context/ThemeContext";
+
 import { springFast, tap } from "@/lib/motion-config";
 import type { StringKey } from "@/i18n/strings";
 import { LogoSmart } from "./LogoSmart";
@@ -58,37 +58,6 @@ function LanguageToggle() {
   );
 }
 
-function ThemeToggle() {
-  const { mode, cycle } = useTheme();
-  const { t } = useLang();
-  const label =
-    mode === "light" ? t("themeLight") : mode === "dark" ? t("themeDark") : t("themeSystem");
-  const Icon = mode === "light" ? Sun : mode === "dark" ? Moon : Monitor;
-
-  return (
-    <motion.button
-      type="button"
-      onClick={cycle}
-      whileTap={tap}
-      aria-label={label}
-      title={label}
-      className="glass flex h-11 w-11 items-center justify-center rounded-full"
-    >
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.span
-          key={mode}
-          initial={{ rotate: -90, scale: 0.6, opacity: 0 }}
-          animate={{ rotate: 0, scale: 1, opacity: 1 }}
-          exit={{ rotate: 90, scale: 0.6, opacity: 0 }}
-          transition={springFast}
-          className="flex items-center justify-center"
-        >
-          <Icon className="h-4 w-4" aria-hidden="true" />
-        </motion.span>
-      </AnimatePresence>
-    </motion.button>
-  );
-}
 
 /**
  * Dos barras imantadas al borde superior de la ventana desde el primer frame.
@@ -106,11 +75,18 @@ export function Header() {
   const hash = (id: string) => (isLanding ? `#${id}` : `/#${id}`);
   const { scrollY } = useScroll();
   const [navVisible, setNavVisible] = useState(true);
+  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const lastY = useRef(0);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  /**
+   * En el inicio, arriba del todo, el cristal del header se esconde: el logo
+   * grande vive en el hero. Al empezar a bajar, aparece y recibe el logo.
+   */
+  const chromeVisible = !isLanding || scrolled;
 
   useMotionValueEvent(scrollY, "change", (y) => {
+    setScrolled(y > 12);
     if (Math.abs(y - lastY.current) > 8) {
       setNavVisible(y < lastY.current || y < 120);
       lastY.current = y;
@@ -142,12 +118,24 @@ export function Header() {
   return (
     <>
       <div ref={wrapperRef} className="fixed inset-x-0 top-0 z-50">
-        {/* Barra superior: siempre visible. El logo queda centrado con el eje del
-            viewport en cualquier tamaño; los controles flotan a los costados. */}
-        <div className="glass border-b border-line">
+        {/* Barra superior. En el inicio, antes de scrollear, el cristal y los
+            controles están escondidos; el hueco del logo sigue midiéndose para
+            que el logo migrante aterrice exactamente aquí. */}
+        <div className="relative">
+          <motion.div
+            aria-hidden="true"
+            className="glass absolute inset-0 border-b border-line"
+            initial={false}
+            animate={{ opacity: chromeVisible ? 1 : 0 }}
+            transition={springFast}
+          />
           <div className="relative mx-auto flex max-w-[1100px] items-center justify-center px-5 py-3 sm:px-6">
-            <nav
+            <motion.nav
               aria-label={t("follow")}
+              initial={false}
+              animate={{ opacity: chromeVisible ? 1 : 0 }}
+              transition={springFast}
+              style={{ pointerEvents: chromeVisible ? "auto" : "none" }}
               className="absolute left-5 hidden items-center gap-0.5 sm:left-6 lg:flex"
             >
               {socials.map(({ name, href, Icon }) => (
@@ -163,7 +151,7 @@ export function Header() {
                   <Icon className="h-4 w-4" aria-hidden="true" />
                 </motion.a>
               ))}
-            </nav>
+            </motion.nav>
 
             <Link
               to="/"
@@ -173,8 +161,8 @@ export function Header() {
             >
               <span
                 ref={setHeaderSlot}
-                className="block h-9 shrink-0"
-                style={{ width: 158 }}
+                className="block h-12 shrink-0"
+                style={{ width: 210 }}
                 aria-hidden={migrating ? true : undefined}
               >
                 <LogoSmart
@@ -185,16 +173,25 @@ export function Header() {
               </span>
             </Link>
 
-            <div className="absolute right-5 hidden items-center gap-2 sm:right-6 lg:flex">
+            <motion.div
+              initial={false}
+              animate={{ opacity: chromeVisible ? 1 : 0 }}
+              transition={springFast}
+              style={{ pointerEvents: chromeVisible ? "auto" : "none" }}
+              className="absolute right-5 hidden items-center gap-2 sm:right-6 lg:flex"
+            >
               <LanguageToggle />
-              <ThemeToggle />
-            </div>
+            </motion.div>
 
             <motion.button
               type="button"
               whileTap={tap}
               onClick={() => setMenuOpen(true)}
               aria-label={t("menu")}
+              initial={false}
+              animate={{ opacity: chromeVisible ? 1 : 0 }}
+              transition={springFast}
+              style={{ pointerEvents: chromeVisible ? "auto" : "none" }}
               className="absolute right-5 flex h-11 w-11 items-center justify-center rounded-full border border-line sm:right-6 lg:hidden"
             >
               <Menu className="h-4 w-4" aria-hidden="true" />
@@ -202,10 +199,13 @@ export function Header() {
           </div>
         </div>
 
-
         {/* Subheader: el menú se oculta al bajar y vuelve al subir */}
         <motion.div
-          animate={{ y: navVisible ? 0 : "-105%", opacity: navVisible ? 1 : 0 }}
+          initial={false}
+          animate={{
+            y: navVisible && chromeVisible ? 0 : "-105%",
+            opacity: navVisible && chromeVisible ? 1 : 0,
+          }}
           transition={springFast}
           className="glass hidden border-b border-line lg:block"
         >
@@ -310,10 +310,9 @@ export function Header() {
               ))}
             </ul>
 
-            {/* Idioma y tema viven dentro del menú en móvil. */}
+            {/* El selector de idioma vive dentro del menú en móvil. */}
             <div className="mt-10 flex items-center justify-center gap-2">
               <LanguageToggle />
-              <ThemeToggle />
             </div>
 
             <div className="mt-auto flex items-center justify-center gap-2">

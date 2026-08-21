@@ -61,7 +61,7 @@ export function Hero() {
         </div>
       </motion.div>
 
-      <motion.div {...rise(1)}>
+      <motion.div {...rise(1)} className="mt-8 sm:mt-20">
         <BorderBeam
           size="pulse-inner"
           colorVariant="mono"

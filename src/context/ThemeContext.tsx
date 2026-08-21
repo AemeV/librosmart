@@ -1,11 +1,4 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-  type ReactNode,
-} from "react";
+import { createContext, useCallback, useContext, useEffect, type ReactNode } from "react";
 
 export type ThemeMode = "light" | "dark" | "system";
 
@@ -17,47 +10,22 @@ type ThemeContextValue = {
 };
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
-const STORAGE_KEY = "librosmart:theme";
 
-function systemPrefersDark() {
-  return window.matchMedia("(prefers-color-scheme: dark)").matches;
-}
-
+/**
+ * Modo oscuro deshabilitado por ahora. El provider mantiene la API para los
+ * componentes que leen `resolved`, pero siempre devuelve "light".
+ */
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [mode, setModeState] = useState<ThemeMode>("system");
-  const [resolved, setResolved] = useState<"light" | "dark">("light");
-
   useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY) as ThemeMode | null;
-    if (stored === "light" || stored === "dark" || stored === "system") {
-      setModeState(stored);
-    }
+    document.documentElement.dataset["theme"] = "light";
   }, []);
 
-  useEffect(() => {
-    const apply = () => {
-      const next = mode === "system" ? (systemPrefersDark() ? "dark" : "light") : mode;
-      setResolved(next);
-      document.documentElement.dataset["theme"] = next;
-    };
-    apply();
-    if (mode !== "system") return;
-    const mq = window.matchMedia("(prefers-color-scheme: dark)");
-    mq.addEventListener("change", apply);
-    return () => mq.removeEventListener("change", apply);
-  }, [mode]);
-
-  const setMode = useCallback((next: ThemeMode) => {
-    setModeState(next);
-    localStorage.setItem(STORAGE_KEY, next);
-  }, []);
-
-  const cycle = useCallback(() => {
-    setMode(mode === "light" ? "dark" : mode === "dark" ? "system" : "light");
-  }, [mode, setMode]);
+  const noop = useCallback(() => {}, []);
 
   return (
-    <ThemeContext.Provider value={{ mode, resolved, setMode, cycle }}>
+    <ThemeContext.Provider
+      value={{ mode: "light", resolved: "light", setMode: noop, cycle: noop }}
+    >
       {children}
     </ThemeContext.Provider>
   );
