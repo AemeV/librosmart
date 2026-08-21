@@ -3,13 +3,16 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { BookOpen, User, Star, Sparkles, Mail } from "lucide-react";
 import { useLang } from "@/context/LanguageContext";
 import { useAuthorSheet } from "@/context/AuthorSheetContext";
-import { springSheet, tap } from "@/lib/motion-config";
+import { springSheet, springFast, tap } from "@/lib/motion-config";
 import type { StringKey } from "@/i18n/strings";
 
 /**
  * <FloatingNav /> — el menú de secciones vive en botones flotantes de cristal,
  * separados del header. Están presentes desde el inicio y siguen visibles
  * mientras se scrollea (posición fija, sin ocultarse).
+ *
+ * Versión oscura: fondo Midnight Purple translúcido con texto claro, para
+ * contrastar sobre el degradado líquido del fondo.
  */
 
 type Item = { id: string; key: StringKey; Icon: typeof BookOpen };
@@ -23,7 +26,21 @@ const items: Item[] = [
 ];
 
 const pill =
-  "glass label flex h-11 items-center gap-2 whitespace-nowrap rounded-full px-4 text-text-muted transition-colors hover:text-text";
+  "label flex h-11 items-center gap-2 whitespace-nowrap rounded-full px-4 text-seashell/80 transition-colors hover:text-seashell";
+
+const containerVariants = {
+  hidden: { opacity: 0, y: 24 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { ...springSheet, delay: 0.4, staggerChildren: 0.05 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 16, scale: 0.96 },
+  show: { opacity: 1, y: 0, scale: 1, transition: springFast },
+};
 
 export function FloatingNav() {
   const { t } = useLang();
@@ -35,23 +52,28 @@ export function FloatingNav() {
   return (
     <motion.nav
       aria-label={t("menu")}
-      initial={{ opacity: 0, y: 24 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ ...springSheet, delay: 0.4 }}
+      variants={containerVariants}
+      initial="hidden"
+      animate="show"
       className="pointer-events-none fixed inset-x-0 bottom-4 z-50 flex justify-center px-3 sm:bottom-6"
     >
       <ul
-        className="pointer-events-auto flex max-w-full items-center gap-2 overflow-x-auto rounded-full p-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="pointer-events-auto flex max-w-full items-center gap-2 overflow-x-auto rounded-full border border-white/10 bg-midnight/80 p-1 shadow-2xl backdrop-blur-xl [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {items.map(({ id, key, Icon }) => (
-          <li key={id} className="shrink-0">
+          <motion.li key={id} variants={itemVariants} className="shrink-0">
             {id === "autor" ? (
-              <motion.button type="button" whileTap={tap} onClick={openSheet} className={pill}>
+              <motion.button
+                type="button"
+                whileTap={tap}
+                onClick={openSheet}
+                className={pill}
+              >
                 <Icon className="h-3.5 w-3.5" aria-hidden="true" />
                 {t(key)}
               </motion.button>
             ) : id === "proyectos" ? (
-              <Link to="/proyectos" className={pill} activeProps={{ className: `${pill} text-text` }}>
+              <Link to="/proyectos" className={pill} activeProps={{ className: `${pill} text-seashell` }}>
                 <Icon className="h-3.5 w-3.5" aria-hidden="true" />
                 {t(key)}
               </Link>
@@ -61,7 +83,7 @@ export function FloatingNav() {
                 {t(key)}
               </a>
             )}
-          </li>
+          </motion.li>
         ))}
       </ul>
     </motion.nav>
