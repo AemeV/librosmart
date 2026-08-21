@@ -146,7 +146,8 @@ function useSaveState() {
 
 /* ---------------------------------- Libros --------------------------------- */
 
-const emptyBook = (): BookRow => ({
+const emptyBook = (position = 99): BookRow => ({
+  published: true,
   id: "",
   slug: "",
   title: "",
