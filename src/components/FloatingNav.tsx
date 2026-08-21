@@ -54,13 +54,14 @@ export function FloatingNav() {
       variants={containerVariants}
       initial="hidden"
       animate="show"
-      className="pointer-events-none fixed inset-x-0 bottom-4 z-50 flex justify-center px-3 sm:bottom-6"
+      className="pointer-events-none fixed inset-x-0 z-40 flex justify-center px-3"
+      style={{ top: "calc(var(--header-height) + 12px)" }}
     >
       <ul
-        className="pointer-events-auto flex max-w-full items-center gap-2 overflow-x-auto rounded-full border border-white/10 bg-midnight/80 p-1 shadow-2xl backdrop-blur-xl [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="pointer-events-auto grid w-full max-w-[520px] grid-cols-4 items-center gap-1 rounded-full border border-white/10 bg-midnight/80 p-1 shadow-2xl backdrop-blur-xl"
       >
         {items.map(({ id, key, Icon }) => (
-          <motion.li key={id} variants={itemVariants} className="shrink-0">
+          <motion.li key={id} variants={itemVariants} className="min-w-0">
             {id === "autor" ? (
               <motion.button
                 type="button"
