@@ -310,6 +310,12 @@ export function Header() {
               ))}
             </ul>
 
+            {/* Idioma y tema viven dentro del menú en móvil. */}
+            <div className="mt-10 flex items-center justify-center gap-2">
+              <LanguageToggle />
+              <ThemeToggle />
+            </div>
+
             <div className="mt-auto flex items-center justify-center gap-2">
               {socials.map(({ name, href, Icon }) => (
                 <a
