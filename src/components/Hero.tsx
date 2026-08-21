@@ -4,6 +4,7 @@ import { BorderBeam } from "border-beam";
 import { LogoSmart } from "./LogoSmart";
 import { useLang } from "@/context/LanguageContext";
 import { useLogoMigration } from "@/context/LogoMigrationContext";
+import { useTheme } from "@/context/ThemeContext";
 import { books } from "@/data/books";
 import { tap } from "@/lib/motion-config";
 
@@ -16,6 +17,7 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 export function Hero() {
   const { t } = useLang();
   const reduced = useReducedMotion();
+  const { resolved } = useTheme();
   const { setHeroSlot, migrating } = useLogoMigration();
   const featured = books.find((book) => book.featured) ?? books[0]!;
 
@@ -57,7 +59,7 @@ export function Hero() {
         <BorderBeam
           size="pulse-inner"
           colorVariant="mono"
-          theme="dark"
+          theme={resolved}
           strength={1}
           className="inline-flex"
         >
