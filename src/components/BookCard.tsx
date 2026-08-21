@@ -1,11 +1,13 @@
-import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "motion/react";
-import { useRef } from "react";
+import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "motion/react";
+import { useRef, useState } from "react";
 import type { Book, Edition } from "@/data/books";
+import { springFast } from "@/lib/motion-config";
 
 /**
  * <BookCard /> — la portada como tarjeta, no como objeto libro.
  * Movimiento leve: inclinación suave siguiendo el cursor (desktop) y una banda
- * especular que cruza al pasar por encima. En móvil es una tarjeta quieta.
+ * especular que cruza al pasar por encima. Si la edición tiene contraportada,
+ * al pasar el cursor esta se despliega al lado de la portada.
  */
 
 export function isPlaceholderCover(edition: Edition) {
@@ -25,11 +27,11 @@ export function BookCard({
   featured?: boolean;
   alt: string;
 }) {
-
   const reduced = useReducedMotion() ?? false;
   const ref = useRef<HTMLDivElement>(null);
   const px = useMotionValue(0);
   const py = useMotionValue(0);
+  const [hover, setHover] = useState(false);
 
   const rotateY = useSpring(useTransform(px, [-0.5, 0.5], reduced ? [0, 0] : [-7, 7]), SOFT);
   const rotateX = useSpring(useTransform(py, [-0.5, 0.5], reduced ? [0, 0] : [5, -5]), SOFT);
@@ -43,19 +45,22 @@ export function BookCard({
     py.set((event.clientY - rect.top) / rect.height - 0.5);
   }
 
-  function onLeave() {
-    px.set(0);
-    py.set(0);
-  }
-
   const placeholder = isPlaceholderCover(edition);
+  const backCover = edition.backCoverUrl;
 
   return (
     <div
       ref={ref}
       onPointerMove={onMove}
-      onPointerLeave={onLeave}
-      className="relative mx-auto flex h-[320px] w-full items-center justify-center sm:h-[440px]"
+      onPointerEnter={(event) => {
+        if (event.pointerType === "mouse") setHover(true);
+      }}
+      onPointerLeave={() => {
+        setHover(false);
+        px.set(0);
+        py.set(0);
+      }}
+      className="relative mx-auto flex h-[320px] w-full items-center justify-center gap-4 sm:h-[440px]"
       style={{ perspective: 1200 }}
     >
       <motion.div
@@ -83,7 +88,6 @@ export function BookCard({
           />
         )}
 
-
         <motion.div
           aria-hidden="true"
           className="pointer-events-none absolute inset-y-[-30%] left-0 w-[35%]"
@@ -95,6 +99,26 @@ export function BookCard({
           }}
         />
       </motion.div>
+
+      {/* Contraportada: sólo desktop y sólo al pasar el cursor. */}
+      {backCover ? (
+        <AnimatePresence>
+          {hover && (
+            <motion.img
+              key="back"
+              src={backCover}
+              alt=""
+              aria-hidden="true"
+              draggable={false}
+              initial={{ opacity: 0, x: -24, rotateY: 12 }}
+              animate={{ opacity: 1, x: 0, rotateY: 0 }}
+              exit={{ opacity: 0, x: -24, rotateY: 12 }}
+              transition={springFast}
+              className="hidden h-full w-auto rounded-[16px] object-contain shadow-[0_18px_50px_-20px_rgba(15,3,45,0.45)] lg:block"
+            />
+          )}
+        </AnimatePresence>
+      ) : null}
     </div>
   );
 }
