@@ -184,8 +184,9 @@ export function OrbitScene() {
   const cursorX = useSpring(rawX, { stiffness: 40, damping: 20 });
   const cursorY = useSpring(rawY, { stiffness: 40, damping: 20 });
 
-  const dustCount = typeof window !== "undefined" && window.innerWidth < 640 ? 25 : 50;
-  const dust = useDust(dustCount);
+  // 50 puntos en desktop; en móvil los últimos 25 se ocultan por CSS (sin
+  // desajuste de hidratación).
+  const dust = useDust(50);
 
   useEffect(() => {
     if (reduced) return;
@@ -249,10 +250,12 @@ export function OrbitScene() {
       </motion.div>
 
       {/* Polvo estelar */}
-      {dust.map((point) => (
+      {dust.map((point, index) => (
         <span
           key={point.id}
-          className={`absolute h-px w-px rounded-full ${reduced ? "" : "dust-twinkle"}`}
+          className={`absolute h-px w-px rounded-full ${index >= 25 ? "hidden sm:block" : ""} ${
+            reduced ? "" : "dust-twinkle"
+          }`}
           style={
             {
               left: point.left,

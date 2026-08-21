@@ -2,7 +2,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { ChevronDown } from "lucide-react";
 import { BorderBeam } from "border-beam";
 import { LogoSmart } from "./LogoSmart";
-import { PlanetGlow } from "./PlanetGlow";
+import { OrbitScene } from "./OrbitScene";
 
 import { useLang } from "@/context/LanguageContext";
 import { useLogoMigration } from "@/context/LogoMigrationContext";
@@ -48,7 +48,7 @@ export function Hero() {
       className="relative flex flex-col items-center overflow-hidden px-5"
       style={{ minHeight: "88svh", paddingTop: "var(--header-height)" }}
     >
-      <PlanetGlow />
+      <OrbitScene />
 
       <motion.div
         {...rise(0)}
