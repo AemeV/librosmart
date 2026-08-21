@@ -1,6 +1,5 @@
 import { motion, useReducedMotion } from "motion/react";
-import { Link } from "@tanstack/react-router";
-import { ArrowRight, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { LogoSmart } from "./LogoSmart";
 import { useLang } from "@/context/LanguageContext";
 import { useLogoMigration } from "@/context/LogoMigrationContext";
