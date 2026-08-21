@@ -23,6 +23,8 @@ function SiteLayout() {
       <Header />
       <MigratingLogo />
       <Outlet />
+      <FloatingNav />
     </SiteProviders>
+
   );
 }
