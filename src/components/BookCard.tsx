@@ -60,7 +60,7 @@ export function BookCard({
       <motion.div
         className="relative overflow-hidden rounded-[16px]"
         style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-        whileHover={reduced ? undefined : { y: -6 }}
+        whileHover={reduced ? {} : { y: -6 }}
         transition={{ type: "spring", stiffness: 220, damping: 22 }}
       >
         {placeholder ? (
