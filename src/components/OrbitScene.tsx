@@ -142,18 +142,19 @@ function OrbitBody({
     >
       <motion.div style={{ y: py }}>
         <motion.div
-          animate={reduced ? undefined : { x: [0, body.driftX], y: [0, body.driftY] }}
-          transition={
-            reduced
-              ? undefined
-              : {
+          {...(reduced
+            ? {}
+            : {
+                animate: { x: [0, body.driftX], y: [0, body.driftY] },
+                transition: {
                   duration: body.duration,
                   delay: body.delay,
                   repeat: Infinity,
-                  repeatType: "mirror",
-                  ease: "easeInOut",
-                }
-          }
+                  repeatType: "mirror" as const,
+                  ease: "easeInOut" as const,
+                },
+              })}
+
           className="rounded-full"
           style={{
             width: body.size,
