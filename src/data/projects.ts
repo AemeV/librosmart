@@ -25,7 +25,7 @@ export const projects: Project[] = [
       es: "Una cerveza artesanal hecha en colaboración con cerveceros colombianos: cada lote lleva el nombre de una especie amenazada y parte de las ventas apoya proyectos de conservación. La etiqueta funciona como ficha de campo: ilustración, distribución y estado de conservación.",
       en: "A craft beer brewed with Colombian brewers: every batch is named after a threatened species and part of the sales support conservation projects. The label works as a field card, with illustration, range and conservation status.",
     },
-    link: "https://instagram.com/david.viajesyciencia",
+    link: "https://www.instagram.com/librosmart/",
   },
   {
     slug: "podcast",
@@ -47,7 +47,7 @@ export const projects: Project[] = [
       es: "Salidas de campo documentadas en video y cuaderno por páramos, selvas y arrecifes de Colombia. El material recogido alimenta los libros y los cortos de la editorial.",
       en: "Field trips documented on video and notebook across Colombian páramos, rainforests and reefs. The material gathered feeds the imprint's books and short films.",
     },
-    link: "https://instagram.com/david.viajesyciencia",
+    link: "https://www.instagram.com/librosmart/",
   },
   {
     slug: "talleres",
@@ -58,6 +58,6 @@ export const projects: Project[] = [
       es: "Programa itinerante de talleres de astronomía y biodiversidad para colegios públicos, con telescopios, guías impresas y actividades para docentes.",
       en: "A travelling programme of astronomy and biodiversity workshops for public schools, with telescopes, printed guides and activities for teachers.",
     },
-    link: "https://instagram.com/david.viajesyciencia",
+    link: "https://www.instagram.com/librosmart/",
   },
 ];

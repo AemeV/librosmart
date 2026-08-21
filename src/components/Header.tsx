@@ -1,7 +1,8 @@
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
-import { Instagram, Youtube, Facebook, Music2, Menu, X } from "lucide-react";
+import { Instagram, Music2, Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
+import { INSTAGRAM_URL, TIKTOK_URL } from "@/lib/social";
 import { useLang } from "@/context/LanguageContext";
 import { useAuthorSheet } from "@/context/AuthorSheetContext";
 import { useLogoMigration } from "@/context/LogoMigrationContext";
@@ -19,10 +20,8 @@ const navItems: { id: string; key: StringKey }[] = [
 ];
 
 const socials = [
-  { name: "Instagram", href: "https://instagram.com/", Icon: Instagram },
-  { name: "YouTube", href: "https://youtube.com/", Icon: Youtube },
-  { name: "TikTok", href: "https://tiktok.com/", Icon: Music2 },
-  { name: "Facebook", href: "https://facebook.com/", Icon: Facebook },
+  { name: "Instagram", href: INSTAGRAM_URL, Icon: Instagram },
+  { name: "TikTok", href: TIKTOK_URL, Icon: Music2 },
 ];
 
 function LanguageToggle() {

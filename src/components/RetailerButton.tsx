@@ -30,8 +30,8 @@ export function RetailerButton({
       transition={springFast}
       className={
         onBand
-          ? "label group flex min-h-11 items-center gap-2 rounded-full border border-[#EFEFEF]/35 bg-[#EFEFEF]/10 px-4 py-2 !text-[#EFEFEF] transition-colors hover:bg-[#EFEFEF] hover:!text-[#4E2BCC] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#EFEFEF]"
-          : "label group flex min-h-11 items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 transition-colors hover:border-accent hover:!text-accent focus-visible:!text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          ? "body-s group flex min-h-11 items-center gap-2 rounded-full border border-[#EFEFEF]/35 bg-[#EFEFEF]/10 px-4 py-2 !text-[#EFEFEF] transition-colors hover:bg-[#EFEFEF] hover:!text-[#4E2BCC] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#EFEFEF]"
+          : "body-s group flex min-h-11 items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 transition-colors hover:border-accent hover:!text-accent focus-visible:!text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
       }
     >
 

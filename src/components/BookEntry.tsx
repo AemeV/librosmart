@@ -158,7 +158,7 @@ export function BookEntry({ book }: { book: Book }) {
 
       {/* Texto corrido: justificado dentro de la columna centrada. */}
       <motion.div variants={childVariants} className="prose-measure mt-8">
-        <CrossfadeText k={`desc-${book.slug}-${lang}`} as="p" className="body text-justify hyphens-auto">
+        <CrossfadeText k={`desc-${book.slug}-${lang}`} as="p" className="body text-center">
           {tr(book.description)}
         </CrossfadeText>
       </motion.div>
@@ -183,15 +183,15 @@ export function BookEntry({ book }: { book: Book }) {
       {/* Dónde comprarlo: tarjeta glassmorphism. */}
       <motion.div
         variants={childVariants}
-        className="glass-card glass-card-content mt-10 w-full p-6 text-left sm:p-8"
+        className="glass-card glass-card-content mt-10 w-full p-6 text-center sm:p-8"
       >
-        <h4 className="label">{t("buyTitle")}</h4>
+        <h4 className="body">{t("buyTitle")}</h4>
 
         {hasEnglish && (
           <div
             role="group"
             aria-label={t("editionLabel")}
-            className="glass-card-content mt-4 inline-flex items-center rounded-full border border-line bg-surface/60 p-0.5"
+            className="glass-card-content mx-auto mt-4 inline-flex items-center rounded-full border border-line bg-surface/60 p-0.5"
           >
             {book.editions.map((e) => (
               <motion.button
@@ -231,8 +231,8 @@ export function BookEntry({ book }: { book: Book }) {
             <>
               {edition.physical.length > 0 && (
                 <div>
-                  <p className="label">{t("physical")}</p>
-                  <div className="mt-3 flex flex-wrap gap-2.5">
+                  <p className="body-s">{t("physical")}</p>
+                  <div className="mt-3 flex flex-wrap justify-center gap-2.5">
                     {edition.physical.map((retailer) => (
                       <RetailerButton key={retailer.name} name={retailer.name} url={retailer.url} />
                     ))}
@@ -241,8 +241,8 @@ export function BookEntry({ book }: { book: Book }) {
               )}
               {edition.digital.length > 0 && (
                 <div>
-                  <p className="label">{t("digital")}</p>
-                  <div className="mt-3 flex flex-wrap gap-2.5">
+                  <p className="body-s">{t("digital")}</p>
+                  <div className="mt-3 flex flex-wrap justify-center gap-2.5">
                     {edition.digital.map((retailer) => (
                       <RetailerButton key={retailer.name} name={retailer.name} url={retailer.url} />
                     ))}
