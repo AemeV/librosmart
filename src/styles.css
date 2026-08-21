@@ -138,8 +138,10 @@
   }
 }
 
-/* El único material de cristal del sitio. Máx. 6 en pantalla a la vez. */
+/* El único material de cristal del sitio. Máx. 6 en pantalla a la vez.
+   Canto de vidrio: highlight arriba, canto apagado abajo, reflejo interior. */
 @utility glass {
+  position: relative;
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   backdrop-filter: var(--glass-blur);
@@ -151,6 +153,82 @@
     background: var(--glass-fallback);
   }
 }
+
+/* Deriva líquida del fondo: tres trayectorias desfasadas y muy lentas. */
+@keyframes liquid-a {
+  0% {
+    transform: translate3d(-8%, -6%, 0) scale(1.05);
+  }
+  50% {
+    transform: translate3d(10%, 8%, 0) scale(1.25);
+  }
+  100% {
+    transform: translate3d(-8%, -6%, 0) scale(1.05);
+  }
+}
+
+@keyframes liquid-b {
+  0% {
+    transform: translate3d(12%, 10%, 0) scale(1.2);
+  }
+  50% {
+    transform: translate3d(-10%, -8%, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(12%, 10%, 0) scale(1.2);
+  }
+}
+
+@keyframes liquid-c {
+  0% {
+    transform: translate3d(-6%, 12%, 0) scale(1.1);
+  }
+  50% {
+    transform: translate3d(8%, -12%, 0) scale(1.3);
+  }
+  100% {
+    transform: translate3d(-6%, 12%, 0) scale(1.1);
+  }
+}
+
+@keyframes halo-breath {
+  0%,
+  100% {
+    opacity: 0.75;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+}
+
+.liquid-a {
+  animation: liquid-a 34s ease-in-out infinite;
+  will-change: transform;
+}
+.liquid-b {
+  animation: liquid-b 26s ease-in-out infinite;
+  will-change: transform;
+}
+.liquid-c {
+  animation: liquid-c 42s ease-in-out infinite;
+  will-change: transform;
+}
+.halo-breath {
+  animation: halo-breath 12s ease-in-out infinite;
+  will-change: opacity, transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .liquid-a,
+  .liquid-b,
+  .liquid-c,
+  .halo-breath {
+    animation: none;
+  }
+}
+
 
 /*
  * Contenido que flota sobre el cielo real del hero. El cielo no depende del
