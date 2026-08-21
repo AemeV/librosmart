@@ -14,11 +14,18 @@ const easeOutQuint = (t: number) => 1 - Math.pow(1 - t, 5);
 const maxScroll = () =>
   Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
 
-const headerOffset = () =>
-  parseInt(
-    getComputedStyle(document.documentElement).getPropertyValue("--header-height") || "104",
-    10,
-  ) || 104;
+/** Alto ocupado arriba por elementos fijos: header + menú flotante. */
+const topChrome = () => {
+  const header =
+    parseInt(
+      getComputedStyle(document.documentElement).getPropertyValue("--header-height") || "104",
+      10,
+    ) || 104;
+  const nav = document.querySelector<HTMLElement>("[data-floating-nav]");
+  if (!nav) return header;
+  const rect = nav.getBoundingClientRect();
+  return Math.max(header, rect.bottom);
+};
 
 /**
  * Posición del elemento en el documento sin contar transformaciones (parallax,
