@@ -61,7 +61,7 @@ export const strings = {
   newBook: { es: "Nuevo libro", en: "New book" },
   keyPoints: { es: "Qué vas a encontrar", en: "What you'll find" },
   viewIndex: { es: "Ver índice y contraportada", en: "Index and back cover" },
-  indexTitle: { es: "Índice", en: "Table of contents" },
+  indexTitle: { es: "Tabla de contenidos", en: "Table of contents" },
   backCoverTitle: { es: "Contraportada", en: "Back cover" },
   buyTitle: { es: "Dónde comprarlo", en: "Where to buy" },
   physical: { es: "Físico", en: "Print" },
