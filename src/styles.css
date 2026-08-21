@@ -335,55 +335,11 @@
   will-change: opacity, transform;
 }
 
-/* Planetas menores orbitando por detrás del planeta principal */
-@keyframes orbit-drift-a {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-  50% {
-    transform: translate3d(4vw, -2.5vh, 0);
-  }
-}
-@keyframes orbit-drift-b {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-  50% {
-    transform: translate3d(-3.2vw, 2.2vh, 0);
-  }
-}
-@keyframes orbit-drift-c {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-  50% {
-    transform: translate3d(2.4vw, 3vh, 0);
-  }
-}
-.orbit-a {
-  animation: orbit-drift-a 28s ease-in-out infinite;
-  will-change: transform;
-}
-.orbit-b {
-  animation: orbit-drift-b 36s ease-in-out infinite;
-  will-change: transform;
-}
-.orbit-c {
-  animation: orbit-drift-c 44s ease-in-out infinite;
-  will-change: transform;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .liquid-a,
   .liquid-b,
   .liquid-c,
-  .halo-breath,
-  .orbit-a,
-  .orbit-b,
-  .orbit-c {
+  .halo-breath {
     animation: none;
   }
 }
