@@ -11,11 +11,10 @@ import { springFast, tap } from "@/lib/motion-config";
 import type { StringKey } from "@/i18n/strings";
 import { LogoSmart } from "./LogoSmart";
 
-const navItems: { id: string; key: StringKey }[] = [
+const navItems: { id: string; key: StringKey; route?: string }[] = [
   { id: "libros", key: "navBooks" },
   { id: "autor", key: "navAuthor" },
-  { id: "resenas", key: "navReviews" },
-  { id: "proyectos", key: "navProjects" },
+  { id: "orion", key: "navOrion", route: "/orion" },
   { id: "contacto", key: "navContact" },
 ];
 
@@ -240,9 +239,9 @@ export function Header() {
                     >
                       {t(item.key)}
                     </button>
-                  ) : item.id === "proyectos" ? (
+                  ) : item.route ? (
                     <Link
-                      to="/proyectos"
+                      to={item.route}
                       onClick={() => setMenuOpen(false)}
                       className="display-m block py-3"
                     >

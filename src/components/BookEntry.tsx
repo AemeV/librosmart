@@ -58,8 +58,6 @@ function ContentsAccordion({ book, edition }: { book: Book; edition: Edition }) 
                   </li>
                 ))}
               </ol>
-              <p className="label mt-8">{t("backCoverTitle")}</p>
-              <p className="body-s mt-2">{tr(edition.backCover)}</p>
             </div>
           </motion.div>
         )}
@@ -166,12 +164,12 @@ export function BookEntry({ book }: { book: Book }) {
       {/* Qué vas a encontrar: galería horizontal scrolleable de tarjetas
           glassmorphism. */}
       <motion.div variants={childVariants} className="mt-14 w-full">
-        <h4 className="label text-center">{t("keyPoints")}</h4>
+        <h4 className="body uppercase text-center">{t("keyPoints")}</h4>
         <ul className="mt-5 grid grid-cols-2 gap-4 lg:grid-cols-4">
           {fourPoints.map((point, index) => (
             <li
               key={`${book.slug}-kp-${index}`}
-              className="glass-card-dark glass-card-content flex flex-col items-center p-5 text-center sm:p-6"
+              className="glass-card-dark glass-card-content !shadow-none flex flex-col items-center p-5 text-center sm:p-6"
             >
               <p className="body text-center text-seashell">{tr(point.title)}</p>
               <p className="body-s mt-2 text-center text-seashell/80">{tr(point.text)}</p>
@@ -181,12 +179,13 @@ export function BookEntry({ book }: { book: Book }) {
       </motion.div>
 
       {/* Dónde comprarlo: tarjeta glassmorphism. */}
+      <motion.h4 variants={childVariants} className="body uppercase text-center mt-14">
+        {t("buyTitle")}
+      </motion.h4>
       <motion.div
         variants={childVariants}
-        className="glass-card glass-card-content mt-10 w-full p-6 text-center sm:p-8"
+        className="glass-card glass-card-content mt-4 w-full p-6 text-center sm:p-8"
       >
-        <h4 className="body">{t("buyTitle")}</h4>
-
         {hasEnglish && (
           <div
             role="group"
