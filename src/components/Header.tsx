@@ -1,11 +1,11 @@
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
-import { Instagram, Youtube, Facebook, Music2, Sun, Moon, Monitor, Menu, X } from "lucide-react";
+import { Instagram, Youtube, Facebook, Music2, Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useLang } from "@/context/LanguageContext";
 import { useAuthorSheet } from "@/context/AuthorSheetContext";
 import { useLogoMigration } from "@/context/LogoMigrationContext";
-import { useTheme } from "@/context/ThemeContext";
+
 import { springFast, tap } from "@/lib/motion-config";
 import type { StringKey } from "@/i18n/strings";
 import { LogoSmart } from "./LogoSmart";
@@ -58,37 +58,6 @@ function LanguageToggle() {
   );
 }
 
-function ThemeToggle() {
-  const { mode, cycle } = useTheme();
-  const { t } = useLang();
-  const label =
-    mode === "light" ? t("themeLight") : mode === "dark" ? t("themeDark") : t("themeSystem");
-  const Icon = mode === "light" ? Sun : mode === "dark" ? Moon : Monitor;
-
-  return (
-    <motion.button
-      type="button"
-      onClick={cycle}
-      whileTap={tap}
-      aria-label={label}
-      title={label}
-      className="glass flex h-11 w-11 items-center justify-center rounded-full"
-    >
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.span
-          key={mode}
-          initial={{ rotate: -90, scale: 0.6, opacity: 0 }}
-          animate={{ rotate: 0, scale: 1, opacity: 1 }}
-          exit={{ rotate: 90, scale: 0.6, opacity: 0 }}
-          transition={springFast}
-          className="flex items-center justify-center"
-        >
-          <Icon className="h-4 w-4" aria-hidden="true" />
-        </motion.span>
-      </AnimatePresence>
-    </motion.button>
-  );
-}
 
 /**
  * Dos barras imantadas al borde superior de la ventana desde el primer frame.
@@ -186,8 +155,8 @@ export function Header() {
             </Link>
 
             <div className="absolute right-5 hidden items-center gap-2 sm:right-6 lg:flex">
+            <div className="absolute right-5 hidden items-center gap-2 sm:right-6 lg:flex">
               <LanguageToggle />
-              <ThemeToggle />
             </div>
 
             <motion.button
@@ -310,10 +279,9 @@ export function Header() {
               ))}
             </ul>
 
-            {/* Idioma y tema viven dentro del menú en móvil. */}
+            {/* El selector de idioma vive dentro del menú en móvil. */}
             <div className="mt-10 flex items-center justify-center gap-2">
               <LanguageToggle />
-              <ThemeToggle />
             </div>
 
             <div className="mt-auto flex items-center justify-center gap-2">
