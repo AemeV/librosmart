@@ -227,7 +227,7 @@
   backdrop-filter: blur(12px) saturate(150%);
   border: 1px solid rgba(255, 255, 255, 0.22);
   box-shadow:
-    -4px 14px 28px 0 rgba(5, 1, 16, 0.35),
+    0 6px 20px 0 rgba(5, 1, 16, 0.14),
     inset 0 0 5px 1px rgba(255, 255, 255, 0.18);
   overflow: hidden;
   color: #efefef;
