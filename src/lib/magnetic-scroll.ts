@@ -49,13 +49,13 @@ function targetY(): number | null {
     const header = headerOffset() + 16;
     const available = window.innerHeight - header;
     const slack = Math.max(0, available - height);
-    const y = top + window.scrollY - header - slack / 2;
+    const y = top - header - slack / 2;
     return Math.min(Math.max(y, 0), maxScroll());
   }
   // Fallback: ancla del libro con offset de header.
   const anchor = document.querySelector<HTMLElement>("#libros [id^='book-']");
   if (!anchor) return null;
-  const y = anchor.getBoundingClientRect().top + window.scrollY - headerOffset() - 24;
+  const y = layoutTop(anchor) - headerOffset() - 24;
   return Math.min(Math.max(y, 0), maxScroll());
 }
 
