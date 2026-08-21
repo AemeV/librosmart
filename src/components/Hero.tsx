@@ -2,6 +2,8 @@ import { motion, useReducedMotion } from "motion/react";
 import { ChevronDown } from "lucide-react";
 import { BorderBeam } from "border-beam";
 import { LogoSmart } from "./LogoSmart";
+import { PlanetGlow } from "./PlanetGlow";
+
 import { useLang } from "@/context/LanguageContext";
 import { useLogoMigration } from "@/context/LogoMigrationContext";
 import { useTheme } from "@/context/ThemeContext";
