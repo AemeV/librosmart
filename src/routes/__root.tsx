@@ -99,7 +99,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
-const themeScript = `try{var s=localStorage.getItem("librosmart:theme")||"system";var d=s==="dark"||(s==="system"&&window.matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light");}catch(e){}`;
+// Modo oscuro deshabilitado por ahora: el sitio se sirve siempre en claro.
+const themeScript = `try{document.documentElement.setAttribute("data-theme","light");}catch(e){}`;
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
