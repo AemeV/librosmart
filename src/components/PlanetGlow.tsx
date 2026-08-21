@@ -29,6 +29,23 @@ const LIMB = {
     "0 -1px 0 0.5px rgba(255,255,255,0.98), 0 -2px 16px rgba(255,255,255,0.9), 0 -6px 54px rgba(178,140,255,0.55)",
 };
 
+const MOON_BODY = {
+  dark: "radial-gradient(circle at 35% 25%, rgba(120,86,190,0.95) 0%, rgba(38,16,80,0.98) 55%, #0d0326 100%)",
+  light:
+    "radial-gradient(circle at 35% 25%, rgba(214,199,247,0.95) 0%, rgba(174,152,228,0.9) 55%, rgba(140,116,205,0.85) 100%)",
+};
+
+const MOON_RIM = {
+  dark: "0 -1px 0 0.5px rgba(255,255,255,0.7), 0 -2px 14px rgba(178,140,255,0.55)",
+  light: "0 -1px 0 0.5px rgba(255,255,255,0.9), 0 -2px 12px rgba(178,140,255,0.4)",
+};
+
+const MOONS = [
+  { className: "orbit-a", left: "12%", top: "6%", size: "clamp(34px, 5vw, 72px)", opacity: 0.75 },
+  { className: "orbit-b", left: "78%", top: "18%", size: "clamp(22px, 3.2vw, 46px)", opacity: 0.6 },
+  { className: "orbit-c", left: "58%", top: "2%", size: "clamp(14px, 2vw, 30px)", opacity: 0.5 },
+] as const;
+
 const FADE = "linear-gradient(180deg, #000 0%, #000 28%, rgba(0,0,0,0) 96%)";
 
 export function PlanetGlow() {
