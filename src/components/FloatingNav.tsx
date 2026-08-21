@@ -25,7 +25,7 @@ const items: Item[] = [
 ];
 
 const pill =
-  "label flex h-11 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full px-2 text-seashell/80 transition-colors hover:text-seashell sm:px-4";
+  "label flex h-11 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full px-2 text-text/70 transition-colors hover:text-text sm:px-4";
 
 const containerVariants = {
   hidden: { opacity: 0, y: -24 },
@@ -58,7 +58,7 @@ export function FloatingNav() {
       style={{ top: "calc(var(--header-height) + 12px)" }}
     >
       <ul
-        className="pointer-events-auto grid w-full max-w-[520px] grid-cols-4 items-center gap-1 rounded-full border border-white/10 bg-midnight/80 p-1 shadow-2xl backdrop-blur-xl"
+        className="pointer-events-auto grid w-full max-w-[520px] grid-cols-4 items-center gap-1 rounded-full border border-white/60 bg-white/45 p-1 shadow-[0_10px_30px_-12px_rgba(15,3,45,0.25)] backdrop-blur-xl"
       >
         {items.map(({ id, key, Icon }) => (
           <motion.li key={id} variants={itemVariants} className="min-w-0">
@@ -73,7 +73,7 @@ export function FloatingNav() {
                 {t(key)}
               </motion.button>
             ) : id === "orion" ? (
-              <Link to="/orion" className={pill} activeProps={{ className: `${pill} text-seashell` }}>
+              <Link to="/orion" className={pill} activeProps={{ className: `${pill} text-text` }}>
                 <Icon className="h-3.5 w-3.5" aria-hidden="true" />
                 {t(key)}
               </Link>
