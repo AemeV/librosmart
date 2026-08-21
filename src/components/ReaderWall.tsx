@@ -16,14 +16,20 @@ function PhotoTile({ photo, onOpen }: { photo: ReaderPhoto; onOpen: () => void }
       type="button"
       onClick={onOpen}
       whileTap={tap}
+      whileHover={{ scale: 1.02 }}
       transition={springFast}
       aria-label="Foto de lector"
-      className="relative aspect-square w-[200px] shrink-0 overflow-hidden rounded-[16px] border border-line bg-surface-2 sm:w-[240px]"
+      className="gradient-border relative aspect-square w-[200px] shrink-0 overflow-hidden sm:w-[240px]"
     >
       {photo.src ? (
-        <img src={photo.src} alt="" loading="lazy" className="h-full w-full object-cover" />
+        <img
+          src={photo.src}
+          alt=""
+          loading="lazy"
+          className="h-full w-full rounded-[16px] object-cover"
+        />
       ) : (
-        <span className="flex h-full w-full items-center justify-center text-text-muted">
+        <span className="flex h-full w-full items-center justify-center rounded-[16px] bg-surface-2 text-text-muted">
           <BookOpen className="h-5 w-5" aria-hidden="true" />
         </span>
       )}
