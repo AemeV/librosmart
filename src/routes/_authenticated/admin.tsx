@@ -32,10 +32,7 @@ function AdminPage() {
   const checkRole = useCallback(async () => {
     const { data: userData } = await supabase.auth.getUser();
     setEmail(userData.user?.email ?? "");
-    const { data } = await supabase.rpc("has_role", {
-      _user_id: userData.user?.id ?? "",
-      _role: "admin",
-    });
+    const { data } = await supabase.rpc("is_admin");
     setStatus(data ? "ok" : "denied");
   }, []);
 
