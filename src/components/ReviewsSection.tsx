@@ -33,7 +33,7 @@ export function ReviewsSection() {
         {/* Tarjeta con la valoración real verificada en Goodreads. */}
         <motion.div
           variants={childVariants}
-          className="mx-auto mt-10 max-w-[560px] rounded-[14px] border border-line bg-surface p-8 text-center"
+          className="glass-card glass-card-content mx-auto mt-10 max-w-[560px] p-8 text-center"
         >
           <div className="flex justify-center gap-1" aria-hidden="true">
             {Array.from({ length: 5 }).map((_, star) => (
@@ -65,7 +65,7 @@ export function ReviewsSection() {
               <motion.figure
                 key={review.id}
                 variants={childVariants}
-                className={`min-w-[80vw] snap-center rounded-[14px] border border-line bg-surface p-6 sm:min-w-[420px] lg:min-w-0 ${
+                className={`glass-card glass-card-content min-w-[80vw] snap-center p-6 sm:min-w-[420px] lg:min-w-0 ${
                   spans[index % spans.length]
                 }`}
               >

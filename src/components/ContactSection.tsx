@@ -89,7 +89,7 @@ export function ContactSection() {
             variants={childVariants}
             onSubmit={onSubmit}
             noValidate
-            className="rounded-[20px] border border-line bg-surface p-5 sm:p-7"
+            className="glass-card glass-card-content p-5 sm:p-7"
           >
             <div>
               <label htmlFor="name" className="label">

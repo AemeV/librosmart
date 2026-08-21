@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { Hero } from "@/components/Hero";
 import { ReaderWall } from "@/components/ReaderWall";
 import { BooksSection } from "@/components/BooksSection";
@@ -25,6 +26,16 @@ export const Route = createFileRoute("/_site/")({
 });
 
 function Index() {
+  useEffect(() => {
+    // Siempre abrir la landing en el banner principal, limpiando cualquier
+    // hash o posición de scroll previa que el navegador pudiera restaurar.
+    if (typeof window === "undefined") return;
+    if (window.location.hash && window.location.hash !== "#top") {
+      history.replaceState(null, "", window.location.pathname + window.location.search);
+    }
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, []);
+
   return (
     <>
       <h1 className="sr-only">Sm@rt — David Mauricio Guerrero Vélez</h1>

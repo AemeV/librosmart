@@ -76,7 +76,7 @@ export function AuthorSection() {
               <motion.article
                 key={title.es}
                 variants={childVariants}
-                className="rounded-[14px] border border-line bg-surface p-6 text-center"
+                className="glass-card glass-card-content p-6 text-center"
               >
                 <Icon className="mx-auto h-5 w-5 text-text-muted" aria-hidden="true" />
                 <h3 className="body mt-4">{tr(title)}</h3>
