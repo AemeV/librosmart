@@ -54,6 +54,7 @@ export function FloatingNav() {
       variants={containerVariants}
       initial="hidden"
       animate="show"
+      data-floating-nav=""
       className="pointer-events-none fixed inset-x-0 z-40 flex justify-center px-3"
       style={{ top: "calc(var(--header-height) + 12px)" }}
     >
