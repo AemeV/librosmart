@@ -58,8 +58,6 @@ function ContentsAccordion({ book, edition }: { book: Book; edition: Edition }) 
                   </li>
                 ))}
               </ol>
-              <p className="label mt-8">{t("backCoverTitle")}</p>
-              <p className="body-s mt-2">{tr(edition.backCover)}</p>
             </div>
           </motion.div>
         )}
