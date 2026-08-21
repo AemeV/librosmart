@@ -65,7 +65,7 @@ export function ReviewsSection() {
               <motion.figure
                 key={review.id}
                 variants={childVariants}
-                className={`min-w-[80vw] snap-center rounded-[14px] border border-line bg-surface p-6 sm:min-w-[420px] lg:min-w-0 ${
+                className={`glass-card glass-card-content min-w-[80vw] snap-center p-6 sm:min-w-[420px] lg:min-w-0 ${
                   spans[index % spans.length]
                 }`}
               >
