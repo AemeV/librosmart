@@ -1,7 +1,9 @@
 import { Outlet, createFileRoute } from "@tanstack/react-router";
 import { SiteProviders } from "@/components/SiteProviders";
 import { Header } from "@/components/Header";
+import { FloatingNav } from "@/components/FloatingNav";
 import { MigratingLogo } from "@/components/MigratingLogo";
+
 import { getSiteContent } from "@/lib/site-content.functions";
 
 /**
