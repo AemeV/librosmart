@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { claimFirstAdmin } from "@/lib/admin.functions";
 import { ThemeProvider } from "@/context/ThemeContext";
-import { Button, Field, ImageUpload, NumberInput, TextArea, TextInput } from "@/components/admin/AdminUI";
+import { Button, Field, ImageUpload, MultiImageUpload, NumberInput, TextArea, TextInput } from "@/components/admin/AdminUI";
 import type { BookRow, ChapterRow, KeyPointRow, RetailerRow } from "@/lib/site-content";
 
 export const Route = createFileRoute("/_authenticated/admin")({
@@ -554,17 +554,30 @@ function ReadersAdmin() {
     else await load();
   }
 
+  /** Varias imágenes de golpe: cada una entra como una foto nueva de la galería. */
+  async function addMany(urls: string[]) {
+    setError(null);
+    const { error: insertError } = await supabase.from("reader_photos").insert(
+      urls.map((url, index) => ({
+        image_url: url,
+        caption_es: "",
+        caption_en: "",
+        position: rows.length + index,
+      })),
+    );
+    if (insertError) setError(insertError.message);
+    else {
+      flash(`${urls.length} imagen(es) añadidas`);
+      await load();
+    }
+  }
+
   async function saveAll() {
     setError(null);
     for (const row of rows) {
       const { error: saveError } = await supabase
         .from("reader_photos")
-        .update({
-          image_url: row.image_url,
-          caption_es: row.caption_es,
-          caption_en: row.caption_en,
-          position: row.position,
-        })
+        .update({ image_url: row.image_url, position: row.position })
         .eq("id", row.id);
       if (saveError) {
         setError(saveError.message);
@@ -584,9 +597,14 @@ function ReadersAdmin() {
     <section>
       <div className="flex items-center justify-between">
         <h2 className="display-m">Galería de lectores</h2>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <MultiImageUpload
+            label="Subir varias imágenes"
+            folder="readers"
+            onUploaded={addMany}
+          />
           <Button variant="ghost" onClick={() => void add()}>
-            Añadir foto
+            Añadir vacía
           </Button>
           <Button onClick={() => void saveAll()}>Guardar todo</Button>
         </div>
@@ -594,7 +612,7 @@ function ReadersAdmin() {
       {error && <p className="body-s mt-3 text-red-500">{error}</p>}
       {message && <p className="body-s mt-3 text-text-muted">{message}</p>}
 
-      <ul className="mt-6 grid gap-4 sm:grid-cols-2">
+      <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {rows.map((row) => (
           <li key={row.id} className="glass flex flex-col gap-4 rounded-[16px] p-4">
             <ImageUpload
@@ -603,12 +621,6 @@ function ReadersAdmin() {
               value={row.image_url}
               onChange={(url) => patch(row.id, { image_url: url })}
             />
-            <Field label="Texto (ES)">
-              <TextInput value={row.caption_es} onChange={(v) => patch(row.id, { caption_es: v })} />
-            </Field>
-            <Field label="Texto (EN)">
-              <TextInput value={row.caption_en} onChange={(v) => patch(row.id, { caption_en: v })} />
-            </Field>
             <Field label="Orden">
               <NumberInput value={row.position} onChange={(v) => patch(row.id, { position: v })} />
             </Field>

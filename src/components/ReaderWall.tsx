@@ -7,28 +7,24 @@ import { useLang } from "@/context/LanguageContext";
 import { SectionHeading } from "./SectionHeading";
 import { childVariants, inViewProps, sectionVariants, springFast, tap } from "@/lib/motion-config";
 
+/**
+ * Muro de lectores: sólo imágenes, en formato cuadrado. Sin pies de foto.
+ */
 function PhotoTile({ photo, onOpen }: { photo: ReaderPhoto; onOpen: () => void }) {
-  const { tr } = useLang();
   return (
     <motion.button
       type="button"
       onClick={onOpen}
       whileTap={tap}
       transition={springFast}
-      className="relative w-[220px] shrink-0 overflow-hidden rounded-[14px] border border-line bg-surface-2 sm:w-[260px]"
-      style={{ aspectRatio: "4 / 3" }}
+      aria-label="Foto de lector"
+      className="relative aspect-square w-[200px] shrink-0 overflow-hidden rounded-[16px] border border-line bg-surface-2 sm:w-[240px]"
     >
       {photo.src ? (
-        <img
-          src={photo.src}
-          alt={tr(photo.caption)}
-          loading="lazy"
-          className="h-full w-full object-cover"
-        />
+        <img src={photo.src} alt="" loading="lazy" className="h-full w-full object-cover" />
       ) : (
-        <span className="flex h-full w-full flex-col items-center justify-center gap-2 text-text-muted">
+        <span className="flex h-full w-full items-center justify-center text-text-muted">
           <BookOpen className="h-5 w-5" aria-hidden="true" />
-          <span className="label px-3 text-center">{tr(photo.caption)}</span>
         </span>
       )}
     </motion.button>
@@ -36,7 +32,7 @@ function PhotoTile({ photo, onOpen }: { photo: ReaderPhoto; onOpen: () => void }
 }
 
 export function ReaderWall() {
-  const { t, tr } = useLang();
+  const { t } = useLang();
   const reduced = useReducedMotion();
   const [active, setActive] = useState<ReaderPhoto | null>(null);
   const { readers } = useSiteContent();
@@ -78,7 +74,7 @@ export function ReaderWall() {
             onClick={() => setActive(null)}
             role="dialog"
             aria-modal="true"
-            aria-label={tr(active.caption)}
+            aria-label={t("readersTitle")}
           >
             <motion.button
               type="button"
@@ -89,23 +85,22 @@ export function ReaderWall() {
             >
               <X className="h-4 w-4" aria-hidden="true" />
             </motion.button>
-            <motion.figure
+            <motion.div
               initial={{ scale: 0.94, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.94, opacity: 0 }}
               transition={springFast}
-              className="max-w-lg overflow-hidden rounded-[20px] border border-line bg-surface"
+              className="aspect-square w-full max-w-lg overflow-hidden rounded-[20px] border border-line bg-surface"
               onClick={(event) => event.stopPropagation()}
             >
               {active.src ? (
-                <img src={active.src} alt={tr(active.caption)} className="w-full" />
+                <img src={active.src} alt="" className="h-full w-full object-cover" />
               ) : (
-                <div className="flex aspect-[4/3] items-center justify-center bg-surface-2">
+                <div className="flex h-full w-full items-center justify-center bg-surface-2">
                   <BookOpen className="h-8 w-8 text-text-muted" aria-hidden="true" />
                 </div>
               )}
-              <figcaption className="label px-5 py-4">{tr(active.caption)}</figcaption>
-            </motion.figure>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

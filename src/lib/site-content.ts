@@ -76,6 +76,7 @@ export function mapBookRow(row: BookRow): Book {
     .map((lang) => ({
       language: lang,
       coverUrl: row.cover_url,
+      ...(row.back_cover_url ? { backCoverUrl: row.back_cover_url } : {}),
       specs: {
         publisher: row.publisher,
         releaseDate: row.release_date,

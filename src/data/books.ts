@@ -29,6 +29,8 @@ export type BookSpecs = {
 export type Edition = {
   language: "es" | "en";
   coverUrl: string;
+  /** Imagen de contraportada: aparece al lado de la portada al pasar el cursor. */
+  backCoverUrl?: string;
   /** Ficha técnica de esta edición. `specs.pages` define el grosor del objeto libro. */
   specs: BookSpecs;
   backCover: Localized;

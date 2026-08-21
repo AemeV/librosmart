@@ -74,7 +74,6 @@ export function Header() {
   /** En rutas internas los anclajes de la landing deben volver a "/". */
   const hash = (id: string) => (isLanding ? `#${id}` : `/#${id}`);
   const { scrollY } = useScroll();
-  const [navVisible, setNavVisible] = useState(true);
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const lastY = useRef(0);
@@ -87,10 +86,7 @@ export function Header() {
 
   useMotionValueEvent(scrollY, "change", (y) => {
     setScrolled(y > 12);
-    if (Math.abs(y - lastY.current) > 8) {
-      setNavVisible(y < lastY.current || y < 120);
-      lastY.current = y;
-    }
+    if (Math.abs(y - lastY.current) > 8) lastY.current = y;
   });
 
   // --header-height: altura real de las dos barras, para el scroll-margin de las anclas.
@@ -199,53 +195,9 @@ export function Header() {
           </div>
         </div>
 
-        {/* Subheader: el menú se oculta al bajar y vuelve al subir */}
-        <motion.div
-          initial={false}
-          animate={{
-            y: navVisible && chromeVisible ? 0 : "-105%",
-            opacity: navVisible && chromeVisible ? 1 : 0,
-          }}
-          transition={springFast}
-          className="glass hidden border-b border-line lg:block"
-        >
-          <nav
-            aria-label={t("menu")}
-            className="mx-auto flex max-w-[1100px] items-center justify-center px-5 py-2.5 sm:px-6"
-          >
-            <ul className="flex items-center gap-6">
-              {navItems.map((item) =>
-                item.id === "autor" ? (
-                  <li key={item.id}>
-                    <button
-                      type="button"
-                      onClick={openSheet}
-                      className="label transition-colors hover:text-text"
-                    >
-                      {t(item.key)}
-                    </button>
-                  </li>
-                ) : item.id === "proyectos" ? (
-                  <li key={item.id}>
-                    <Link
-                      to="/proyectos"
-                      activeProps={{ className: "text-text" }}
-                      className="label transition-colors hover:text-text"
-                    >
-                      {t(item.key)}
-                    </Link>
-                  </li>
-                ) : (
-                  <li key={item.id}>
-                    <a href={hash(item.id)} className="label transition-colors hover:text-text">
-                      {t(item.key)}
-                    </a>
-                  </li>
-                ),
-              )}
-            </ul>
-          </nav>
-        </motion.div>
+        {/* El menú de secciones ahora vive en <FloatingNav />, en botones
+            flotantes siempre visibles. */}
+
       </div>
 
       <AnimatePresence>
