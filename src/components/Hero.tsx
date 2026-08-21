@@ -2,6 +2,8 @@ import { motion, useReducedMotion } from "motion/react";
 import { ChevronDown } from "lucide-react";
 import { BorderBeam } from "border-beam";
 import { LogoSmart } from "./LogoSmart";
+import { PlanetGlow } from "./PlanetGlow";
+
 import { useLang } from "@/context/LanguageContext";
 import { useLogoMigration } from "@/context/LogoMigrationContext";
 import { useTheme } from "@/context/ThemeContext";
@@ -42,10 +44,13 @@ export function Hero() {
     <section
       id="top"
       aria-label={t("brand")}
-      className="relative flex flex-col items-center justify-center gap-10 px-5"
+      className="relative flex flex-col items-center justify-center gap-10 overflow-hidden px-5"
       style={{ minHeight: "88svh", paddingTop: "var(--header-height)" }}
     >
+      <PlanetGlow />
+
       <motion.div {...rise(0)} className="flex w-full justify-center">
+
         <div
           ref={setHeroSlot}
           className="w-[82vw] max-w-[1200px] sm:w-[62vw]"
