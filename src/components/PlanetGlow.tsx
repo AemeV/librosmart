@@ -15,7 +15,11 @@ export function PlanetGlow() {
     <motion.div
       aria-hidden="true"
       className="pointer-events-none absolute inset-x-0 bottom-0 -z-1 overflow-hidden"
-      style={{ height: "70%", y }}
+      style={{
+        height: "62%",
+        y,
+        maskImage: "linear-gradient(180deg, #000 0%, #000 62%, transparent 100%)",
+      }}
     >
       {/* Halo difuso que sube desde el limbo */}
       <div
@@ -23,7 +27,7 @@ export function PlanetGlow() {
           reduced ? "" : "halo-breath"
         }`}
         style={{
-          bottom: "24%",
+          bottom: "34%",
           filter: "blur(60px)",
           backgroundImage:
             "radial-gradient(ellipse 60% 100% at 50% 100%, rgba(178,140,255,0.55) 0%, rgba(120,72,220,0.28) 40%, transparent 75%)",
@@ -34,7 +38,7 @@ export function PlanetGlow() {
       <div
         className="absolute left-1/2 aspect-square w-[190%] -translate-x-1/2 rounded-full"
         style={{
-          top: "34%",
+          top: "52%",
           backgroundImage:
             "radial-gradient(circle at 50% 0%, rgba(60,32,110,0.9) 0%, rgba(18,6,44,0.98) 28%, #0b0220 60%)",
         }}
@@ -44,7 +48,7 @@ export function PlanetGlow() {
       <div
         className="absolute left-1/2 aspect-square w-[190%] -translate-x-1/2 rounded-full"
         style={{
-          top: "34%",
+          top: "52%",
           boxShadow:
             "0 -1px 0 0.5px rgba(255,255,255,0.95), 0 -2px 18px rgba(200,170,255,0.75), 0 -6px 60px rgba(144,91,244,0.5)",
         }}
