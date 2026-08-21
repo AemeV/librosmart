@@ -3,7 +3,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { BookOpen, User, Star, Sparkles, Mail } from "lucide-react";
 import { useLang } from "@/context/LanguageContext";
 import { useAuthorSheet } from "@/context/AuthorSheetContext";
-import { spring, tap } from "@/lib/motion-config";
+import { springSheet, tap } from "@/lib/motion-config";
 import type { StringKey } from "@/i18n/strings";
 
 /**
@@ -37,7 +37,7 @@ export function FloatingNav() {
       aria-label={t("menu")}
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ ...spring, delay: 0.4 }}
+      transition={{ ...springSheet, delay: 0.4 }}
       className="pointer-events-none fixed inset-x-0 bottom-4 z-50 flex justify-center px-3 sm:bottom-6"
     >
       <ul
