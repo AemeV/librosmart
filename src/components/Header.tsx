@@ -133,6 +133,12 @@ export function Header() {
     return () => ro.disconnect();
   }, []);
 
+  /** Al tocar el logo se vuelve al banner de inicio (arriba del todo). */
+  const scrollTop = () => {
+    setMenuOpen(false);
+    if (isLanding) window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <>
       <div ref={wrapperRef} className="fixed inset-x-0 top-0 z-50">
