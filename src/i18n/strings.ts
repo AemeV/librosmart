@@ -46,8 +46,8 @@ export const strings = {
 
   readersTitle: { es: "Muro de lectores", en: "Readers wall" },
   readersSubtitle: {
-    es: "Lectores con los libros, en Colombia y fuera de ella.",
-    en: "Readers with the books, in Colombia and beyond.",
+    es: "Lectores Sm@rt de Colombia y el resto del mundo.",
+    en: "Sm@rt readers from Colombia and the rest of the world.",
   },
 
   booksTitle: { es: "Los libros", en: "The books" },
