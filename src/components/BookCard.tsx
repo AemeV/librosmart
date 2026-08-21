@@ -54,11 +54,11 @@ export function BookCard({
       ref={ref}
       onPointerMove={onMove}
       onPointerLeave={onLeave}
-      className={`relative mx-auto w-full ${featured ? "max-w-[320px]" : "max-w-[260px]"}`}
+      className="relative mx-auto flex h-[320px] w-full items-center justify-center sm:h-[440px]"
       style={{ perspective: 1200 }}
     >
       <motion.div
-        className="relative overflow-hidden rounded-[16px]"
+        className="relative h-full overflow-hidden rounded-[16px]"
         style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
         whileHover={reduced ? {} : { y: -6 }}
         transition={{ type: "spring", stiffness: 220, damping: 22 }}
@@ -67,7 +67,7 @@ export function BookCard({
           <div
             role="img"
             aria-label={alt}
-            className="flex aspect-[2/3] w-full flex-col items-center justify-center gap-3 rounded-[16px] border border-line bg-surface-alt px-6 text-center"
+            className="flex h-full w-[213px] flex-col items-center justify-center gap-3 rounded-[16px] border border-line bg-surface-alt px-6 text-center sm:w-[293px]"
           >
             <span className="display-m">{book.title}</span>
             <span className="label">Portada pendiente</span>
@@ -78,9 +78,10 @@ export function BookCard({
             alt={alt}
             loading="lazy"
             draggable={false}
-            className="block w-full rounded-[16px] object-contain shadow-[0_18px_50px_-20px_rgba(15,3,45,0.55)]"
+            className="block h-full w-auto rounded-[16px] object-contain shadow-[0_18px_50px_-20px_rgba(15,3,45,0.55)]"
           />
         )}
+
 
         <motion.div
           aria-hidden="true"
