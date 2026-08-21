@@ -52,7 +52,7 @@ export function Hero() {
 
       <motion.div
         {...rise(0)}
-        className="pointer-events-none absolute inset-0 flex items-center justify-center px-5"
+        className="pointer-events-none absolute inset-0 z-1 flex items-center justify-center px-5"
         style={{ paddingTop: "var(--header-height)" }}
       >
         <div
