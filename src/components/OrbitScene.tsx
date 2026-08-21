@@ -54,7 +54,7 @@ const BODIES: Body[] = [
     size: "22vw",
     background: "radial-gradient(circle at 62% 22%, #241046 0%, #150729 60%, #0E0420 100%)",
     boxShadow:
-      "inset 9px -9px 14px -9px rgba(255,255,255,0.95), inset 4px -4px 26px -10px rgba(190,170,255,0.6), 0 0 60px rgba(144,91,244,0.12)",
+      "inset 10px -10px 10px -10px rgba(255,255,255,1), inset 5px -5px 22px -8px rgba(220,205,255,0.85), 0 0 60px rgba(144,91,244,0.12)",
     driftX: 60,
     driftY: -34,
     duration: 90,
@@ -71,7 +71,7 @@ const BODIES: Body[] = [
     size: "5.5vw",
     background: "radial-gradient(circle at 35% 25%, #2B1246 0%, #1A0A38 70%, #15082E 100%)",
     boxShadow:
-      "inset -5px -5px 11px -5px rgba(224,138,92,0.7), 0 0 60px rgba(144,91,244,0.1)",
+      "inset -5px -5px 8px -5px rgba(224,138,92,0.9), inset -3px -3px 16px -8px rgba(255,214,190,0.5), 0 0 60px rgba(144,91,244,0.1)",
     driftX: -40,
     driftY: 24,
     duration: 70,
@@ -88,7 +88,7 @@ const BODIES: Body[] = [
     size: "12vw",
     background: "radial-gradient(circle at 40% 22%, #291247 0%, #1B0B3A 65%, #160830 100%)",
     boxShadow:
-      "inset -6px -6px 14px -7px rgba(190,170,255,0.55), 0 0 60px rgba(144,91,244,0.08)",
+      "inset -7px -7px 10px -7px rgba(220,205,255,0.8), 0 0 60px rgba(144,91,244,0.08)",
     driftX: 25,
     driftY: -16,
     duration: 120,
@@ -291,6 +291,17 @@ export function OrbitScene() {
               "0 -2px 4px rgba(200,180,255,0.55), 0 -12px 40px rgba(144,91,244,0.35), 0 -40px 120px rgba(78,43,204,0.22)",
           }}
         />
+        {/* Bloom lavanda que sube desde el limbo */}
+        <div
+          className="absolute left-1/2 h-[45%] w-[160%] -translate-x-1/2"
+          style={{
+            bottom: "42%",
+            filter: "blur(50px)",
+            backgroundImage:
+              "radial-gradient(ellipse 60% 100% at 50% 100%, rgba(200,180,255,0.75) 0%, rgba(144,91,244,0.35) 45%, transparent 78%)",
+          }}
+        />
+
         {/* Capa duplicada del arco: solo pulsa su opacidad (nunca box-shadow). */}
         <div
           className={`absolute left-1/2 aspect-square w-[250vw] -translate-x-1/2 rounded-full ${
