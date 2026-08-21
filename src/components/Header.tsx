@@ -239,9 +239,9 @@ export function Header() {
                     >
                       {t(item.key)}
                     </button>
-                  ) : item.id === "proyectos" ? (
+                  ) : item.route ? (
                     <Link
-                      to="/proyectos"
+                      to={item.route}
                       onClick={() => setMenuOpen(false)}
                       className="display-m block py-3"
                     >
