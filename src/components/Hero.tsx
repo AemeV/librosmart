@@ -65,7 +65,7 @@ export function Hero() {
         </div>
       </motion.div>
 
-      <div className="z-1 mt-auto flex w-full flex-col items-center pb-24 sm:pb-28">
+      <div className="z-1 mt-auto flex w-full flex-col items-center pb-10 sm:pb-28">
         <motion.div {...rise(1)}>
           <BorderBeam
             size="pulse-inner"
