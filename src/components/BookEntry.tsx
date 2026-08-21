@@ -114,7 +114,11 @@ export function BookEntry({ book }: { book: Book }) {
         book.featured ? "pt-16 pb-24 sm:pt-24 sm:pb-32" : "py-16 sm:py-24"
       }`}
     >
-      <motion.div variants={childVariants} style={{ y: parallax }}>
+      <motion.div
+        variants={childVariants}
+        style={{ y: parallax }}
+        {...(book.featured ? { "data-magnet-block": "" } : {})}
+      >
         <BookCard
           book={book}
           edition={edition}
@@ -143,6 +147,7 @@ export function BookEntry({ book }: { book: Book }) {
       <motion.h3
         id={`book-${book.slug}`}
         variants={childVariants}
+        {...(book.featured ? { "data-magnet-block": "" } : {})}
         className="mt-4 max-w-[22ch] text-balance display-xl"
       >
         {book.title}
