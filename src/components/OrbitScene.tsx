@@ -286,9 +286,9 @@ export function OrbitScene() {
           style={{
             top: "70%",
             background:
-              "radial-gradient(circle at 50% 0%, #241048 0%, #140630 40%, #0A0118 100%)",
+              "radial-gradient(circle at 50% 0%, #E9E0F7 0%, #D6C8EE 30%, #B8A0E0 65%, #9B7ED4 100%)",
             boxShadow:
-              "0 -2px 4px rgba(200,180,255,0.55), 0 -12px 40px rgba(144,91,244,0.35), 0 -40px 120px rgba(78,43,204,0.22)",
+              "0 -2px 4px rgba(255,255,255,0.75), 0 -12px 40px rgba(200,180,255,0.45), 0 -40px 120px rgba(144,91,244,0.28)",
           }}
         />
         {/* Bloom lavanda que sube desde el limbo */}
@@ -298,7 +298,7 @@ export function OrbitScene() {
             bottom: "42%",
             filter: "blur(50px)",
             backgroundImage:
-              "radial-gradient(ellipse 60% 100% at 50% 100%, rgba(200,180,255,0.75) 0%, rgba(144,91,244,0.35) 45%, transparent 78%)",
+              "radial-gradient(ellipse 60% 100% at 50% 100%, rgba(243,238,249,0.85) 0%, rgba(223,212,242,0.55) 40%, rgba(200,180,255,0.25) 70%, transparent 90%)",
           }}
         />
 
@@ -310,8 +310,8 @@ export function OrbitScene() {
           style={{
             top: "70%",
             boxShadow:
-              "0 -2px 4px rgba(200,180,255,0.4), 0 -12px 40px rgba(144,91,244,0.28), 0 -40px 120px rgba(78,43,204,0.16)",
-            opacity: 0.1,
+              "0 -2px 4px rgba(255,255,255,0.55), 0 -12px 40px rgba(200,180,255,0.32), 0 -40px 120px rgba(144,91,244,0.18)",
+            opacity: 0.12,
           }}
         />
       </div>
