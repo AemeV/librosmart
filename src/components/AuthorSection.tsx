@@ -2,6 +2,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { Mic, Youtube, GraduationCap } from "lucide-react";
 import { useLang } from "@/context/LanguageContext";
 import { SectionHeading } from "./SectionHeading";
+import { AuthorCard } from "./AuthorCard";
 import { childVariants, inViewProps, sectionVariants } from "@/lib/motion-config";
 import type { Localized } from "@/i18n/strings";
 
