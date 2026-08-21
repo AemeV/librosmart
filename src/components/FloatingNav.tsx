@@ -72,8 +72,8 @@ export function FloatingNav() {
                 <Icon className="h-3.5 w-3.5" aria-hidden="true" />
                 {t(key)}
               </motion.button>
-            ) : id === "proyectos" ? (
-              <Link to="/proyectos" className={pill} activeProps={{ className: `${pill} text-seashell` }}>
+            ) : id === "orion" ? (
+              <Link to="/orion" className={pill} activeProps={{ className: `${pill} text-seashell` }}>
                 <Icon className="h-3.5 w-3.5" aria-hidden="true" />
                 {t(key)}
               </Link>
