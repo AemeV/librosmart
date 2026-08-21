@@ -4,11 +4,12 @@ import { ArrowLeft } from "lucide-react";
 import { Footer } from "@/components/ContactSection";
 import { BookEntry } from "@/components/BookEntry";
 import { useLang } from "@/context/LanguageContext";
-import { books } from "@/data/books";
+import { getSiteContent } from "@/lib/site-content.functions";
 
 export const Route = createFileRoute("/_site/libros/$slug")({
-  loader: ({ params }) => {
-    const book = books.find((b) => b.slug === params.slug);
+  loader: async ({ params }) => {
+    const content = await getSiteContent();
+    const book = content.books.find((b) => b.slug === params.slug);
     if (!book) throw notFound();
     return { book };
   },

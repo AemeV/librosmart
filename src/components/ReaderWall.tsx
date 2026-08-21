@@ -1,7 +1,8 @@
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { X, BookOpen } from "lucide-react";
 import { useState } from "react";
-import { readerPhotos, type ReaderPhoto } from "@/data/readers";
+import type { ReaderPhoto } from "@/data/readers";
+import { useSiteContent } from "@/context/SiteContentContext";
 import { useLang } from "@/context/LanguageContext";
 import { SectionHeading } from "./SectionHeading";
 import { childVariants, inViewProps, sectionVariants, springFast, tap } from "@/lib/motion-config";
@@ -38,7 +39,8 @@ export function ReaderWall() {
   const { t, tr } = useLang();
   const reduced = useReducedMotion();
   const [active, setActive] = useState<ReaderPhoto | null>(null);
-  const loop = [...readerPhotos, ...readerPhotos];
+  const { readers } = useSiteContent();
+  const loop = [...readers, ...readers];
 
   return (
     <motion.section

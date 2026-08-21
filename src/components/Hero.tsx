@@ -7,7 +7,7 @@ import { PlanetGlow } from "./PlanetGlow";
 import { useLang } from "@/context/LanguageContext";
 import { useLogoMigration } from "@/context/LogoMigrationContext";
 import { useTheme } from "@/context/ThemeContext";
-import { books } from "@/data/books";
+import { useSiteContent } from "@/context/SiteContentContext";
 import { tap } from "@/lib/motion-config";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -21,6 +21,7 @@ export function Hero() {
   const reduced = useReducedMotion();
   const { resolved } = useTheme();
   const { setHeroSlot, migrating } = useLogoMigration();
+  const { books } = useSiteContent();
   const featured = books.find((book) => book.featured) ?? books[0]!;
 
   const rise = (index: number) => ({

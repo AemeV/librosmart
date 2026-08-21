@@ -5,9 +5,7 @@ import { useLang } from "@/context/LanguageContext";
 import { useAuthorSheet } from "@/context/AuthorSheetContext";
 import { springSheet, tap } from "@/lib/motion-config";
 import type { StringKey } from "@/i18n/strings";
-import portraitAsset from "@/assets/retrato-david.png.asset.json";
-
-const portrait = portraitAsset.url;
+import { useSiteContent } from "@/context/SiteContentContext";
 
 // TODO (David): reemplazar el retrato por la foto real y ajustar las cifras de trayectoria.
 const INSTAGRAM_HANDLE = "@david.viajesyciencia";
@@ -23,6 +21,8 @@ const track: { value: string; label: StringKey; detail: StringKey; Icon: typeof 
 export function AuthorSheet() {
   const { open, closeSheet } = useAuthorSheet();
   const { t } = useLang();
+  const { images } = useSiteContent();
+  const portrait = images["author_portrait"] ?? "";
   const reduced = useReducedMotion();
   const panelRef = useRef<HTMLDivElement>(null);
 

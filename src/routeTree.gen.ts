@@ -9,15 +9,33 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as SiteRouteImport } from './routes/_site'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as SiteIndexRouteImport } from './routes/_site.index'
 import { Route as SiteProyectosRouteImport } from './routes/_site.proyectos'
 import { Route as SiteLibrosSlugRouteImport } from './routes/_site/libros.$slug'
 import { Route as SiteProyectosIndexRouteImport } from './routes/_site.proyectos.index'
+import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media.$'
 
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SiteRoute = SiteRouteImport.update({
   id: '/_site',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const SiteIndexRoute = SiteIndexRouteImport.update({
   id: '/',
@@ -39,52 +57,108 @@ const SiteProyectosIndexRoute = SiteProyectosIndexRouteImport.update({
   path: '/',
   getParentRoute: () => SiteProyectosRoute,
 } as any)
+const ApiPublicMediaSplatRoute = ApiPublicMediaSplatRouteImport.update({
+  id: '/api/public/media/$',
+  path: '/api/public/media/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof SiteIndexRoute
+  '/auth': typeof AuthRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/proyectos': typeof SiteProyectosRouteWithChildren
   '/libros/$slug': typeof SiteLibrosSlugRoute
   '/proyectos/': typeof SiteProyectosIndexRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof SiteIndexRoute
+  '/auth': typeof AuthRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/libros/$slug': typeof SiteLibrosSlugRoute
   '/proyectos': typeof SiteProyectosIndexRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/_site': typeof SiteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_site/proyectos': typeof SiteProyectosRouteWithChildren
   '/_site/': typeof SiteIndexRoute
   '/_site/libros/$slug': typeof SiteLibrosSlugRoute
   '/_site/proyectos/': typeof SiteProyectosIndexRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/proyectos' | '/libros/$slug' | '/proyectos/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/admin'
+    | '/proyectos'
+    | '/libros/$slug'
+    | '/proyectos/'
+    | '/api/public/media/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/libros/$slug' | '/proyectos'
+  to:
+    | '/'
+    | '/auth'
+    | '/admin'
+    | '/libros/$slug'
+    | '/proyectos'
+    | '/api/public/media/$'
   id:
     | '__root__'
+    | '/_authenticated'
     | '/_site'
+    | '/auth'
+    | '/_authenticated/admin'
     | '/_site/proyectos'
     | '/_site/'
     | '/_site/libros/$slug'
     | '/_site/proyectos/'
+    | '/api/public/media/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   SiteRoute: typeof SiteRouteWithChildren
+  AuthRoute: typeof AuthRoute
+  ApiPublicMediaSplatRoute: typeof ApiPublicMediaSplatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_site': {
       id: '/_site'
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof SiteRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_site/': {
       id: '/_site/'
@@ -114,8 +188,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteProyectosIndexRouteImport
       parentRoute: typeof SiteProyectosRoute
     }
+    '/api/public/media/$': {
+      id: '/api/public/media/$'
+      path: '/api/public/media/$'
+      fullPath: '/api/public/media/$'
+      preLoaderRoute: typeof ApiPublicMediaSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
 interface SiteProyectosRouteChildren {
   SiteProyectosIndexRoute: typeof SiteProyectosIndexRoute
@@ -144,7 +236,10 @@ const SiteRouteChildren: SiteRouteChildren = {
 const SiteRouteWithChildren = SiteRoute._addFileChildren(SiteRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   SiteRoute: SiteRouteWithChildren,
+  AuthRoute: AuthRoute,
+  ApiPublicMediaSplatRoute: ApiPublicMediaSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

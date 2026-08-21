@@ -1,4 +1,6 @@
 import type { ReactNode } from "react";
+import { SiteContentProvider } from "@/context/SiteContentContext";
+import type { SiteContent } from "@/lib/site-content";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { AuthorSheetProvider } from "@/context/AuthorSheetContext";
@@ -11,9 +13,16 @@ import { SkyGradient } from "@/components/SkyGradient";
  * Contexto compartido por todas las rutas del sitio (tema, idioma, sheet del autor).
  * Vive en el layout `_site`, así cualquier ruta nueva o anidada lo hereda sin cambios.
  */
-export function SiteProviders({ children }: { children: ReactNode }) {
+export function SiteProviders({
+  children,
+  content,
+}: {
+  children: ReactNode;
+  content?: SiteContent | undefined;
+}) {
   return (
-    <ThemeProvider>
+    <SiteContentProvider value={content}>
+      <ThemeProvider>
       <LanguageProvider>
         <AuthorSheetProvider>
           <LogoMetalProvider>
@@ -24,7 +33,8 @@ export function SiteProviders({ children }: { children: ReactNode }) {
             </LogoMigrationProvider>
           </LogoMetalProvider>
         </AuthorSheetProvider>
-      </LanguageProvider>
-    </ThemeProvider>
+        </LanguageProvider>
+      </ThemeProvider>
+    </SiteContentProvider>
   );
 }
