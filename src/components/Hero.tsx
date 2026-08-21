@@ -24,8 +24,8 @@ export function Hero() {
     transition: { duration: 0.7, delay: index * 0.12, ease: EASE },
   });
 
-  const goToBooks = () => {
-    const target = document.getElementById("libros");
+  const goToFeaturedBook = () => {
+    const target = document.getElementById(`book-${featured.slug}`);
     if (!target) return;
     const offset = parseInt(
       getComputedStyle(document.documentElement).getPropertyValue("--header-height") || "104",
@@ -53,38 +53,25 @@ export function Hero() {
       </motion.div>
 
       <motion.div {...rise(1)}>
-        <motion.div initial="rest" animate="rest" whileHover="hover" whileFocus="hover">
-          <Link
-            to="/libros/$slug"
-            params={{ slug: featured.slug }}
-            className="glass border-beam flex flex-col items-center gap-1 rounded-full px-7 py-3 text-center"
-          >
-            <span className="label">{t("heroNew")}</span>
-            <span className="flex items-center gap-2">
-              <span className="pill-title">{featured.title}</span>
-              <motion.span
-                aria-hidden="true"
-                className="flex items-center"
-                variants={{ rest: { x: 0 }, hover: { x: 4 } }}
-                transition={{ type: "spring", stiffness: 320, damping: 22 }}
-              >
-                <ArrowRight className="h-4 w-4" />
-              </motion.span>
-            </span>
-          </Link>
-        </motion.div>
-      </motion.div>
-
-
-      <motion.div {...rise(2)}>
         <motion.button
           type="button"
-          onClick={goToBooks}
+          onClick={goToFeaturedBook}
           whileTap={tap}
           whileHover={reduced ? {} : { y: -2 }}
-          className="label flex min-h-12 items-center rounded-full bg-purple-heart px-7 !text-seashell"
+          className="glass border-beam group flex flex-col items-center gap-0.5 rounded-full px-7 py-3 text-center"
         >
-          {t("heroCta")}
+          <span className="label">{t("heroNew")}</span>
+          <span className="flex items-center gap-2">
+            <span className="pill-title">{featured.title}</span>
+            <motion.span
+              aria-hidden="true"
+              className="flex items-center"
+              variants={{ rest: { y: 0 }, hover: { y: 2 } }}
+              transition={{ type: "spring", stiffness: 320, damping: 22 }}
+            >
+              <ChevronDown className="h-4 w-4" />
+            </motion.span>
+          </span>
         </motion.button>
       </motion.div>
 
