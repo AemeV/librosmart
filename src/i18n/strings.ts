@@ -83,13 +83,14 @@ export const strings = {
 
   authorTitle: { es: "El autor", en: "The author" },
   authorBio1: {
-    es: "David Mauricio Guerrero Vélez es divulgador científico colombiano. Escribe sobre biodiversidad, exploración espacial y los descubrimientos que cambian la forma en que entendemos el mundo, con un principio fijo: rigor sin jerga.",
-    en: "David Mauricio Guerrero Vélez is a Colombian science writer. He writes about biodiversity, space exploration and the discoveries reshaping how we understand the world, with one fixed principle: rigor without jargon.",
+    es: "David Mauricio Guerrero Vélez es el autor de la colección de libros Sm@rt: Los Más Recientes e Importantes Descubrimientos Científicos. Economista, escritor, máster en Comunicación de la Ciencia y la Tecnología, fotógrafo aficionado y apasionado por la historia.",
+    en: "David Mauricio Guerrero Vélez is the author of the Sm@rt collection: The Most Recent and Important Scientific Discoveries. Economist, writer, master's in Science and Technology Communication, amateur photographer and history enthusiast.",
   },
   authorBio2: {
-    es: "Sm@rt es su editorial personal, desde donde publica la colección Sm@rt y los títulos monográficos.",
-    en: "Sm@rt is his personal imprint, home to the Sm@rt collection and his monographic titles.",
+    es: "Su principal objetivo es generar interés por la ciencia y la tecnología e inspirar a niños, jóvenes y adultos para que no pierdan el interés por el conocimiento.",
+    en: "His main goal is to spark interest in science and technology, and to inspire children, young people and adults never to lose their curiosity for knowledge.",
   },
+
 
   projectsTitle: { es: "Otros proyectos", en: "Other projects" },
   projectsSubtitle: {
