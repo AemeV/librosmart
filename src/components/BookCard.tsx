@@ -89,7 +89,10 @@ export function BookCard({
           style={{ transformStyle: "preserve-3d" }}
         >
           {/* Cara frontal: portada */}
-          <div className="relative h-full" style={{ backfaceVisibility: "hidden" }}>
+          <div
+            className="relative h-full overflow-hidden rounded-[16px]"
+            style={{ backfaceVisibility: "hidden" }}
+          >
             {placeholder ? (
               <div
                 role="img"
