@@ -117,7 +117,7 @@ export const books: Book[] = [
         language: "es",
         coverUrl: sextaExtincionCover.url,
         specs: {
-          publisher: "Librosmart", // TODO (David)
+          publisher: "Sm@rt", // TODO (David)
           releaseDate: "2026-04", // TODO (David): fecha exacta de FILBo
           pages: 320, // TODO (David)
           dimensions: "16 × 23 cm", // TODO (David)
@@ -190,7 +190,7 @@ export const books: Book[] = [
         language: "es",
         coverUrl: colonizacionCover.url, // TODO (David)
         specs: {
-          publisher: "Librosmart", // TODO (David)
+          publisher: "Sm@rt", // TODO (David)
           releaseDate: "2024", // TODO (David)
           pages: 248, // TODO (David)
           dimensions: "15 × 22 cm", // TODO (David)
@@ -208,7 +208,7 @@ export const books: Book[] = [
         language: "en",
         coverUrl: colonizacionCover.url, // TODO (David)
         specs: {
-          publisher: "Librosmart", // TODO (David)
+          publisher: "Sm@rt", // TODO (David)
           releaseDate: "2024", // TODO (David)
           pages: 248, // TODO (David)
           dimensions: "6 × 9 in", // TODO (David)
@@ -272,7 +272,7 @@ export const books: Book[] = [
         language: "es",
         coverUrl: smart3Cover.url, // TODO (David)
         specs: {
-          publisher: "Librosmart", // TODO (David)
+          publisher: "Sm@rt", // TODO (David)
           releaseDate: "2023", // TODO (David)
           pages: 196, // TODO (David)
           dimensions: "15 × 22 cm", // TODO (David)
@@ -290,7 +290,7 @@ export const books: Book[] = [
         language: "en",
         coverUrl: smart3Cover.url, // TODO (David)
         specs: {
-          publisher: "Librosmart", // TODO (David)
+          publisher: "Sm@rt", // TODO (David)
           releaseDate: "2023", // TODO (David)
           pages: 196, // TODO (David)
           dimensions: "6 × 9 in", // TODO (David)
@@ -351,7 +351,7 @@ export const books: Book[] = [
         language: "es",
         coverUrl: smart2Cover.url, // TODO (David)
         specs: {
-          publisher: "Librosmart", // TODO (David)
+          publisher: "Sm@rt", // TODO (David)
           releaseDate: "2021", // TODO (David)
           pages: 180, // TODO (David)
           dimensions: "15 × 22 cm", // TODO (David)
@@ -369,7 +369,7 @@ export const books: Book[] = [
         language: "en",
         coverUrl: smart2Cover.url, // TODO (David)
         specs: {
-          publisher: "Librosmart", // TODO (David)
+          publisher: "Sm@rt", // TODO (David)
           releaseDate: "2021", // TODO (David)
           pages: 180, // TODO (David)
           dimensions: "6 × 9 in", // TODO (David)
@@ -431,7 +431,7 @@ export const books: Book[] = [
         language: "es",
         coverUrl: smart1Cover.url, // TODO (David)
         specs: {
-          publisher: "Librosmart", // TODO (David)
+          publisher: "Sm@rt", // TODO (David)
           releaseDate: "2019", // TODO (David)
           pages: 164, // TODO (David)
           dimensions: "15 × 22 cm", // TODO (David)
@@ -485,7 +485,7 @@ export const books: Book[] = [
         language: "es",
         coverUrl: guiaCovidCover.url, // TODO (David)
         specs: {
-          publisher: "Librosmart", // TODO (David)
+          publisher: "Sm@rt", // TODO (David)
           releaseDate: "2020", // TODO (David)
           pages: 96, // TODO (David)
           dimensions: "14 × 21 cm", // TODO (David)
