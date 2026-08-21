@@ -20,13 +20,12 @@ type Item = { id: string; key: StringKey; Icon: typeof BookOpen };
 const items: Item[] = [
   { id: "libros", key: "navBooks", Icon: BookOpen },
   { id: "autor", key: "navAuthor", Icon: User },
-  { id: "resenas", key: "navReviews", Icon: Star },
-  { id: "proyectos", key: "navProjects", Icon: Sparkles },
+  { id: "orion", key: "navOrion", Icon: Sparkles },
   { id: "contacto", key: "navContact", Icon: Mail },
 ];
 
 const pill =
-  "label flex h-11 items-center gap-2 whitespace-nowrap rounded-full px-4 text-seashell/80 transition-colors hover:text-seashell";
+  "label flex h-11 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full px-2 text-seashell/80 transition-colors hover:text-seashell sm:px-4";
 
 const containerVariants = {
   hidden: { opacity: 0, y: 24 },
