@@ -74,7 +74,6 @@ export function Header() {
   /** En rutas internas los anclajes de la landing deben volver a "/". */
   const hash = (id: string) => (isLanding ? `#${id}` : `/#${id}`);
   const { scrollY } = useScroll();
-  const [navVisible, setNavVisible] = useState(true);
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const lastY = useRef(0);
@@ -87,10 +86,7 @@ export function Header() {
 
   useMotionValueEvent(scrollY, "change", (y) => {
     setScrolled(y > 12);
-    if (Math.abs(y - lastY.current) > 8) {
-      setNavVisible(y < lastY.current || y < 120);
-      lastY.current = y;
-    }
+    if (Math.abs(y - lastY.current) > 8) lastY.current = y;
   });
 
   // --header-height: altura real de las dos barras, para el scroll-margin de las anclas.
