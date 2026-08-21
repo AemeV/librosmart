@@ -77,6 +77,7 @@ export function initMagneticFirstScroll(): () => void {
   /** Un tramo de animación con easing; al terminar corrige el resto. */
   const glide = (duration: number, pass: number) => {
     const initial = targetY();
+    console.log("[magnet] glide", initial, window.scrollY);
     if (initial === null) return false;
     const from = window.scrollY;
     let to = initial;
@@ -129,6 +130,7 @@ export function initMagneticFirstScroll(): () => void {
       done = true;
       return;
     }
+    console.log("[magnet] trigger", window.scrollY);
     if (event.cancelable) event.preventDefault();
     done = run() || done;
   };
