@@ -60,34 +60,47 @@ export function initMagneticFirstScroll(): () => void {
     frame = 0;
   };
 
-  const run = () => {
+  /** Un tramo de animación con easing; al terminar corrige el resto. */
+  const glide = (duration: number, pass: number) => {
     const initial = targetY();
     if (initial === null) return false;
-    if (reduced) {
-      window.scrollTo({ top: initial, behavior: "auto" });
-      return true;
-    }
-
     const from = window.scrollY;
     let to = initial;
+    if (Math.abs(to - from) < 2) return true;
     const start = performance.now();
     animating = true;
 
     const step = (now: number) => {
       if (!animating) return;
-      const p = Math.min(1, (now - start) / DURATION);
-      // Recalcular destino: las animaciones de entrada mueven el bloque.
+      const p = Math.min(1, (now - start) / duration);
+      // Recalcular destino: el parallax y las animaciones de entrada mueven el
+      // bloque mientras viajamos.
       const fresh = targetY();
-      if (fresh !== null) to += (fresh - to) * 0.25;
+      if (fresh !== null) to += (fresh - to) * (0.15 + 0.5 * p);
       window.scrollTo({ top: from + (to - from) * easeOutQuint(p), behavior: "auto" });
       if (p < 1) {
         frame = requestAnimationFrame(step);
-      } else {
-        stop();
+        return;
+      }
+      stop();
+      // Ajuste fino: si el bloque terminó desplazado, se corrige suavemente.
+      if (pass < 2) {
+        const fix = targetY();
+        if (fix !== null && Math.abs(fix - window.scrollY) > 4) glide(360, pass + 1);
       }
     };
     frame = requestAnimationFrame(step);
     return true;
+  };
+
+  const run = () => {
+    if (reduced) {
+      const initial = targetY();
+      if (initial === null) return false;
+      window.scrollTo({ top: initial, behavior: "auto" });
+      return true;
+    }
+    return glide(DURATION, 0);
   };
 
   const trigger = (event: Event) => {
