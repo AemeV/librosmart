@@ -18,7 +18,7 @@ export function PlanetGlow() {
       style={{
         height: "62%",
         y,
-        maskImage: "linear-gradient(180deg, #000 0%, #000 62%, transparent 100%)",
+        maskImage: "linear-gradient(180deg, #000 0%, #000 30%, transparent 96%)",
       }}
     >
       {/* Halo difuso que sube desde el limbo */}
