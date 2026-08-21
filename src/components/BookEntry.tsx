@@ -151,8 +151,8 @@ export function BookEntry({ book }: { book: Book }) {
         </CrossfadeText>
       </motion.div>
 
-      {/* Qué vas a encontrar: galería horizontal scrolleable. El color vive en
-          las fichas, no en una franja de fondo. */}
+      {/* Qué vas a encontrar: galería horizontal scrolleable de tarjetas
+          glassmorphism. */}
       <motion.div variants={childVariants} className="mt-14 w-full">
         <h4 className="label text-center">{t("keyPoints")}</h4>
         <ul
@@ -161,30 +161,13 @@ export function BookEntry({ book }: { book: Book }) {
           {book.keyPoints.map((point) => (
             <li
               key={point.title.es}
-              className="relative w-[78%] shrink-0 snap-start overflow-hidden rounded-[20px] p-6 text-center text-[#EFEFEF] shadow-[0_18px_44px_-24px_rgba(15,3,45,0.65)] sm:w-[46%] lg:w-[30%]"
-              style={{
-                backgroundImage:
-                  "linear-gradient(155deg, #905BF4 0%, #4E2BCC 46%, #0F032D 100%)",
-              }}
+              className="glass-card-dark glass-card-content flex w-[78%] shrink-0 snap-start flex-col items-center p-6 text-center sm:w-[46%] lg:w-[30%]"
             >
-              {/* Brillo especular superior: da volumen a la tarjeta. */}
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-x-0 top-0 h-1/2"
-                style={{
-                  backgroundImage:
-                    "radial-gradient(120% 100% at 50% 0%, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0) 70%)",
-                }}
-              />
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0 rounded-[20px] border border-white/15"
-              />
-              <span className="relative mx-auto flex h-9 w-9 items-center justify-center rounded-full bg-white/15">
-                <Check className="h-4 w-4 text-[#EFEFEF]" aria-hidden="true" />
+              <span className="mx-auto flex h-9 w-9 items-center justify-center rounded-full bg-white/15">
+                <Check className="h-4 w-4 text-seashell" aria-hidden="true" />
               </span>
-              <p className="body relative mt-4 text-center text-[#EFEFEF]">{tr(point.title)}</p>
-              <p className="body-s relative mt-2 text-center text-[#EFEFEF]/80">{tr(point.text)}</p>
+              <p className="body mt-4 text-center text-seashell">{tr(point.title)}</p>
+              <p className="body-s mt-2 text-center text-seashell/80">{tr(point.text)}</p>
             </li>
           ))}
         </ul>
