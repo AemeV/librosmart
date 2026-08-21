@@ -77,7 +77,6 @@ export function initMagneticFirstScroll(): () => void {
   /** Un tramo de animación con easing; al terminar corrige el resto. */
   const glide = (duration: number, pass: number) => {
     const initial = targetY();
-    console.log("[magnet] glide", initial, window.scrollY);
     if (initial === null) return false;
     const from = window.scrollY;
     let to = initial;
@@ -92,7 +91,9 @@ export function initMagneticFirstScroll(): () => void {
       // bloque mientras viajamos.
       const fresh = targetY();
       if (fresh !== null) to += (fresh - to) * (0.15 + 0.5 * p);
-      window.scrollTo({ top: from + (to - from) * easeOutQuint(p), behavior: "auto" });
+      // `instant` es obligatorio: el CSS del sitio usa scroll-behavior: smooth y
+      // "auto" heredaría esa animación, peleando con nuestra curva.
+      window.scrollTo({ top: from + (to - from) * easeOutQuint(p), behavior: "instant" });
       if (p < 1) {
         frame = requestAnimationFrame(step);
         return;
@@ -112,7 +113,7 @@ export function initMagneticFirstScroll(): () => void {
     if (reduced) {
       const initial = targetY();
       if (initial === null) return false;
-      window.scrollTo({ top: initial, behavior: "auto" });
+      window.scrollTo({ top: initial, behavior: "instant" });
       return true;
     }
     return glide(DURATION, 0);
@@ -130,7 +131,6 @@ export function initMagneticFirstScroll(): () => void {
       done = true;
       return;
     }
-    console.log("[magnet] trigger", window.scrollY);
     if (event.cancelable) event.preventDefault();
     done = run() || done;
   };
