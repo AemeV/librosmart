@@ -17,14 +17,15 @@ const SOFT = { stiffness: 140, damping: 18, mass: 0.6 };
 export function BookCard({
   book,
   edition,
-  featured = false,
   alt,
 }: {
   book: Book;
   edition: Edition;
+  /** Se conserva por compatibilidad: todas las portadas comparten alto. */
   featured?: boolean;
   alt: string;
 }) {
+
   const reduced = useReducedMotion() ?? false;
   const ref = useRef<HTMLDivElement>(null);
   const px = useMotionValue(0);
