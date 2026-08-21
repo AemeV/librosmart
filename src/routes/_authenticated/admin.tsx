@@ -486,11 +486,33 @@ function BooksAdmin() {
       </div>
       {error && <p className="body-s mt-3 text-red-500">{error}</p>}
       <ul className="mt-6 flex flex-col gap-3">
-        {rows.map((row) => (
+        {rows.map((row, index) => (
           <li
             key={row.id}
-            className="glass flex items-center gap-4 rounded-[16px] p-4"
+            className={`glass flex items-center gap-4 rounded-[16px] p-4 ${
+              row.published ? "" : "opacity-60"
+            }`}
           >
+            <div className="flex flex-col gap-1">
+              <button
+                type="button"
+                aria-label="Subir"
+                disabled={index === 0}
+                onClick={() => void move(index, -1)}
+                className="label rounded-full border border-line px-2 py-1 disabled:opacity-40"
+              >
+                ↑
+              </button>
+              <button
+                type="button"
+                aria-label="Bajar"
+                disabled={index === rows.length - 1}
+                onClick={() => void move(index, 1)}
+                className="label rounded-full border border-line px-2 py-1 disabled:opacity-40"
+              >
+                ↓
+              </button>
+            </div>
             <div className="h-20 w-14 shrink-0 overflow-hidden rounded-[8px] border border-line bg-surface-2">
               {row.cover_url ? (
                 <img src={row.cover_url} alt="" className="h-full w-full object-cover" />
@@ -500,8 +522,12 @@ function BooksAdmin() {
               <p className="body">{row.title}</p>
               <p className="body-s text-text-muted">
                 {row.year} · /{row.slug} {row.featured ? "· destacado" : ""}
+                {row.published ? "" : " · oculto"}
               </p>
             </div>
+            <Button variant="ghost" onClick={() => void toggleVisible(row)}>
+              {row.published ? "Ocultar" : "Mostrar"}
+            </Button>
             <Button variant="ghost" onClick={() => setSelected(row.id)}>
               Editar
             </Button>
