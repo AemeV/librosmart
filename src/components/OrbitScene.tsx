@@ -253,15 +253,19 @@ export function OrbitScene() {
         <span
           key={point.id}
           className={`absolute h-px w-px rounded-full ${reduced ? "" : "dust-twinkle"}`}
-          style={{
-            left: point.left,
-            top: point.top,
-            backgroundColor: "rgba(78,43,204,0.9)",
-            opacity: point.opacity,
-            boxShadow: "0 0 2px rgba(144,91,244,0.7)",
-            animationDuration: `${point.duration.toFixed(2)}s`,
-            animationDelay: `${point.delay.toFixed(2)}s`,
-          }}
+          style={
+            {
+              left: point.left,
+              top: point.top,
+              backgroundColor: "rgba(78,43,204,0.9)",
+              opacity: point.opacity,
+              boxShadow: "0 0 2px rgba(144,91,244,0.7)",
+              animationDuration: `${point.duration.toFixed(2)}s`,
+              animationDelay: `${point.delay.toFixed(2)}s`,
+              "--dust-min": point.opacity.toFixed(2),
+            } as React.CSSProperties
+          }
+
         />
       ))}
 
