@@ -61,6 +61,24 @@ export function PlanetGlow() {
         }}
       />
 
+      {/* Planetas menores orbitando por detrás */}
+      {MOONS.map((moon) => (
+        <div
+          key={moon.className}
+          className={`absolute rounded-full ${reduced ? "" : moon.className}`}
+          style={{
+            left: moon.left,
+            top: moon.top,
+            width: moon.size,
+            height: moon.size,
+            backgroundImage: dark ? MOON_BODY.dark : MOON_BODY.light,
+            boxShadow: dark ? MOON_RIM.dark : MOON_RIM.light,
+            opacity: moon.opacity,
+          }}
+        />
+      ))}
+
+
       {/* Cuerpo del planeta */}
       <div
         className="absolute left-1/2 aspect-square w-[190%] -translate-x-1/2 rounded-full"
