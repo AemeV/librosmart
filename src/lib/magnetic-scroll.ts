@@ -51,9 +51,9 @@ function targetY(): number | null {
     const top = Math.min(...tops);
     const bottom = Math.max(...parts.map((el, i) => tops[i]! + el.offsetHeight));
     const height = bottom - top;
-    // Se centra dentro del área útil (debajo del header fijo); si el bloque no
-    // cabe, se alinea justo bajo el header.
-    const header = headerOffset() + 16;
+    // Se centra dentro del área útil (debajo del header y del menú flotante);
+    // si el bloque no cabe, se alinea justo debajo de ellos.
+    const header = topChrome() + 12;
     const available = window.innerHeight - header;
     const slack = Math.max(0, available - height);
     const y = top - header - slack / 2;
@@ -62,7 +62,7 @@ function targetY(): number | null {
   // Fallback: ancla del libro con offset de header.
   const anchor = document.querySelector<HTMLElement>("#libros [id^='book-']");
   if (!anchor) return null;
-  const y = layoutTop(anchor) - headerOffset() - 24;
+  const y = layoutTop(anchor) - topChrome() - 24;
   return Math.min(Math.max(y, 0), maxScroll());
 }
 
