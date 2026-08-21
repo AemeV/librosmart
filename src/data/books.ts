@@ -49,6 +49,8 @@ export type Book = {
   subtitle: Localized;
   year: number;
   featured: boolean;
+  /** Visible en el sitio público. Ausente = visible. */
+  published?: boolean;
   description: Localized;
   keyPoints: KeyPoint[];
   chapters: Chapter[];

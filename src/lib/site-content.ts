@@ -15,6 +15,7 @@ export type BookRow = {
   description_en: string;
   year: number;
   featured: boolean;
+  published: boolean;
   position: number;
   cover_url: string;
   back_cover_url: string | null;
@@ -100,6 +101,7 @@ export function mapBookRow(row: BookRow): Book {
     subtitle: loc(row.subtitle_es, row.subtitle_en),
     year: row.year,
     featured: row.featured,
+    published: row.published !== false,
     description: loc(row.description_es, row.description_en),
     keyPoints: (row.key_points ?? []).map((k) => ({
       title: loc(k.title_es, k.title_en),
