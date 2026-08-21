@@ -19,8 +19,8 @@ export const strings = {
   orionBack: { es: "Volver al inicio", en: "Back to home" },
   menu: { es: "Menú", en: "Menu" },
   close: { es: "Cerrar", en: "Close" },
-  viewContents: { es: "Ver índice", en: "View contents" },
-  hideContents: { es: "Ocultar índice", en: "Hide contents" },
+  viewContents: { es: "Ver tabla de contenidos", en: "View table of contents" },
+  hideContents: { es: "Ocultar tabla de contenidos", en: "Hide table of contents" },
 
   themeLight: { es: "Tema claro", en: "Light theme" },
   themeDark: { es: "Tema oscuro", en: "Dark theme" },
