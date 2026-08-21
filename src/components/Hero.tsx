@@ -50,7 +50,7 @@ export function Hero() {
     >
       <PlanetGlow />
 
-      <motion.div {...rise(0)} className="flex w-full justify-center pt-[8vh] sm:pt-[10vh]">
+      <motion.div {...rise(0)} className="flex w-full flex-1 items-center justify-center">
         <div
           ref={setHeroSlot}
           className="w-[82vw] max-w-[1200px] sm:w-[62vw]"
