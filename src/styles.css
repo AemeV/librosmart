@@ -335,9 +335,15 @@
  * interior del borde de la pastilla. Enmascarado al trazo con mask-composite
  * para que sólo brille el perímetro, no el relleno.
  */
+@property --beam-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
 @keyframes beam-spin {
   to {
-    transform: rotate(1turn);
+    --beam-angle: 360deg;
   }
 }
 
@@ -369,7 +375,7 @@
 .border-beam::before {
   padding: 1.5px;
   background: conic-gradient(
-    from 0deg,
+    from var(--beam-angle),
     transparent 0deg,
     transparent 250deg,
     rgba(255, 255, 255, 0.15) 285deg,
