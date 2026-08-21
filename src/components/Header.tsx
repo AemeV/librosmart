@@ -136,11 +136,14 @@ export function Header() {
   return (
     <>
       <div ref={wrapperRef} className="fixed inset-x-0 top-0 z-50">
-        {/* Barra superior: siempre visible */}
-        {/* Barra superior: siempre visible, composición centrada en tres zonas */}
+        {/* Barra superior: siempre visible. El logo queda centrado con el eje del
+            viewport en cualquier tamaño; los controles flotan a los costados. */}
         <div className="glass border-b border-line">
-          <div className="mx-auto grid max-w-[1100px] grid-cols-[1fr_auto_1fr] items-center gap-3 px-5 py-3 sm:px-6">
-            <nav aria-label={t("follow")} className="hidden items-center gap-0.5 md:flex">
+          <div className="relative mx-auto flex max-w-[1100px] items-center justify-center px-5 py-3 sm:px-6">
+            <nav
+              aria-label={t("follow")}
+              className="absolute left-5 hidden items-center gap-0.5 sm:left-6 lg:flex"
+            >
               {socials.map(({ name, href, Icon }) => (
                 <motion.a
                   key={name}
@@ -155,10 +158,10 @@ export function Header() {
                 </motion.a>
               ))}
             </nav>
-            <span className="md:hidden" aria-hidden="true" />
 
             <Link
               to="/"
+              onClick={scrollTop}
               className="flex items-center justify-center"
               aria-label={t("brand")}
             >
@@ -176,20 +179,20 @@ export function Header() {
               </span>
             </Link>
 
-            <div className="flex items-center justify-end gap-2">
+            <div className="absolute right-5 hidden items-center gap-2 sm:right-6 lg:flex">
               <LanguageToggle />
               <ThemeToggle />
-
-              <motion.button
-                type="button"
-                whileTap={tap}
-                onClick={() => setMenuOpen(true)}
-                aria-label={t("menu")}
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-line lg:hidden"
-              >
-                <Menu className="h-4 w-4" aria-hidden="true" />
-              </motion.button>
             </div>
+
+            <motion.button
+              type="button"
+              whileTap={tap}
+              onClick={() => setMenuOpen(true)}
+              aria-label={t("menu")}
+              className="absolute right-5 flex h-11 w-11 items-center justify-center rounded-full border border-line sm:right-6 lg:hidden"
+            >
+              <Menu className="h-4 w-4" aria-hidden="true" />
+            </motion.button>
           </div>
         </div>
 
