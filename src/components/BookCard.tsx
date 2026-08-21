@@ -1,7 +1,6 @@
-import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "motion/react";
+import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "motion/react";
 import { useRef, useState } from "react";
 import type { Book, Edition } from "@/data/books";
-import { springFast } from "@/lib/motion-config";
 
 /**
  * <BookCard /> — la portada como tarjeta, no como objeto libro.
