@@ -41,7 +41,7 @@ function ContentsAccordion({ book, edition }: { book: Book; edition: Edition }) 
             transition={{ duration: 0.32 }}
             className="overflow-hidden"
           >
-            <div className="mx-auto mt-4 max-w-[52ch] rounded-[14px] border border-line bg-surface-alt p-6 text-left">
+            <div className="mx-auto mt-4 max-w-[52ch] rounded-[14px] border border-line bg-surface-alt p-6 text-center">
               <p className="label">{t("indexTitle")}</p>
               <ol className="mt-4 space-y-4">
                 {book.chapters.map((chapter) => (
