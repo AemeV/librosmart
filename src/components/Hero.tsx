@@ -1,8 +1,10 @@
 import { motion, useReducedMotion } from "motion/react";
 import { ChevronDown } from "lucide-react";
+import { BorderBeam } from "border-beam";
 import { LogoSmart } from "./LogoSmart";
 import { useLang } from "@/context/LanguageContext";
 import { useLogoMigration } from "@/context/LogoMigrationContext";
+import { useTheme } from "@/context/ThemeContext";
 import { books } from "@/data/books";
 import { tap } from "@/lib/motion-config";
 
@@ -15,6 +17,7 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 export function Hero() {
   const { t } = useLang();
   const reduced = useReducedMotion();
+  const { resolved } = useTheme();
   const { setHeroSlot, migrating } = useLogoMigration();
   const featured = books.find((book) => book.featured) ?? books[0]!;
 
@@ -53,26 +56,34 @@ export function Hero() {
       </motion.div>
 
       <motion.div {...rise(1)}>
-        <motion.button
-          type="button"
-          onClick={goToFeaturedBook}
-          whileTap={tap}
-          whileHover={reduced ? {} : { y: -2 }}
-          className="glass border-beam group flex flex-col items-center gap-0.5 rounded-full px-7 py-3 text-center"
+        <BorderBeam
+          size="pulse-inner"
+          colorVariant="mono"
+          theme={resolved}
+          strength={1}
+          className="inline-flex"
         >
-          <span className="label">{t("heroNew")}</span>
-          <span className="flex items-center gap-2">
-            <span className="pill-title">{featured.title}</span>
-            <motion.span
-              aria-hidden="true"
-              className="flex items-center"
-              variants={{ rest: { y: 0 }, hover: { y: 2 } }}
-              transition={{ type: "spring", stiffness: 320, damping: 22 }}
-            >
-              <ChevronDown className="h-4 w-4" />
-            </motion.span>
-          </span>
-        </motion.button>
+          <motion.button
+            type="button"
+            onClick={goToFeaturedBook}
+            whileTap={tap}
+            whileHover={reduced ? {} : { y: -2 }}
+            className="glass group flex flex-col items-center gap-0.5 rounded-full px-7 py-3 text-center"
+          >
+            <span className="label">{t("heroNew")}</span>
+            <span className="flex items-center gap-2">
+              <span className="pill-title">{featured.title}</span>
+              <motion.span
+                aria-hidden="true"
+                className="flex items-center"
+                variants={{ rest: { y: 0 }, hover: { y: 2 } }}
+                transition={{ type: "spring", stiffness: 320, damping: 22 }}
+              >
+                <ChevronDown className="h-4 w-4" />
+              </motion.span>
+            </span>
+          </motion.button>
+        </BorderBeam>
       </motion.div>
 
       <motion.div
