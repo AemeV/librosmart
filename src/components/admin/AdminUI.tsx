@@ -178,3 +178,61 @@ export function ImageUpload({
     </div>
   );
 }
+
+/** Subida múltiple: varias imágenes de una sola vez. */
+export function MultiImageUpload({
+  label,
+  folder,
+  onUploaded,
+}: {
+  label: string;
+  folder: string;
+  onUploaded: (urls: string[]) => Promise<void> | void;
+}) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [busy, setBusy] = useState(false);
+  const [progress, setProgress] = useState("");
+  const [error, setError] = useState<string | null>(null);
+
+  async function onFiles(list: FileList | null) {
+    const files = Array.from(list ?? []).filter((file) => file.type.startsWith("image/"));
+    if (files.length === 0) return;
+    if (files.some((file) => file.size > 8 * 1024 * 1024)) {
+      setError("Máximo 8 MB por imagen.");
+      return;
+    }
+    setBusy(true);
+    setError(null);
+    try {
+      const urls: string[] = [];
+      for (const [index, file] of files.entries()) {
+        setProgress(`Subiendo ${index + 1} de ${files.length}…`);
+        urls.push(await uploadMedia(folder, file));
+      }
+      await onUploaded(urls);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "No se pudieron subir las imágenes.");
+    } finally {
+      setBusy(false);
+      setProgress("");
+      if (inputRef.current) inputRef.current.value = "";
+    }
+  }
+
+  return (
+    <div className="flex flex-col gap-2">
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/*"
+        multiple
+        hidden
+        onChange={(event) => void onFiles(event.target.files)}
+      />
+      <Button onClick={() => inputRef.current?.click()} disabled={busy}>
+        {busy ? progress || "Subiendo…" : label}
+      </Button>
+      {error ? <p className="body-s text-red-500">{error}</p> : null}
+    </div>
+  );
+}
