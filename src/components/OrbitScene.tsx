@@ -226,17 +226,18 @@ export function OrbitScene() {
         style={{ left: "56%", top: "9%", y: useTransform(scrollBase, (v) => v * 0.12) }}
       >
         <motion.div
-          animate={reduced ? undefined : { x: [0, 8], y: [0, -6] }}
-          transition={
-            reduced
-              ? undefined
-              : {
+          {...(reduced
+            ? {}
+            : {
+                animate: { x: [0, 8], y: [0, -6] },
+                transition: {
                   duration: 100,
                   repeat: Infinity,
-                  repeatType: "mirror",
-                  ease: "easeInOut",
-                }
-          }
+                  repeatType: "mirror" as const,
+                  ease: "easeInOut" as const,
+                },
+              })}
+
           className="h-3 w-3 rounded-full"
           style={{
             background: "#FFF4E0",
