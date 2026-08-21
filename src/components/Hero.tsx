@@ -22,7 +22,8 @@ export function Hero() {
   const { resolved } = useTheme();
   const { setHeroSlot, migrating } = useLogoMigration();
   const { books } = useSiteContent();
-  const featured = books.find((book) => book.featured) ?? books[0]!;
+  const visible = books.filter((book) => book.published !== false);
+  const featured = visible.find((book) => book.featured) ?? visible[0] ?? books[0]!;
 
   const rise = (index: number) => ({
     initial: reduced ? { opacity: 0 } : { opacity: 0, y: 16 },

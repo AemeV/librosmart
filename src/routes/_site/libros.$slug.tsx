@@ -10,7 +10,7 @@ export const Route = createFileRoute("/_site/libros/$slug")({
   loader: async ({ params }) => {
     const content = await getSiteContent();
     const book = content.books.find((b) => b.slug === params.slug);
-    if (!book) throw notFound();
+    if (!book || book.published === false) throw notFound();
     return { book };
   },
   head: ({ loaderData }) => {
