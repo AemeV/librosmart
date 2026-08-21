@@ -335,14 +335,49 @@
   will-change: opacity, transform;
 }
 
+/* Titileo del polvo estelar: cada punto recibe su propia duración y desfase. */
+@keyframes dust-twinkle {
+  0%,
+  100% {
+    opacity: var(--dust-min, 0.15);
+  }
+  50% {
+    opacity: var(--dust-max, 0.5);
+  }
+}
+
+.dust-twinkle {
+  animation-name: dust-twinkle;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+/* Respiración del arco atmosférico: 10% de intensidad en ciclos de 8s. */
+@keyframes arc-breath {
+  0%,
+  100% {
+    opacity: 0.02;
+  }
+  50% {
+    opacity: 0.12;
+  }
+}
+
+.arc-breath {
+  animation: arc-breath 8s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .liquid-a,
   .liquid-b,
   .liquid-c,
-  .halo-breath {
+  .halo-breath,
+  .dust-twinkle,
+  .arc-breath {
     animation: none;
   }
 }
+
 
 
 /*
