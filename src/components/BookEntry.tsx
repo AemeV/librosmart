@@ -173,10 +173,10 @@ export function BookEntry({ book }: { book: Book }) {
         </ul>
       </motion.div>
 
-      {/* Dónde comprarlo */}
+      {/* Dónde comprarlo: tarjeta glassmorphism. */}
       <motion.div
         variants={childVariants}
-        className="mt-10 w-full rounded-[16px] border border-line bg-surface-alt p-6 text-left sm:p-8"
+        className="glass-card glass-card-content mt-10 w-full p-6 text-left sm:p-8"
       >
         <h4 className="label">{t("buyTitle")}</h4>
 
@@ -184,7 +184,7 @@ export function BookEntry({ book }: { book: Book }) {
           <div
             role="group"
             aria-label={t("editionLabel")}
-            className="mt-4 inline-flex items-center rounded-full border border-line p-0.5"
+            className="glass-card-content mt-4 inline-flex items-center rounded-full border border-line bg-surface/60 p-0.5"
           >
             {book.editions.map((e) => (
               <motion.button
@@ -216,7 +216,7 @@ export function BookEntry({ book }: { book: Book }) {
 
         <CrossfadeText
           k={`buy-${book.slug}-${editionLang}-${lang}`}
-          className="mt-5 w-full space-y-6"
+          className="glass-card-content mt-5 w-full space-y-6"
         >
           {edition.physical.length === 0 && edition.digital.length === 0 ? (
             <p className="body-s">{t("soonRetailers")}</p>
