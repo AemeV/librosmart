@@ -315,9 +315,14 @@ function BooksAdmin() {
           <Field label="Año">
             <NumberInput value={draft.year} onChange={(v) => patch({ year: v })} />
           </Field>
-          <Field label="Orden en el sitio">
-            <NumberInput value={draft.position} onChange={(v) => patch({ position: v })} />
-          </Field>
+          <label className="body-s flex items-center gap-3">
+            <input
+              type="checkbox"
+              checked={draft.published}
+              onChange={(event) => patch({ published: event.target.checked })}
+            />
+            Visible en el sitio
+          </label>
           <label className="body-s flex items-center gap-3">
             <input
               type="checkbox"
@@ -477,7 +482,7 @@ function BooksAdmin() {
     <section>
       <div className="flex items-center justify-between">
         <h2 className="display-m">Libros</h2>
-        <Button onClick={() => setDraft(emptyBook())}>Añadir libro</Button>
+        <Button onClick={() => setDraft(emptyBook(rows.length))}>Añadir libro</Button>
       </div>
       {error && <p className="body-s mt-3 text-red-500">{error}</p>}
       <ul className="mt-6 flex flex-col gap-3">
