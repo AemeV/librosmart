@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { BookOpen, User, Star, Sparkles, Mail } from "lucide-react";
+import { BookOpen, User, Sparkles, Mail } from "lucide-react";
 import { useLang } from "@/context/LanguageContext";
 import { useAuthorSheet } from "@/context/AuthorSheetContext";
 import { springSheet, springFast, tap } from "@/lib/motion-config";
@@ -28,7 +28,7 @@ const pill =
   "label flex h-11 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full px-2 text-seashell/80 transition-colors hover:text-seashell sm:px-4";
 
 const containerVariants = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: -24 },
   show: {
     opacity: 1,
     y: 0,
@@ -37,7 +37,7 @@ const containerVariants = {
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 16, scale: 0.96 },
+  hidden: { opacity: 0, y: -12, scale: 0.96 },
   show: { opacity: 1, y: 0, scale: 1, transition: springFast },
 };
 
