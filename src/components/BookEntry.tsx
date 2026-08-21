@@ -181,12 +181,13 @@ export function BookEntry({ book }: { book: Book }) {
       </motion.div>
 
       {/* Dónde comprarlo: tarjeta glassmorphism. */}
+      <motion.h4 variants={childVariants} className="body uppercase text-center mt-14">
+        {t("buyTitle")}
+      </motion.h4>
       <motion.div
         variants={childVariants}
-        className="glass-card glass-card-content mt-10 w-full p-6 text-center sm:p-8"
+        className="glass-card glass-card-content mt-4 w-full p-6 text-center sm:p-8"
       >
-        <h4 className="body">{t("buyTitle")}</h4>
-
         {hasEnglish && (
           <div
             role="group"
