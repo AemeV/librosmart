@@ -10,11 +10,6 @@ type ThemeContextValue = {
 };
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
-const STORAGE_KEY = "librosmart:theme";
-
-function systemPrefersDark() {
-  return window.matchMedia("(prefers-color-scheme: dark)").matches;
-}
 
 /**
  * Modo oscuro deshabilitado por ahora. El provider mantiene la API para los
