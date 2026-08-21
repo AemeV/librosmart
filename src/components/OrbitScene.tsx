@@ -7,7 +7,7 @@ import {
   useTransform,
   type MotionValue,
 } from "motion/react";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, type CSSProperties } from "react";
 
 /**
  * Escena orbital del hero: estamos en órbita sobre la Tierra mirando al espacio,
@@ -262,8 +262,9 @@ export function OrbitScene() {
               boxShadow: "0 0 2px rgba(144,91,244,0.7)",
               animationDuration: `${point.duration.toFixed(2)}s`,
               animationDelay: `${point.delay.toFixed(2)}s`,
-              "--dust-min": point.opacity.toFixed(2),
-            } as React.CSSProperties
+              "--dust-min": (point.opacity * 0.45).toFixed(3),
+              "--dust-max": point.opacity.toFixed(3),
+            } as CSSProperties
           }
 
         />

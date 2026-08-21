@@ -342,7 +342,7 @@
     opacity: var(--dust-min, 0.15);
   }
   50% {
-    opacity: 1;
+    opacity: var(--dust-max, 0.5);
   }
 }
 
