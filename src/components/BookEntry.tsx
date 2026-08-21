@@ -166,7 +166,7 @@ export function BookEntry({ book }: { book: Book }) {
       {/* Qué vas a encontrar: galería horizontal scrolleable de tarjetas
           glassmorphism. */}
       <motion.div variants={childVariants} className="mt-14 w-full">
-        <h4 className="label text-center">{t("keyPoints")}</h4>
+        <h4 className="body uppercase text-center">{t("keyPoints")}</h4>
         <ul className="mt-5 grid grid-cols-2 gap-4 lg:grid-cols-4">
           {fourPoints.map((point, index) => (
             <li
